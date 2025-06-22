@@ -123,7 +123,7 @@ export default function FeatureSection() {
                     : "bg-indigo-600 text-white"
                   : isDarkMode 
                     ? "text-gray-300 hover:text-amber-500" 
-                    : "text-gray-700 hover:text-indigo-600"
+                  : "text-gray-700 hover:text-indigo-600"
               } transition-all duration-200`}
             >
               For Students
@@ -137,7 +137,7 @@ export default function FeatureSection() {
                     : "bg-indigo-600 text-white"
                   : isDarkMode 
                     ? "text-gray-300 hover:text-amber-500" 
-                    : "text-gray-700 hover:text-indigo-600"
+                  : "text-gray-700 hover:text-indigo-600"
               } transition-all duration-200`}
             >
               For Employers

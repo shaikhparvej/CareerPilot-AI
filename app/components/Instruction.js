@@ -50,7 +50,7 @@ const Instruction = () => {
         <p className="mb-4">
           This platform is designed to help you prepare for your career journey. Here are some instructions to get started:
         </p>
-        
+
         <ul className="list-disc pl-6 mb-6 space-y-2">
           <li>Select a preparation module from the navigation</li>
           <li>Complete the assessments and exercises</li>

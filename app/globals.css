@@ -15,43 +15,43 @@ body {
 @layer base {
   :root {
     /* Light theme (default) with improved aesthetics */
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 98%;
-    --card-foreground: 240 10% 3.9%;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 45 93% 47%;  /* Amber accent for light mode too */
-    --accent-foreground: 240 5.9% 10%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 45 93% 47%;  /* Amber accent */
+    --accent-foreground: 222 47% 11%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
     --ring: 45 93% 47%;  /* Amber ring */
-    --chart-1: 45 93% 47%;  /* Amber for charts */
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --chart-1: 221 83% 53%;  /* Blue */
+    --chart-2: 142 76% 36%;  /* Green */
+    --chart-3: 43 96% 58%;   /* Amber/Gold */
+    --chart-4: 326 100% 74%; /* Pink */
+    --chart-5: 262 83% 58%;  /* Purple */
     --radius: 0.5rem;
     
     /* Additional custom variables */
-    --text-primary: 240 10% 3.9%;
-    --text-secondary: 240 3.8% 46.1%;
+    --text-primary: 222 47% 11%;
+    --text-secondary: 215 16% 47%;
     --accent-color: 45 93% 47%;  /* Amber accent */
-    --card-bg: 0 0% 98%;
-    --border-color: 45 93% 30%;  /* Amber border */
-    --shadow: 0 0% 0% 0.1;
-    --nav-bg: 0 0% 100% 0.8;
-    --nav-text: 240 10% 3.9%;
+    --card-bg: 0 0% 100%;
+    --border-color: 45 93% 47%;  /* Amber border */
+    --shadow: 0 10% 15% 0.1;
+    --nav-bg: 210 40% 98% 0.9;
+    --nav-text: 222 47% 11%;
     --header-bg: 0 0% 100%;
-    --body-bg: 0 0% 100%;
+    --body-bg: 210 40% 98%;
   }
   
   [data-theme="dark"],
@@ -280,92 +280,187 @@ body {
   color: hsl(45 93% 47%) !important;
 }
 
-/* Light Mode Styling with Amber Accents */
+/* Enhanced light mode styling */
 body:not(.dark):not(.dark-theme) {
-  color: #1a202c !important;
+  color: hsl(var(--text-primary));
+  background-color: hsl(var(--background));
 }
 
 body:not(.dark):not(.dark-theme) h1,
 body:not(.dark):not(.dark-theme) h2,
 body:not(.dark):not(.dark-theme) h3 {
-  color: #1a202c !important;
+  color: hsl(var(--text-primary));
+  font-weight: 700;
 }
 
 body:not(.dark):not(.dark-theme) h4,
 body:not(.dark):not(.dark-theme) h5,
 body:not(.dark):not(.dark-theme) h6 {
-  color: #2d3748 !important;
+  color: hsl(var(--text-primary));
+  font-weight: 600;
 }
 
 body:not(.dark):not(.dark-theme) p,
 body:not(.dark):not(.dark-theme) span,
 body:not(.dark):not(.dark-theme) div,
 body:not(.dark):not(.dark-theme) li {
-  color: #2d3748 !important;
+  color: hsl(var(--text-primary));
 }
 
-/* Amber accents for light mode */
-body:not(.dark):not(.dark-theme) a,
-body:not(.dark):not(.dark-theme) .text-accent {
-  color: hsl(45 93% 47%) !important;
+body:not(.dark):not(.dark-theme) a {
+  color: hsl(var(--primary));
+  transition: color 0.2s ease;
 }
 
 body:not(.dark):not(.dark-theme) a:hover {
-  color: hsl(45 93% 40%) !important;
+  color: hsl(var(--accent));
+  text-decoration: underline;
 }
 
-/* Card styling for light mode */
 body:not(.dark):not(.dark-theme) .card,
 body:not(.dark):not(.dark-theme) .bg-white {
-  background-color: white !important;
-  border: 1px solid rgba(226, 232, 240, 1) !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius);
 }
 
-/* Button styling for light mode */
 body:not(.dark):not(.dark-theme) button.bg-blue-500,
 body:not(.dark):not(.dark-theme) button.bg-purple-500,
+body:not(.dark):not(.dark-theme) button.bg-green-500,
 body:not(.dark):not(.dark-theme) .btn-primary {
-  background-color: hsl(45 93% 47%) !important;
-  color: #000 !important;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground)) !important;
+  transition: all 0.3s ease;
 }
 
 body:not(.dark):not(.dark-theme) button.bg-blue-500:hover,
 body:not(.dark):not(.dark-theme) button.bg-purple-500:hover,
+body:not(.dark):not(.dark-theme) button.bg-green-500:hover,
 body:not(.dark):not(.dark-theme) .btn-primary:hover {
-  background-color: hsl(45 93% 40%) !important;
+  background-color: hsl(var(--primary));
+  filter: brightness(0.9);
+  transform: translateY(-1px);
 }
 
-/* Fix backgrounds in light mode */
 body:not(.dark):not(.dark-theme) .bg-gray-50,
-body:not(.dark):not(.dark-theme) .bg-gray-100 {
-  background-color: #f9fafb !important;
+body:not(.dark):not(.dark-theme) .bg-gray-100,
+body:not(.dark):not(.dark-theme) .bg-gray-200 {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
 }
 
-/* Fix specific problem areas */
-body:not(.dark):not(.dark-theme) [class*="gradient-to-"],
-body:not(.dark):not(.dark-theme) .bg-gradient-to-br {
-  background: linear-gradient(to bottom right, #fff, #f7fafc) !important;
+body:not(.dark):not(.dark-theme) [class*="gradient-to-"] {
+  background-image: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+  color: white;
 }
 
-/* Ensure proper borders in light mode */
 body:not(.dark):not(.dark-theme) .border,
 body:not(.dark):not(.dark-theme) .border-gray-100,
 body:not(.dark):not(.dark-theme) .border-gray-200 {
-  border-color: #e2e8f0 !important;
+  border-color: hsl(var(--border));
 }
 
-/* Fix for badges and tags */
 body:not(.dark):not(.dark-theme) .badge {
-  background-color: hsl(45 93% 90%) !important;
-  color: hsl(45 93% 20%) !important;
+  background-color: hsl(var(--accent));
+  color: hsl(222 47% 11%);
+  font-weight: 600;
 }
 
-/* Ensure proper shadows */
 body:not(.dark):not(.dark-theme) .shadow-sm {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 body:not(.dark):not(.dark-theme) .shadow {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Enhanced card styling for light mode */
+body:not(.dark):not(.dark-theme) .card {
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body:not(.dark):not(.dark-theme) .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Enhanced button styling for light mode */
+body:not(.dark):not(.dark-theme) button,
+body:not(.dark):not(.dark-theme) .btn {
+  font-weight: 500;
+  border-radius: var(--radius);
+  transition: all 0.2s ease;
+}
+
+/* Vibrant accent elements */
+body:not(.dark):not(.dark-theme) .accent-element {
+  background-color: hsl(var(--accent));
+  color: #000;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+}
+
+/* Enhanced form elements */
+body:not(.dark):not(.dark-theme) input,
+body:not(.dark):not(.dark-theme) select,
+body:not(.dark):not(.dark-theme) textarea {
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+  background-color: white;
+  color: hsl(var(--text-primary));
+}
+
+body:not(.dark):not(.dark-theme) input:focus,
+body:not(.dark):not(.dark-theme) select:focus,
+body:not(.dark):not(.dark-theme) textarea:focus {
+  outline: none;
+  border-color: hsl(var(--accent));
+  box-shadow: 0 0 0 2px hsla(var(--accent), 0.2);
+}
+
+/* Colorful section backgrounds */
+body:not(.dark):not(.dark-theme) .bg-primary-gradient {
+  background: linear-gradient(135deg, hsl(221 83% 98%), hsl(210 40% 96.1%));
+}
+
+body:not(.dark):not(.dark-theme) .bg-accent-gradient {
+  background: linear-gradient(135deg, hsl(45 93% 95%), hsl(45 93% 85%));
+}
+
+/* Ensure proper contrast for text on colored backgrounds */
+body:not(.dark):not(.dark-theme) .bg-primary .text,
+body:not(.dark):not(.dark-theme) .bg-accent .text {
+  color: hsl(var(--text-primary));
+  font-weight: 500;
+}
+
+/* Colorful badges/tags */
+body:not(.dark):not(.dark-theme) .tag-blue {
+  background-color: hsl(221 83% 95%);
+  color: hsl(221 83% 40%);
+  border: 1px solid hsl(221 83% 85%);
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-weight: 500;
+}
+
+body:not(.dark):not(.dark-theme) .tag-green {
+  background-color: hsl(142 76% 95%);
+  color: hsl(142 76% 30%);
+  border: 1px solid hsl(142 76% 85%);
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-weight: 500;
+}
+
+body:not(.dark):not(.dark-theme) .tag-amber {
+  background-color: hsl(45 93% 95%);
+  color: hsl(45 93% 30%);
+  border: 1px solid hsl(45 93% 85%);
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-weight: 500;
 }

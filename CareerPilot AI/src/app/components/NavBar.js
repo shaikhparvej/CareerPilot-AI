@@ -131,17 +131,17 @@ function NavBar() {
             className="flex items-center space-x-2 cursor-pointer"
           >
             <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-              isDarkMode 
+           -1/*   isDarkMode 
               ? "bg-gradient-to-r from-amber-400 to-amber-600" 
               : "bg-gradient-to-r from-purple-400 to-pink-400"
             }`}>
               <Target className="w-5 h-5 text-white" />
             </div>
             <span className="text-2xl font-bold text-white">
-              PrepAce
-              <span className={`text-xs ml-2 ${isDarkMode ? "text-amber-400" : "text-yellow-300"}`}>
+              CareerPilot AI
+              {/* <span className={`text-xs ml-2 ${isDarkMode ? "text-amber-400" : "text-yellow-300"}`}>
                 {isDarkMode ? "DARK" : "LIGHT"}
-              </span>
+              </span> */}
             </span>
           </div>
 

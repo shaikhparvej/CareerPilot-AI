@@ -17,12 +17,12 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <Providers>
-          <div className="flex flex-col min-h-screen">
-            <NavBar />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-            <ChatBot />
-          </div>
+            <div className="flex flex-col min-h-screen">
+              <NavBar />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+              <ChatBot />
+            </div>
         </Providers>
       </body>
     </html>
