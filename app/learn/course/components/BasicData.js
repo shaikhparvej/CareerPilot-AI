@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardContent } from "../../../../../components/ui/card";
+import { Input } from "../../../../../components/ui/input";
+import { Button } from "../../../../../components/ui/button";
 import {
   BookOpen,
   Clock,
@@ -13,7 +13,7 @@ import {
 
 import { useSearchParams } from "next/navigation";
 import { AiCourseContent } from "../../../../../config/AllAiModels";
-import LoadingDialog from "@/app/components/LoadingDialog";
+import LoadingDialog from "../../../../components/LoadingDialog";
 
 function BasicData({ activeStep, handleBack, handleNext, setContent }) {
   const searchParams = useSearchParams();
