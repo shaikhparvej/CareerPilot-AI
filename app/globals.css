@@ -1,0 +1,371 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    /* Light theme (default) with improved aesthetics */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 98%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 45 93% 47%;  /* Amber accent for light mode too */
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 45 93% 47%;  /* Amber ring */
+    --chart-1: 45 93% 47%;  /* Amber for charts */
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    
+    /* Additional custom variables */
+    --text-primary: 240 10% 3.9%;
+    --text-secondary: 240 3.8% 46.1%;
+    --accent-color: 45 93% 47%;  /* Amber accent */
+    --card-bg: 0 0% 98%;
+    --border-color: 45 93% 30%;  /* Amber border */
+    --shadow: 0 0% 0% 0.1;
+    --nav-bg: 0 0% 100% 0.8;
+    --nav-text: 240 10% 3.9%;
+    --header-bg: 0 0% 100%;
+    --body-bg: 0 0% 100%;
+  }
+  
+  [data-theme="dark"],
+  .dark {
+    /* Updated dark theme with golden accents */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 45 93% 47%;  /* Golden amber */
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 45 93% 47%;  /* Golden amber */
+    --chart-1: 45 93% 47%;  /* Golden amber */
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    
+    /* Additional custom variables */
+    --text-primary: 0 0% 95%;
+    --text-secondary: 0 0% 65%;
+    --accent-color: 45 93% 47%;  /* Golden amber */
+    --card-bg: 240 3.7% 15.9%;
+    --border-color: 45 93% 30%;  /* Darker amber */
+    --shadow: 0 0% 100% 0.1;
+    --nav-bg: 20 14.3% 4.1% 0.95;
+    --nav-text: 0 0% 98%;
+    --header-bg: 240 10% 3.9%;
+    --body-bg: 240 10% 3.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: hsl(var(--body-bg));
+  }
+  nav {
+    background-color: hsl(var(--nav-bg));
+    color: hsl(var(--nav-text));
+  }
+  header {
+    background-color: hsl(var(--header-bg));
+  }
+}
+
+/* Hide theme toggle icons appropriately */
+[data-theme="dark"] .sun-icon {
+  display: block;
+}
+
+[data-theme="dark"] .moon-icon {
+  display: none;
+}
+
+[data-theme="light"] .sun-icon {
+  display: none;
+}
+
+[data-theme="light"] .moon-icon {
+  display: block;
+}
+
+/* Disable transitions when theme initially loads */
+.theme-transition-disabled * {
+  transition: none !important;
+}
+
+/* Apply dark theme to all major components */
+.dark-theme, .dark {
+  color-scheme: dark;
+  color: #f1f1f1 !important;
+}
+
+/* Override any conflicting background colors */
+.dark-theme header, 
+.dark-theme main, 
+.dark-theme footer,
+.dark-theme nav, 
+.dark-theme aside, 
+.dark-theme section, 
+.dark-theme div,
+.dark header, 
+.dark main, 
+.dark footer,
+.dark nav, 
+.dark aside, 
+.dark section, 
+.dark div {
+  background-color: inherit;
+  color: #f1f1f1 !important;
+}
+
+/* Golden accents for dark mode */
+.dark-theme button, .dark button,
+.dark-theme .btn, .dark .btn {
+  --tw-shadow: 0 1px 3px 0 rgba(255, 185, 0, 0.2), 0 1px 2px -1px rgba(255, 185, 0, 0.2);
+}
+
+.dark-theme a:hover, .dark a:hover,
+.dark-theme button:hover, .dark button:hover {
+  color: hsl(var(--accent-color));
+}
+
+/* Color overrides for dark mode */
+.dark-theme .text-primary, .dark .text-primary {
+  color: hsl(var(--text-primary));
+}
+
+.dark-theme .text-accent, .dark .text-accent,
+.dark-theme .text-purple-500, .dark .text-purple-500,
+.dark-theme .text-blue-500, .dark .text-blue-500,
+.dark-theme .text-green-500, .dark .text-green-500 {
+  color: hsl(var(--accent-color)) !important;
+}
+
+/* Ensure text contrasts properly in dark mode */
+.dark-theme .text-gray-700,
+.dark-theme .text-gray-800,
+.dark-theme .text-gray-900,
+.dark .text-gray-700,
+.dark .text-gray-800,
+.dark .text-gray-900 {
+  color: #f1f1f1 !important;
+}
+
+/* Force text to be white in dark mode */
+.dark-theme p, .dark-theme span, .dark-theme div, .dark-theme li,
+.dark p, .dark span, .dark div, .dark li {
+  color: #f1f1f1 !important;
+}
+
+.dark-theme .bg-white,
+.dark-theme .bg-gray-50,
+.dark-theme .bg-gray-100,
+.dark .bg-white,
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background-color: hsl(var(--card)) !important;
+}
+
+.dark-theme .border,
+.dark-theme .border-gray-100,
+.dark-theme .border-gray-200,
+.dark .border,
+.dark .border-gray-100,
+.dark .border-gray-200 {
+  border-color: hsl(var(--border)) !important;
+}
+
+/* Force dark background on specific components */
+.dark-theme nav.bg-white,
+.dark-theme div.bg-white,
+.dark nav.bg-white,
+.dark div.bg-white {
+  background-color: hsl(var(--card)) !important;
+}
+
+/* Gold accent on key interactive elements */
+.dark-theme button.bg-blue-500, 
+.dark-theme button.bg-purple-500,
+.dark-theme button.bg-green-500,
+.dark button.bg-blue-500, 
+.dark button.bg-purple-500,
+.dark button.bg-green-500,
+.dark-theme .btn-primary,
+.dark .btn-primary {
+  background-color: hsl(45 93% 47%) !important;
+  color: #000 !important;
+  transition: all 0.3s ease;
+}
+
+.dark-theme button.bg-blue-500:hover, 
+.dark-theme button.bg-purple-500:hover,
+.dark-theme button.bg-green-500:hover,
+.dark button.bg-blue-500:hover, 
+.dark button.bg-purple-500:hover,
+.dark button.bg-green-500:hover,
+.dark-theme .btn-primary:hover,
+.dark .btn-primary:hover {
+  background-color: hsl(45 93% 40%) !important;
+}
+
+/* Golden progress bars and indicators */
+.dark-theme progress,
+.dark-theme .progress-bar,
+.dark progress,
+.dark .progress-bar {
+  background-color: hsl(45 93% 47%) !important;
+}
+
+/* Fix for any other elements */
+.dark-theme [class*="bg-purple"],
+.dark-theme [class*="bg-blue"],
+.dark [class*="bg-purple"],
+.dark [class*="bg-blue"] {
+  background-color: hsl(var(--secondary)) !important;
+}
+
+.dark-theme [class*="text-purple"],
+.dark-theme [class*="text-blue"],
+.dark [class*="text-purple"],
+.dark [class*="text-blue"] {
+  color: hsl(var(--accent-color)) !important;
+}
+
+/* Special colorations for heading texts in dark mode */
+.dark-theme h1, .dark-theme h2, .dark-theme h3,
+.dark h1, .dark h2, .dark h3 {
+  color: hsl(45 93% 47%) !important;
+}
+
+/* Light Mode Styling with Amber Accents */
+body:not(.dark):not(.dark-theme) {
+  color: #1a202c !important;
+}
+
+body:not(.dark):not(.dark-theme) h1,
+body:not(.dark):not(.dark-theme) h2,
+body:not(.dark):not(.dark-theme) h3 {
+  color: #1a202c !important;
+}
+
+body:not(.dark):not(.dark-theme) h4,
+body:not(.dark):not(.dark-theme) h5,
+body:not(.dark):not(.dark-theme) h6 {
+  color: #2d3748 !important;
+}
+
+body:not(.dark):not(.dark-theme) p,
+body:not(.dark):not(.dark-theme) span,
+body:not(.dark):not(.dark-theme) div,
+body:not(.dark):not(.dark-theme) li {
+  color: #2d3748 !important;
+}
+
+/* Amber accents for light mode */
+body:not(.dark):not(.dark-theme) a,
+body:not(.dark):not(.dark-theme) .text-accent {
+  color: hsl(45 93% 47%) !important;
+}
+
+body:not(.dark):not(.dark-theme) a:hover {
+  color: hsl(45 93% 40%) !important;
+}
+
+/* Card styling for light mode */
+body:not(.dark):not(.dark-theme) .card,
+body:not(.dark):not(.dark-theme) .bg-white {
+  background-color: white !important;
+  border: 1px solid rgba(226, 232, 240, 1) !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Button styling for light mode */
+body:not(.dark):not(.dark-theme) button.bg-blue-500,
+body:not(.dark):not(.dark-theme) button.bg-purple-500,
+body:not(.dark):not(.dark-theme) .btn-primary {
+  background-color: hsl(45 93% 47%) !important;
+  color: #000 !important;
+}
+
+body:not(.dark):not(.dark-theme) button.bg-blue-500:hover,
+body:not(.dark):not(.dark-theme) button.bg-purple-500:hover,
+body:not(.dark):not(.dark-theme) .btn-primary:hover {
+  background-color: hsl(45 93% 40%) !important;
+}
+
+/* Fix backgrounds in light mode */
+body:not(.dark):not(.dark-theme) .bg-gray-50,
+body:not(.dark):not(.dark-theme) .bg-gray-100 {
+  background-color: #f9fafb !important;
+}
+
+/* Fix specific problem areas */
+body:not(.dark):not(.dark-theme) [class*="gradient-to-"],
+body:not(.dark):not(.dark-theme) .bg-gradient-to-br {
+  background: linear-gradient(to bottom right, #fff, #f7fafc) !important;
+}
+
+/* Ensure proper borders in light mode */
+body:not(.dark):not(.dark-theme) .border,
+body:not(.dark):not(.dark-theme) .border-gray-100,
+body:not(.dark):not(.dark-theme) .border-gray-200 {
+  border-color: #e2e8f0 !important;
+}
+
+/* Fix for badges and tags */
+body:not(.dark):not(.dark-theme) .badge {
+  background-color: hsl(45 93% 90%) !important;
+  color: hsl(45 93% 20%) !important;
+}
+
+/* Ensure proper shadows */
+body:not(.dark):not(.dark-theme) .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+body:not(.dark):not(.dark-theme) .shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
