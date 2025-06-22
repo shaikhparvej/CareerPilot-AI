@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card";
+import { Button } from "../../../../components/ui/button";
 
 import CourseExam from "./CourseExam";
-import { AiGenerateCourseMcq } from "../../../../../config/AllAiModels";
-import LoadingDialog from "@/app/components/LoadingDialog";
+import { AiGenerateCourseMcq } from "../../../../config/AllAiModels";
+import LoadingDialog from "../../../components/LoadingDialog";
 
 function McqExam({ topicName }) {
   const [examStatus, setExamStatus] = useState(false);

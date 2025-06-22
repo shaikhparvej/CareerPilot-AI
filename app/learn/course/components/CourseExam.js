@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Award, CheckCircle, XCircle, Info, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../../components/ui/button";
 
 import PerformanceDashboard from "../start/components/Report";
-import { AiCourseMcqFeedbackReport } from "../../../../../config/AllAiModels";
-import LoadingDialog from "@/app/components/LoadingDialog";
+import { AiCourseMcqFeedbackReport } from "../../../../config/AllAiModels";
+import LoadingDialog from "../../../components/LoadingDialog";
 
 const CourseExam = ({ exam, topicName, totalTime = 30 * 60 }) => {
   // Default 30 minutes

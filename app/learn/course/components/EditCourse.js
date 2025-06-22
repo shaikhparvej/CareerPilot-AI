@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardContent } from "../../../../components/ui/card";
+import { Button } from "../../../../components/ui/button";
 import { Clock, EditIcon } from "lucide-react";
 
 function EditCourse({ activeStep, handleBack, handleNext }) {
