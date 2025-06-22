@@ -1,99 +1,115 @@
 import { NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
-import { join } from "path";
 import pdf from "pdf-parse";
 
-// New configuration approach
-export const dynamic = 'force-dynamic'; // Required for file uploads
-export const maxDuration = 30; // Maximum execution time (seconds)
-export const runtime = 'nodejs'; // Explicitly use Node.js runtime
+// Modern Route Segment Config
+export const dynamic = 'force-dynamic'; // Ensure dynamic handling
+export const maxDuration = 30; // Set max execution time (seconds)
+export const runtime = 'nodejs'; // Explicit Node.js runtime
+export const fetchCache = 'force-no-store'; // Disable caching for this route
 
 export async function POST(request) {
   console.log("PDF API: Request received");
   
   try {
-    if (!request.body) {
-      console.log("PDF API: No request body provided");
-      return NextResponse.json({ 
-        success: false, 
-        error: "No request body" 
-      }, { status: 400 });
+    // Verify content type
+    const contentType = request.headers.get('content-type');
+    if (!contentType?.includes('multipart/form-data')) {
+      console.log("PDF API: Invalid content type");
+      return NextResponse.json(
+        { success: false, error: "Content-Type must be multipart/form-data" },
+        { status: 400 }
+      );
     }
 
     const formData = await request.formData();
     const file = formData.get("pdf");
 
-    if (!file) {
+    // Validate file exists
+    if (!file || typeof file === 'string') {
       console.log("PDF API: No PDF file uploaded");
       return NextResponse.json(
-        { 
-          success: false,
-          error: "No PDF file uploaded" 
-        },
+        { success: false, error: "No PDF file uploaded" },
         { status: 400 }
       );
     }
 
-    // Log file details for debugging
-    console.log("PDF API: Received file:", {
+    // Log file metadata for debugging
+    console.log("PDF API: Received file metadata:", {
+      name: file.name,
       type: file.type,
       size: file.size,
-      name: file.name,
     });
 
     // Validate file type
     if (!file.type || !file.type.includes("pdf")) {
       console.log("PDF API: Invalid file type:", file.type);
       return NextResponse.json(
-        { 
-          success: false,
-          error: "Invalid file type. Please upload a PDF." 
-        },
+        { success: false, error: "Invalid file type. Please upload a PDF." },
         { status: 400 }
       );
     }
 
-    // Convert file to buffer
+    // Convert file to buffer with size validation
+    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        { success: false, error: "File size exceeds 50MB limit" },
+        { status: 413 }
+      );
+    }
+
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    console.log("PDF API: File converted to buffer, size:", buffer.length);
+    console.log("PDF API: File processing started. Size:", buffer.length, "bytes");
 
-    // Process PDF directly from buffer
+    // Process PDF with timeout protection
     try {
       console.log("PDF API: Starting PDF parsing");
-      const data = await pdf(buffer);
-      console.log("PDF API: PDF parsed successfully, pages:", data.numpages);
+      const data = await Promise.race([
+        pdf(buffer),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error("PDF processing timeout")), 25000)
+      ]);
 
-      // Extract text content and metadata
-      const extractedText = data.text;
+      console.log("PDF API: PDF parsed successfully. Pages:", data.numpages);
+
+      // Sanitize metadata
       const metadata = {
         pages: data.numpages,
         info: {
-          ...data.info,
-          // Convert Date objects to strings for JSON serialization
-          CreationDate: data.info?.CreationDate?.toString() || null,
-          ModDate: data.info?.ModDate?.toString() || null,
+          title: data.info?.Title || null,
+          author: data.info?.Author || null,
+          creator: data.info?.Creator || null,
+          creationDate: data.info?.CreationDate?.toString() || null,
+          modDate: data.info?.ModDate?.toString() || null,
         }
       };
 
-      // Get a preview of the text (first 200 chars)
-      const textPreview = extractedText.substring(0, 200) + (extractedText.length > 200 ? '...' : '');
-      console.log("PDF API: Text preview:", textPreview);
+      // Sanitize extracted text
+      const extractedText = data.text.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
 
       return NextResponse.json({
         success: true,
         text: extractedText,
-        info: metadata,
+        metadata: metadata,
         textLength: extractedText.length,
+      }, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        }
       });
+
     } catch (error) {
-      console.error("PDF API: Error processing PDF:", error);
+      console.error("PDF API: PDF processing error:", error);
       return NextResponse.json(
         { 
           success: false,
-          error: "Error processing PDF", 
-          message: error.message 
+          error: error.message.includes("timeout") 
+            ? "PDF processing timed out" 
+            : "Error processing PDF",
+          details: process.env.NODE_ENV === 'development' ? error.message : undefined
         },
         { status: 500 }
       );
@@ -103,8 +119,8 @@ export async function POST(request) {
     return NextResponse.json(
       { 
         success: false,
-        error: "Internal server error", 
-        message: error.message 
+        error: "Internal server error",
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
       },
       { status: 500 }
     );
