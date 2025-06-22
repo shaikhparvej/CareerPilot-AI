@@ -215,16 +215,6 @@ Visit: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🎬 Demo & Resources
-
-- 💡 **Prototype Screenshot**:
-
-### Home Screen
-
-![Home](./public/projectshot/home_page.png)
-
----
-
 ## 👨‍💻 Authors
 
 | Name               | Role                 | GitHub                                         | LinkedIn                                                             |
