@@ -1,8 +1,12 @@
-// app/api/pdf/route.js
 import { NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import { join } from "path";
 import pdf from "pdf-parse";
+
+// New configuration approach
+export const dynamic = 'force-dynamic'; // Required for file uploads
+export const maxDuration = 30; // Maximum execution time (seconds)
+export const runtime = 'nodejs'; // Explicitly use Node.js runtime
 
 export async function POST(request) {
   console.log("PDF API: Request received");
@@ -106,11 +110,3 @@ export async function POST(request) {
     );
   }
 }
-
-// Configure segment size for larger files
-export const config = {
-  api: {
-    bodyParser: false,
-    responseLimit: "50mb",
-  },
-};
