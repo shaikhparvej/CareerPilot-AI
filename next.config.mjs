@@ -24,7 +24,7 @@ const nextConfig = {
   },
   // Add proper path alias configuration
   experimental: {
-    appDir: true,
+    appDir: true
   }
 };
 
