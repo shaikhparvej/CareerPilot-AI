@@ -22,6 +22,10 @@ const nextConfig = {
     
     return config;
   },
+  // Add proper path alias configuration
+  experimental: {
+    appDir: true,
+  }
 };
 
 export default nextConfig;
