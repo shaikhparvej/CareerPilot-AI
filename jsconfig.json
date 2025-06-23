@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/components/*": ["./components/*", "./src/components/*"],
+      "@/config/*": ["./config/*", "./CareerPilot AI/config/*"],
+      "@/app/*": ["./app/*"],
+      "@/lib/*": ["./lib/*", "./src/lib/*"]
     },
     "baseUrl": ".",
     "jsx": "react-jsx"

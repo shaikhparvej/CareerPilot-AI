@@ -2,9 +2,9 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Clock, Layers, GraduationCap } from "lucide-react";
 import { useState } from "react";
-import { AiChapterContent } from "../../../../../config/AllAiModels";
+import { AiChapterContent } from "@/config/AllAiModels";
 import LoadingDialog from "@/app/components/LoadingDialog";
-import service from "../../../../../config/service";
+import service from "@/config/service";
 function PreviewCourse({ activeStep, handleBack, content }) {
   const [loading, setLoading] = useState(false);
   const formData = JSON.parse(localStorage.getItem("formData"));
