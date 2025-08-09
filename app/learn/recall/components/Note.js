@@ -1,5 +1,3 @@
-import jsPDF from "jspdf";
-import "jspdf/dist/polyfills.es.js";
 import { useRef, useState } from "react";
 import { AlertDialog, AlertDialogContent } from "../../../../components/ui/alert-dialog";
 import { Button } from "../../../../components/ui/button";
@@ -37,17 +35,17 @@ function Note({ Course, active2 }) {
   const handleDownload = () => {
     const input = notesRef.current;
     if (input) {
-      const pdf = new jsPDF({
-        orientation: "p",
-        unit: "pt",
-        format: "a4",
-      });
-
-      // Simple text-based PDF generation instead of HTML canvas rendering
+      // Create a simple text file download instead of PDF
       const content = input.textContent || input.innerText || "No content available";
-      const lines = pdf.splitTextToSize(content, 500);
-      pdf.text(lines, 20, 30);
-      pdf.save("notes.pdf");
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'notes.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     }
   };
 
