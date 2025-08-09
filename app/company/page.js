@@ -18,7 +18,7 @@ const componentMap = {
   ),
 };
 
-const student = () => {
+const Student = () => {
   const searchParams = useSearchParams();
   const page_name = searchParams.get("page");
   const Component =
@@ -31,4 +31,4 @@ const student = () => {
   );
 };
 
-export default student;
+export default Student;

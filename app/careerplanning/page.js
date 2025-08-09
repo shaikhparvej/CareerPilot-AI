@@ -20,7 +20,7 @@ const componentMap = {
   ),
 };
 
-const carreplanning = () => {
+const CareerPlanning = () => {
   const searchParams = useSearchParams();
   const page_name = searchParams.get("page");
   const Component =
@@ -34,4 +34,4 @@ const carreplanning = () => {
   );
 };
 
-export default carreplanning;
+export default CareerPlanning;
