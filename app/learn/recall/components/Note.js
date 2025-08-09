@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { AlertDialog, AlertDialogContent } from "../../../../components/ui/alert-dialog";
 import { Button } from "../../../../components/ui/button";
 import { Textarea } from "../../../../components/ui/textarea";
+import { AiDoubtSuggestion } from "../../../../config/AiModels";
 
 function Note({ Course, active2 }) {
   const [question, setQuestion] = useState("");
@@ -41,16 +42,12 @@ function Note({ Course, active2 }) {
         unit: "pt",
         format: "a4",
       });
-      pdf.html(input, {
-        callback: (doc) => {
-          doc.save("notes.pdf");
-        },
-        x: 10,
-        y: 10,
-        html2canvas: {
-          scale: 0.5, // Adjusts the scale of the content in the PDF
-        },
-      });
+      
+      // Simple text-based PDF generation instead of HTML canvas rendering
+      const content = input.textContent || input.innerText || "No content available";
+      const lines = pdf.splitTextToSize(content, 500);
+      pdf.text(lines, 20, 30);
+      pdf.save("notes.pdf");
     }
   };
 
