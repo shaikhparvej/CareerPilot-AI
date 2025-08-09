@@ -28,7 +28,7 @@ import { useEffect } from "react";
 import { db } from "../../../../lib/firebaseConfig";
 import InterviewFeedbackUI from "../components/InterviewFeedbackUI";
 
-const MockInterview = ({ questions, setOk }) => {
+const MockInterview = () => {
   const [isItRecording, setIsItRecording] = useState(false);
   const [err, setErr] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -42,6 +42,8 @@ const MockInterview = ({ questions, setOk }) => {
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState("");
   const [loading, setLoading] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const [ok, setOk] = useState(false);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const timerRef = useRef(null);
@@ -62,6 +64,11 @@ const MockInterview = ({ questions, setOk }) => {
           // Check if the mockId field inside the document matches the actual document ID
           if (data.mockId === mockId) {
             setMockData(data);
+            // Extract questions from the mock data
+            if (data.questions && Array.isArray(data.questions)) {
+              setQuestions(data.questions);
+              setOk(true);
+            }
             console.log("Document data:", data);
           } else {
             console.log("mockId mismatch inside the document.");
