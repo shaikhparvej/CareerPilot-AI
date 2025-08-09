@@ -42,7 +42,7 @@ function Note({ Course, active2 }) {
         unit: "pt",
         format: "a4",
       });
-      
+
       // Simple text-based PDF generation instead of HTML canvas rendering
       const content = input.textContent || input.innerText || "No content available";
       const lines = pdf.splitTextToSize(content, 500);
