@@ -69,6 +69,15 @@ const nextConfig = {
       });
     }
 
+    // Exclude pdf-parse test files from bundling
+    config.plugins = config.plugins || [];
+    config.plugins.push(
+      new config.webpack.IgnorePlugin({
+        resourceRegExp: /test\/data\/.*\.pdf$/,
+        contextRegExp: /pdf-parse/
+      })
+    );
+
     return config;
   },
 
