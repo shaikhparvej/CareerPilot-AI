@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { AiTooldSoftware } from "../../../../config/AllAiModels";
+import { useEffect, useState } from "react";
+import { Button } from "../../../components/ui/button";
+import { AiTooldSoftware } from '../../../config/AiModels';
+import LoadingDialog from "../../components/LoadingDialog";
 import ShowToolsSoftware from "./ShowToolsSoftware";
-import LoadingDialog from "@/app/components/LoadingDialog";
 
 const ToolsCompanyUse = () => {
   const [tools, setTools] = useState("");
@@ -52,8 +52,8 @@ const ToolsCompanyUse = () => {
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
                   placeholder="Enter your job role..."
-                  className="w-full px-4 py-3 rounded-lg border border-gray-200 
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200
+                  focus:outline-none focus:ring-2 focus:ring-blue-500
                   focus:border-transparent transition-all duration-200
                   placeholder:text-gray-400"
                 />
@@ -62,9 +62,9 @@ const ToolsCompanyUse = () => {
               <Button
                 type="submit"
                 className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg
-                     hover:bg-blue-700 focus:outline-none focus:ring-2 
-                     focus:ring-blue-500 focus:ring-offset-2 
-                     transform transition-all duration-200 
+                     hover:bg-blue-700 focus:outline-none focus:ring-2
+                     focus:ring-blue-500 focus:ring-offset-2
+                     transform transition-all duration-200
                      hover:shadow-lg active:scale-[0.98]"
               >
                 Submit

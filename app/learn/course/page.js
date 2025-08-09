@@ -1,14 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { ChevronRight } from "lucide-react";
-import EditCourse from "./components/EditCourse";
+import { ArrowRight, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
 import BasicData from "./components/BasicData";
+import EditCourse from "./components/EditCourse";
 import PreviewCourse from "./components/PreviewCourse";
 import ProgressSteps from "./components/ProgressStep";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ArrowRight } from "lucide-react";
 
 const CreateCoursePage = () => {
   const [activeStep, setActiveStep] = useState(1);

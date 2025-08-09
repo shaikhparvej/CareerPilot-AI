@@ -5,7 +5,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { AiTraslator } from "../../../../../config/AllAiModels";
+import { AiTraslator } from '../../../../../config/AiModels';
 import {
   HoverCard,
   HoverCardContent,

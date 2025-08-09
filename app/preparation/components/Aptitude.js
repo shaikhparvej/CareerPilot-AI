@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { BookOpen, Clock, Brain, Trophy } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { AiAptitudeExam } from "../../../../config/AllAiModels";
+import { BookOpen, Brain, Clock, Trophy } from "lucide-react";
+import { useState } from "react";
+import { Card, CardContent } from "../../../components/ui/card";
 import LoadingDialog from "../../components/LoadingDialog";
 
 const AptitudeExamPage = ({ setQuestions, setExam, setExamStatus }) => {

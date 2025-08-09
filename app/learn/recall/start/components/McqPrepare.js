@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../../components/ui/card";
+import { Button } from "../../../../../components/ui/button";
 import { CheckCircle2, XCircle } from "lucide-react";
 
 function McqPrepare({ active2, course }) {

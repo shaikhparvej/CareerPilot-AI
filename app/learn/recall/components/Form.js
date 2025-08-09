@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import Image from "next/image";
 
 import { useSearchParams } from "next/navigation";
-import { AiRecallCourseOutline } from "../../../../../config/AllAiModels";
-import LoadingDialog from "@/app/components/LoadingDialog";
+import LoadingDialog from "../../../components/LoadingDialog";
 
 const CourseSelectionForm = ({
   setOutline,
@@ -74,8 +73,8 @@ const CourseSelectionForm = ({
                 value={topic}
                 onChange={handleChange}
                 placeholder="Enter your learning topic"
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl 
-                  text-white placeholder-blue-200 focus:outline-none 
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl
+                  text-white placeholder-blue-200 focus:outline-none
                   focus:ring-2 focus:ring-blue-500 transition duration-300"
                 required
               />
@@ -84,11 +83,11 @@ const CourseSelectionForm = ({
             <div className="pt-4">
               <button
                 type="submit"
-                className="group relative w-full px-8 py-4 bg-white text-blue-900 font-semibold rounded-full 
-                  hover:bg-blue-50 transition-all duration-300 ease-in-out 
-                  flex items-center justify-center space-x-3 
-                  before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500 
-                  before:opacity-0 hover:before:opacity-20 before:rounded-full 
+                className="group relative w-full px-8 py-4 bg-white text-blue-900 font-semibold rounded-full
+                  hover:bg-blue-50 transition-all duration-300 ease-in-out
+                  flex items-center justify-center space-x-3
+                  before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500
+                  before:opacity-0 hover:before:opacity-20 before:rounded-full
                   before:transition-all before:duration-300 before:ease-in-out
                   shadow-xl hover:shadow-2xl"
               >

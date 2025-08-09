@@ -1,17 +1,16 @@
 "use client";
-import React, { useState } from "react";
 import {
+  ArrowRight,
+  Building,
   Facebook,
-  Twitter,
   Linkedin,
   Mail,
-  ArrowRight,
-  Star,
-  Users,
-  Building,
   Shield,
+  Twitter,
+  Users
 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 function Footer() {
   const [hoveredSection, setHoveredSection] = useState(null);
@@ -61,7 +60,7 @@ function Footer() {
           <div className="lg:col-span-2 space-y-6">
             <div className="group">
               <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent mb-4 group-hover:from-pink-400 group-hover:via-purple-400 group-hover:to-indigo-400 transition-all duration-500">
-                PrepAce
+                CareerPilot AI
               </h3>
               <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full group-hover:w-32 transition-all duration-300"></div>
             </div>
@@ -150,7 +149,7 @@ function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-4">
               <p className="text-gray-400">
-                &copy; {new Date().getFullYear()} PrepAce. All rights reserved.
+                &copy; {new Date().getFullYear()} CareerPilot AI. All rights reserved.
               </p>
               <div className="hidden md:flex items-center space-x-2 text-gray-500">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>

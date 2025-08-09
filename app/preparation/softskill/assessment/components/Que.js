@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../../components/ui/card";
+import { Badge } from "../../../../../components/ui/badge";
+import { Button } from "../../../../../components/ui/button";
 import { ChevronLeft, ChevronRight, Mic, Video, VideoOff } from "lucide-react";
 import Speech from "react-text-to-speech";
 import { GiSpeaker, GiSpeakerOff } from "react-icons/gi";

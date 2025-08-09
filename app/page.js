@@ -1,23 +1,20 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
 import {
-  ChevronRight,
-  Play,
-  CheckCircle,
-  Users,
-  BookOpen,
-  Award,
-  Star,
-  ArrowRight,
-  Target,
-  TrendingUp,
-  Zap,
-  Globe,
-  Brain,
-  ShieldCheck,
+    ArrowRight,
+    BookOpen,
+    Brain,
+    CheckCircle,
+    Globe,
+    Play,
+    ShieldCheck,
+    Star,
+    Target,
+    TrendingUp,
+    Users,
+    Zap
 } from "lucide-react";
-import Footer from "./components/Footer";
 import Image from "next/image";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "./components/ThemeContext";
 
 export default function JobPrepHomepage() {
@@ -40,14 +37,14 @@ export default function JobPrepHomepage() {
       rating: 5,
     },
     {
-      name: "Mohammad Hashir",
+      name: "xyz",
       role: "Research",
       content:
         "From zero to offer in 3 months. The structured learning path made all the difference.",
       rating: 5,
     },
     {
-      name: "Bagwan Zaid",
+      name: "xyz",
       role: "Research",
       content:
         "The mentorship and hands-on projects gave me confidence to crack tough interviews.",
@@ -113,41 +110,45 @@ export default function JobPrepHomepage() {
   }, []);
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? "bg-gray-900" : "bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"}`}>
+    <div className={`min-h-screen ${isDarkMode ? "bg-black" : "bg-gradient-to-br from-blue-50 via-white to-indigo-50"}`}>
       {/* Navigation */}
 
       {/* Hero Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className={`absolute inset-0 ${
-          isDarkMode 
-            ? "bg-gradient-to-r from-amber-500/5 to-amber-700/5" 
-            : "bg-gradient-to-r from-purple-500/10 to-pink-500/10"
+          isDarkMode
+            ? "bg-black"
+            : "bg-gradient-to-r from-blue-100/20 to-indigo-100/20"
         } animate-pulse`}></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className={`inline-flex items-center space-x-2 ${
-                isDarkMode 
-                  ? "bg-gray-800/70 backdrop-blur-sm rounded-full px-4 py-2 text-sm text-amber-200" 
-                  : "bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-sm text-purple-200"
+                isDarkMode
+                  ? "bg-gray-800/70 backdrop-blur-sm rounded-full px-4 py-2 text-sm text-amber-200"
+                  : "bg-blue-100/80 backdrop-blur-sm rounded-full px-4 py-2 text-sm text-blue-700"
               }`}>
                 <Zap className="w-4 h-4" />
                 <span>AI-Powered Job Preparation</span>
               </div>
 
-              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
-                Land Your
+              <h1 className={`text-5xl md:text-7xl font-bold leading-tight ${
+                isDarkMode ? "text-white" : "text-gray-900"
+              }`}>
+                Launch Your
                 <span className={`${
-                  isDarkMode 
-                    ? "bg-gradient-to-r from-amber-400 to-amber-600" 
-                    : "bg-gradient-to-r from-purple-400 to-pink-400"
+                  isDarkMode
+                    ? "bg-gradient-to-r from-amber-400 to-amber-600"
+                    : "bg-gradient-to-r from-blue-600 to-indigo-600"
                 } bg-clip-text text-transparent`}>
                   {" "}
-                  Dream Job
+                  Career Journey
                 </span>
               </h1>
 
-              <p className="text-xl text-gray-300 leading-relaxed">
+              <p className={`text-xl leading-relaxed ${
+                isDarkMode ? "text-gray-300" : "text-gray-700"
+              }`}>
                 Master technical interviews, behavioral questions, and industry
                 skills with our comprehensive preparation platform. Join
                 thousands who've transformed their careers.
@@ -155,18 +156,18 @@ export default function JobPrepHomepage() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <button className={`group ${
-                  isDarkMode 
-                    ? "bg-amber-500 hover:bg-amber-600 text-gray-900" 
-                    : "bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600"
+                  isDarkMode
+                    ? "bg-gray-600 hover:bg-gray-700 text-white"
+                    : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700"
                 } px-8 py-4 rounded-full text-lg font-semibold transition-all transform hover:scale-105 flex items-center justify-center space-x-2`}>
                   <span>Start Preparing Now</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
 
                 <button className={`group ${
-                  isDarkMode 
-                    ? "bg-gray-800/70 text-white hover:bg-gray-700/70" 
-                    : "bg-white/10 backdrop-blur-sm text-white hover:bg-white/20"
+                  isDarkMode
+                    ? "bg-gray-800/70 text-white hover:bg-gray-700/70"
+                    : "bg-gray-100/80 backdrop-blur-sm text-gray-700 hover:bg-gray-200/80"
                 } px-8 py-4 rounded-full text-lg font-semibold transition-all flex items-center justify-center space-x-2`}>
                   <Play className="w-5 h-5" />
                   <span>Watch Demo</span>
@@ -175,68 +176,90 @@ export default function JobPrepHomepage() {
 
               <div className="flex items-center space-x-8 pt-4">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-white">50K+</div>
-                  <div className="text-gray-400">Success Stories</div>
+                  <div className={`text-3xl font-bold ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}>50K+</div>
+                  <div className={`${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}>Success Stories</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-white">95%</div>
-                  <div className="text-gray-400">Success Rate</div>
+                  <div className={`text-3xl font-bold ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}>95%</div>
+                  <div className={`${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}>Success Rate</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-white">500+</div>
-                  <div className="text-gray-400">Companies</div>
+                  <div className={`text-3xl font-bold ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}>500+</div>
+                  <div className={`${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}>Companies</div>
                 </div>
               </div>
             </div>
 
             <div className="relative">
               <div className={`relative ${
-                isDarkMode 
-                  ? "bg-gradient-to-br from-amber-500/10 to-amber-700/10 border border-amber-700/30" 
-                  : "bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-white/10"
+                isDarkMode
+                  ? "bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-gray-700"
+                  : "bg-gradient-to-br from-blue-50/80 to-indigo-50/80 border border-blue-200"
                 } backdrop-blur-sm rounded-3xl p-8`}>
                 <div className={`absolute -top-4 -right-4 w-24 h-24 ${
-                  isDarkMode 
-                    ? "bg-gradient-to-r from-amber-400/20 to-amber-600/20" 
-                    : "bg-gradient-to-r from-purple-400 to-pink-400"
+                  isDarkMode
+                    ? "bg-gradient-to-r from-gray-600/20 to-gray-700/20"
+                    : "bg-gradient-to-r from-blue-400/20 to-indigo-400/20"
                   } rounded-full opacity-20 animate-bounce`}></div>
                 <div className={`absolute -bottom-4 -left-4 w-16 h-16 ${
-                  isDarkMode 
-                    ? "bg-gradient-to-r from-amber-600/20 to-amber-400/20" 
-                    : "bg-gradient-to-r from-pink-400 to-purple-400"
+                  isDarkMode
+                    ? "bg-gradient-to-r from-gray-700/20 to-gray-600/20"
+                    : "bg-gradient-to-r from-indigo-400/20 to-blue-400/20"
                   } rounded-full opacity-20 animate-pulse`}></div>
 
                 <div className="space-y-6">
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-6 h-6 text-green-400" />
-                    <span className="text-white">
+                    <span className={`${
+                      isDarkMode ? "text-white" : "text-gray-700"
+                    }`}>
                       Interview scheduled with Google
                     </span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-6 h-6 text-green-400" />
-                    <span className="text-white">Mock interview completed</span>
+                    <span className={`${
+                      isDarkMode ? "text-white" : "text-gray-700"
+                    }`}>Mock interview completed</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-6 h-6 text-green-400" />
-                    <span className="text-white">Skills assessment passed</span>
+                    <span className={`${
+                      isDarkMode ? "text-white" : "text-gray-700"
+                    }`}>Skills assessment passed</span>
                   </div>
 
                   <div className={`${
-                    isDarkMode 
-                      ? "bg-gray-800/70" 
-                      : "bg-white/10"
+                    isDarkMode
+                      ? "bg-gray-800/70"
+                      : "bg-white/80"
                     } backdrop-blur-sm rounded-xl p-4 mt-6`}>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-gray-300">Interview Readiness</span>
                       <span className={`${
-                        isDarkMode ? "text-amber-400" : "text-purple-400"
+                        isDarkMode ? "text-gray-300" : "text-gray-600"
+                      }`}>Interview Readiness</span>
+                      <span className={`${
+                        isDarkMode ? "text-gray-300" : "text-blue-600"
                       } font-semibold`}>92%</span>
                     </div>
-                    <div className="w-full bg-gray-700 rounded-full h-3">
+                    <div className={`w-full ${
+                      isDarkMode ? "bg-gray-700" : "bg-gray-200"
+                    } rounded-full h-3`}>
                       <div className={`${
-                        isDarkMode 
-                          ? "bg-gradient-to-r from-amber-400 to-amber-600" 
+                        isDarkMode
+                          ? "bg-gradient-to-r from-amber-400 to-amber-600"
                           : "bg-gradient-to-r from-purple-400 to-pink-400"
                         } h-3 rounded-full w-[92%] animate-pulse`}></div>
                     </div>
@@ -250,12 +273,12 @@ export default function JobPrepHomepage() {
 
       {/* Phases Section */}
       <section className="flex justify-center">
-        <Image 
-          src="/phases.png" 
-          height={800} 
-          width={1000} 
+        <Image
+          src="/phases.png"
+          height={800}
+          width={1000}
           alt="phases"
-          priority 
+          priority
         />
       </section>
 
@@ -263,13 +286,21 @@ export default function JobPrepHomepage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${
+              isDarkMode ? "text-white" : "text-gray-900"
+            }`}>
               Everything You Need to{" "}
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className={`bg-gradient-to-r ${
+                isDarkMode
+                  ? "from-gray-300 to-white"
+                  : "from-blue-600 to-indigo-600"
+              } bg-clip-text text-transparent`}>
                 Succeed
               </span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className={`text-xl max-w-3xl mx-auto ${
+              isDarkMode ? "text-gray-300" : "text-gray-600"
+            }`}>
               Our comprehensive platform provides all the tools and resources
               you need to excel in your job search and interviews.
             </p>
@@ -279,15 +310,27 @@ export default function JobPrepHomepage() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:bg-white/10 hover:scale-105 transition-all duration-300"
+                className={`group rounded-2xl p-8 border hover:scale-105 transition-all duration-300 ${
+                  isDarkMode
+                    ? "bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10"
+                    : "bg-white/90 backdrop-blur-sm border-gray-200 hover:bg-white shadow-lg"
+                }`}
               >
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform ${
+                  isDarkMode
+                    ? "bg-gradient-to-r from-gray-600 to-gray-700"
+                    : "bg-gradient-to-r from-blue-500 to-indigo-500"
+                }`}>
                   <feature.icon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-4">
+                <h3 className={`text-xl font-semibold mb-4 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}>
                   {feature.title}
                 </h3>
-                <p className="text-gray-300 leading-relaxed">
+                <p className={`leading-relaxed ${
+                  isDarkMode ? "text-gray-300" : "text-gray-600"
+                }`}>
                   {feature.description}
                 </p>
               </div>
@@ -299,17 +342,29 @@ export default function JobPrepHomepage() {
             {/* Feature 1: AI-Powered Interview Practice */}
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <div className="inline-flex items-center space-x-2 bg-purple-500/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm text-purple-300">
+                <div className={`inline-flex items-center space-x-2 backdrop-blur-sm rounded-full px-4 py-2 text-sm ${
+                  isDarkMode
+                    ? "bg-gray-600/20 text-gray-300"
+                    : "bg-blue-100/80 text-blue-700"
+                }`}>
                   <Zap className="w-4 h-4" />
                   <span>AI-Powered</span>
                 </div>
-                <h3 className="text-3xl md:text-4xl font-bold text-white">
+                <h3 className={`text-3xl md:text-4xl font-bold ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}>
                   Master Interviews with{" "}
-                  <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  <span className={`bg-gradient-to-r ${
+                    isDarkMode
+                      ? "from-gray-300 to-white"
+                      : "from-blue-600 to-indigo-600"
+                  } bg-clip-text text-transparent`}>
                     AI Coaching
                   </span>
                 </h3>
-                <p className="text-lg text-gray-300 leading-relaxed">
+                <p className={`text-lg leading-relaxed ${
+                  isDarkMode ? "text-gray-300" : "text-gray-600"
+                }`}>
                   Practice with our advanced AI interviewer that adapts to your
                   responses, provides real-time feedback, and simulates actual
                   interview scenarios from top tech companies.
@@ -317,19 +372,25 @@ export default function JobPrepHomepage() {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-400" />
-                    <span className="text-gray-300">
+                    <span className={`${
+                      isDarkMode ? "text-gray-300" : "text-gray-600"
+                    }`}>
                       Real-time voice and video analysis
                     </span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-400" />
-                    <span className="text-gray-300">
+                    <span className={`${
+                      isDarkMode ? "text-gray-300" : "text-gray-600"
+                    }`}>
                       Personalized improvement suggestions
                     </span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <CheckCircle className="w-5 h-5 text-green-400" />
-                    <span className="text-gray-300">
+                    <span className={`${
+                      isDarkMode ? "text-gray-300" : "text-gray-600"
+                    }`}>
                       500+ company-specific scenarios
                     </span>
                   </div>

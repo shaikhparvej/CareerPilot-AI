@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
 import {
-  Book,
-  Target,
-  Info,
-  Clock,
-  ChevronDown,
-  ChevronUp,
+    Book,
+    ChevronDown,
+    ChevronUp,
+    Clock,
+    Info,
+    Target,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { AiProjectPlan } from "../../../../config/AllAiModels";
+import { useEffect, useState } from "react";
+import { Button } from "../../../components/ui/button";
+import { AiProjectPlan } from '../../../config/AiModels';
+import LoadingDialog from "../../components/LoadingDialog";
 import Project_plan from "./ShowProjectPlan";
-import LoadingDialog from "@/app/components/LoadingDialog";
 
 const ProjectCard = ({ project, setPlanStatus }) => {
   const [isExpanded, setIsExpanded] = useState(false);

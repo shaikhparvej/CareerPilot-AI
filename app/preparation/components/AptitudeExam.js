@@ -8,7 +8,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import AptitudeExamPage from "./Aptitude";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../components/ui/button";
 
 const AptitudeExam = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);

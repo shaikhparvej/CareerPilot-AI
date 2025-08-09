@@ -1,7 +1,7 @@
 "use client";
-import { Target, ArrowUp } from "lucide-react";
-import React, { useState, useEffect, useContext } from "react";
+import { ArrowUp, Target } from "lucide-react";
 import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "./ThemeContext";
 
 const Footer = () => {
@@ -47,7 +47,9 @@ const Footer = () => {
                 CareerPilot AI
               </h3>
             </div>
-            <p className="mb-6 text-sm md:text-base">
+            <p className={`mb-6 text-sm md:text-base ${
+              isDarkMode ? "text-gray-300" : "text-white"
+            }`}>
               Your AI-powered career companion helping you navigate your professional
               journey with confidence.
             </p>
@@ -121,7 +123,9 @@ const Footer = () => {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/in/wajid-daud-tamboli-3217b031a"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`transition-colors duration-200 ${
                   isDarkMode
                     ? "text-gray-400 hover:text-amber-500"
@@ -161,8 +165,8 @@ const Footer = () => {
                   href="/"
                   className={`transition-colors duration-200 hover:underline ${
                     isDarkMode
-                      ? "hover:text-amber-500"
-                      : "hover:text-blue-600"
+                      ? "text-gray-300 hover:text-amber-500"
+                      : "text-white hover:text-purple-300"
                   }`}
                 >
                   Home
@@ -173,8 +177,8 @@ const Footer = () => {
                   href="/careerplanning"
                   className={`transition-colors duration-200 hover:underline ${
                     isDarkMode
-                      ? "hover:text-amber-500"
-                      : "hover:text-blue-600"
+                      ? "text-gray-300 hover:text-amber-500"
+                      : "text-white hover:text-blue-300"
                   }`}
                 >
                   Career Planning
@@ -185,8 +189,8 @@ const Footer = () => {
                   href="/preparation"
                   className={`transition-colors duration-200 hover:underline ${
                     isDarkMode
-                      ? "hover:text-amber-500"
-                      : "hover:text-blue-600"
+                      ? "text-gray-300 hover:text-amber-500"
+                      : "text-white hover:text-blue-300"
                   }`}
                 >
                   Job Preparation
@@ -197,8 +201,8 @@ const Footer = () => {
                   href="/learn"
                   className={`transition-colors duration-200 hover:underline ${
                     isDarkMode
-                      ? "hover:text-amber-500"
-                      : "hover:text-blue-600"
+                      ? "text-gray-300 hover:text-amber-500"
+                      : "text-white hover:text-blue-300"
                   }`}
                 >
                   Learning Resources
@@ -209,8 +213,8 @@ const Footer = () => {
                   href="/company"
                   className={`transition-colors duration-200 hover:underline ${
                     isDarkMode
-                      ? "hover:text-amber-500"
-                      : "hover:text-blue-600"
+                      ? "text-gray-300 hover:text-amber-500"
+                      : "text-white hover:text-blue-300"
                   }`}
                 >
                   For Companies
@@ -250,7 +254,9 @@ const Footer = () => {
                     <circle cx="12" cy="10" r="3"></circle>
                   </svg>
                 </div>
-                <span>123 Career Street, Tech City, India</span>
+                <span className={`${
+                  isDarkMode ? "text-gray-300" : "text-gray-800"
+                }`}>N.K. Orchid College of Engineering & Technology, Solapur</span>
               </li>
               <li className="flex items-center space-x-3">
                 <div
@@ -273,7 +279,9 @@ const Footer = () => {
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                   </svg>
                 </div>
-                <span>+91 9876543210</span>
+                <span className={`${
+                  isDarkMode ? "text-gray-300" : "text-gray-800"
+                }`}>+91 9667033839</span>
               </li>
               <li className="flex items-center space-x-3">
                 <div
@@ -297,7 +305,9 @@ const Footer = () => {
                     <polyline points="22,6 12,13 2,6"></polyline>
                   </svg>
                 </div>
-                <span>contact@careerpilot.ai</span>
+                <span className={`${
+                  isDarkMode ? "text-gray-300" : "text-gray-800"
+                }`}>wajidtamboli@orchidengg.ac.in</span>
               </li>
             </ul>
           </div>
@@ -305,7 +315,7 @@ const Footer = () => {
 
         <div
           className={`mt-12 pt-8 border-t text-center text-sm ${
-            isDarkMode ? "border-gray-700" : "border-slate-200"
+            isDarkMode ? "border-gray-700 text-gray-400" : "border-slate-200 text-gray-700"
           }`}
         >
           <p>&copy; {new Date().getFullYear()} CareerPilot AI. All rights reserved.</p>

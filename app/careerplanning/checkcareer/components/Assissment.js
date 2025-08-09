@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card";
-import { Button } from "../../../../components/ui/button";
+import { useState } from "react";
 import { Alert, AlertDescription } from "../../../../components/ui/alert";
-import { AiCareerFieldResult } from "../../../../config/AllAiModels";
+import { Button } from "../../../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card";
+import { geminiModel } from '../../../../config/AiModels';
 
 const Assisment = ({
   questions,
@@ -25,12 +25,12 @@ const Assisment = ({
 
   const handleResponse = async () => {
     setLoading(true);
-    const prompt = `determine whether i will be have passion in ${field} or not, on the basic of questionary assessment that i have perform that is given. 
+    const prompt = `determine whether i will be have passion in ${field} or not, on the basic of questionary assessment that i have perform that is given.
       include only recommendation, what next and conclusion.in json formate. response:${JSON.stringify(
         results
       )}`;
     try {
-      const result = await AiCareerFieldResult.sendMessage(prompt);
+      const result = await geminiModel.sendMessage(prompt);
       const text = await result.response.text();
       const json = JSON.parse(text);
       localStorage.setItem(`assessment_${assessment}`, JSON.stringify(json));

@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardContent } from "../../../components/ui/card";
+import { ArrowLeft, Briefcase, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
-import { Briefcase, ChevronRight, ArrowLeft } from "lucide-react";
+import { Card, CardContent, CardHeader } from "../../../components/ui/card";
 import { Input } from "../../../components/ui/input";
 
 const JobsRole = ({ setConform, setRole }) => {
@@ -14,16 +14,144 @@ const JobsRole = ({ setConform, setRole }) => {
 
   useEffect(() => {
     const jobs = localStorage.getItem("jobs");
+    const branch = localStorage.getItem("branch");
+
     if (jobs) {
       try {
         const parsedJobs = JSON.parse(jobs);
-        setSkills(parsedJobs);
-        setJobRoll(parsedJobs?.branch || "");
+        console.log("CategoryRole: Raw data from localStorage:", parsedJobs);
+        console.log("CategoryRole: Current branch:", branch);
+
+        // Transform the data structure to match what the component expects
+        let transformedData = parsedJobs;
+
+        // Check if data has the new AI format
+        const firstKey = Object.keys(parsedJobs)[0];
+
+        if (firstKey && firstKey.includes("Job Roles") && Array.isArray(parsedJobs[firstKey])) {
+          // Transform from AI format to component format
+          transformedData = {
+            jobRoles: parsedJobs[firstKey].map((item, index) => {
+              // Handle different possible property names (case variations)
+              const category = item.Category || item.category || item.CATEGORY || `Category ${index + 1}`;
+              const roles = item.Roles || item.roles || item.ROLES || [];
+
+              return {
+                category: category,
+                roles: Array.isArray(roles) ? roles : []
+              };
+            }),
+            branch: firstKey.replace(" Job Roles", "")
+          };
+        } else if (firstKey && Array.isArray(parsedJobs[firstKey])) {
+          // Handle case where the data is an array but doesn't have "Job Roles" in the key
+          transformedData = {
+            jobRoles: parsedJobs[firstKey].map((item, index) => {
+              const category = item.Category || item.category || item.CATEGORY || `Category ${index + 1}`;
+              const roles = item.Roles || item.roles || item.ROLES || [];
+              return {
+                category: category,
+                roles: Array.isArray(roles) ? roles : []
+              };
+            }),
+            branch: firstKey
+          };
+        } else {
+          // Try to handle legacy format or direct jobRoles array
+          if (parsedJobs.jobRoles && Array.isArray(parsedJobs.jobRoles)) {
+            transformedData = parsedJobs;
+          } else {
+            // Convert whatever format we have to the expected format
+            transformedData = {
+              jobRoles: Object.entries(parsedJobs).map(([key, value]) => ({
+                category: key,
+                roles: Array.isArray(value) ? value : []
+              })),
+              branch: branch || Object.keys(parsedJobs)[0] || "Engineering"
+            };
+          }
+        }
+
+        console.log("CategoryRole: Final transformed data:", transformedData);
+        setSkills(transformedData);
+        setJobRoll(transformedData?.branch || branch || "Engineering");
       } catch (error) {
         console.error("Error parsing jobs from localStorage:", error);
       }
+    } else {
+      console.log("CategoryRole: No jobs data found in localStorage");
     }
     setLoading(false);
+  }, []);
+
+  // Add listener for localStorage changes to reload when new data is available
+  useEffect(() => {
+    const handleStorageChange = () => {
+      // Force reload of data when localStorage changes
+      const jobs = localStorage.getItem("jobs");
+      const branch = localStorage.getItem("branch");
+
+      if (jobs) {
+        try {
+          const parsedJobs = JSON.parse(jobs);
+          console.log("CategoryRole: Storage changed, reloading data:", parsedJobs);
+
+          // Apply the same transformation logic
+          let transformedData = parsedJobs;
+          const firstKey = Object.keys(parsedJobs)[0];
+
+          if (firstKey && firstKey.includes("Job Roles") && Array.isArray(parsedJobs[firstKey])) {
+            transformedData = {
+              jobRoles: parsedJobs[firstKey].map((item, index) => {
+                const category = item.Category || item.category || item.CATEGORY || `Category ${index + 1}`;
+                const roles = item.Roles || item.roles || item.ROLES || [];
+                return {
+                  category: category,
+                  roles: Array.isArray(roles) ? roles : []
+                };
+              }),
+              branch: firstKey.replace(" Job Roles", "")
+            };
+          } else if (firstKey && Array.isArray(parsedJobs[firstKey])) {
+            transformedData = {
+              jobRoles: parsedJobs[firstKey].map((item, index) => {
+                const category = item.Category || item.category || item.CATEGORY || `Category ${index + 1}`;
+                const roles = item.Roles || item.roles || item.ROLES || [];
+                return {
+                  category: category,
+                  roles: Array.isArray(roles) ? roles : []
+                };
+              }),
+              branch: firstKey
+            };
+          } else {
+            if (parsedJobs.jobRoles && Array.isArray(parsedJobs.jobRoles)) {
+              transformedData = parsedJobs;
+            } else {
+              transformedData = {
+                jobRoles: Object.entries(parsedJobs).map(([key, value]) => ({
+                  category: key,
+                  roles: Array.isArray(value) ? value : []
+                })),
+                branch: branch || Object.keys(parsedJobs)[0] || "Engineering"
+              };
+            }
+          }
+
+          setSkills(transformedData);
+          setJobRoll(transformedData?.branch || branch || "Engineering");
+        } catch (error) {
+          console.error("Error parsing updated jobs from localStorage:", error);
+        }
+      }
+    };
+
+    // Listen for custom storage events
+    window.addEventListener('jobsUpdated', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('jobsUpdated', handleStorageChange);
+    };
   }, []);
 
   if (!skills) {
@@ -70,14 +198,16 @@ const JobsRole = ({ setConform, setRole }) => {
           {skills?.jobRoles?.map((role, index) => (
             <div key={index} value={role.category}>
               <p className="text-xl font-bold mb-2 text-blue-600 mt-5">
-                {index + 1} .{role.category || ""}
+                {index + 1}. {role.category || ""}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {role.roles.map((job, idx) => (
+                {role.roles?.map((job, idx) => (
                   <Card
+                    key={idx}
                     className="hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
                     onClick={() => {
-                      handleRoleClick(job), setRole(job);
+                      handleRoleClick(job);
+                      setRole(job);
                     }}
                   >
                     <CardContent className="p-4 flex items-center space-x-4 cursor-pointer">

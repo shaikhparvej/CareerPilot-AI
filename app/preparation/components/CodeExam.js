@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { FaArrowLeft } from "react-icons/fa";
 import CodingRoundFeedback from "./CodingRoundFeedback";
-import { AiCodingRoundFeedback } from "../../../../config/AllAiModels";
+import { AiCodingRoundFeedback } from '../../../config/AiModels';
 import CodeEditor from "./Ediotor";
 
 const CodingAssessment = ({ stateExam, questions }) => {

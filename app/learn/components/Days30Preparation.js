@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Plus, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import { AiDaysRemains } from '../../../config/AiModels';
+import LoadingDialog from "../../components/LoadingDialog";
 import StudyPlan from "./Day30ShowDay";
-import { AiDaysRemains } from "../../../../config/AllAiModels";
-import LoadingDialog from "@/app/components/LoadingDialog";
 
 const DayRemains = () => {
   const [data, setData] = useState("");

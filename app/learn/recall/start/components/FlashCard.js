@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../../../components/ui/button";
 import ReactCardFlip from "react-card-flip";
 
 function FlashCard({ active2 }) {

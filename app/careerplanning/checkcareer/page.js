@@ -1,30 +1,27 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import {
+    AlertCircle,
+    ArrowRight,
+    CheckCircle,
+    ChevronRight,
+    Clock,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
 } from "../../../components/ui/card";
 import { Progress } from "../../../components/ui/progress";
-import { Badge } from "../../../components/ui/badge";
-import {
-  ArrowRight,
-  CheckCircle,
-  Clock,
-  AlertCircle,
-  ChevronRight,
-} from "lucide-react";
 
+import { geminiModel } from '../../../config/AiModels';
 import Assessment from "./components/Assissment";
-import {
-  AiCareerField,
-  AiCareerFieldFinalResult,
-} from "../../../config/AllAiModels";
 
 const CareerAssessmentPage = () => {
   const [loading, setLoading] = useState(false);
@@ -72,7 +69,7 @@ const CareerAssessmentPage = () => {
     prompt = prompts[assessment];
 
     try {
-      const result = await AiCareerField.sendMessage(prompt);
+      const result = await geminiModel.sendMessage(prompt);
       const text = await result.response.text();
       const json = JSON.parse(text);
       setQuestions(json);
@@ -100,7 +97,7 @@ const CareerAssessmentPage = () => {
     Provide final result, suggestion, recommendation, and conclusion in JSON format.`;
 
       try {
-        const result = await AiCareerFieldFinalResult.sendMessage(prompt);
+        const result = await geminiModel.sendMessage(prompt);
         const text = await result.response.text();
         const json = JSON.parse(text);
         setFinalize(json);

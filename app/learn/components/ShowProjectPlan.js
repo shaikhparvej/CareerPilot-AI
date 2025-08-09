@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "../../../components/ui/accordion";
+import { Button } from "../../../components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card";
 
 const Project_plan = ({ setPlanStatus, setCheck }) => {
   const [activeDay, setActiveDay] = useState(null);

@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import {
-  BookOpen,
-  Check,
-  Search,
-  ChevronRight,
-  Sparkles,
-  Menu,
-  X,
-  Bell,
+    BookOpen,
+    Check,
+    ChevronRight,
+    Menu,
+    Search,
+    Sparkles,
+    X
 } from "lucide-react";
-import { AiPreCourse } from "../../../config/AllAiModels";
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
+import { useState } from "react";
+import { geminiModel } from '../../../config/AiModels';
 import { db } from "../../../lib/firebaseConfig";
 
 function CourseRoadmap() {
@@ -73,7 +72,7 @@ function CourseRoadmap() {
     const prompt = `Create a detailed roadmap for learning ${inputValue}. Structure it like a hierarchical mind map with 10–12 main modules (as core topics). Under each module, list 3–6 detailed subtopics or skills. Use a clear format suitable for creating a flowchart or visual roadmap. Focus on covering beginner to advanced concepts in json format.`;
 
     try {
-      const result = await AiPreCourse.sendMessage(prompt);
+      const result = await geminiModel.sendMessage(prompt);
       const responseText = await result.response.text();
       const parsedResult = JSON.parse(responseText);
 

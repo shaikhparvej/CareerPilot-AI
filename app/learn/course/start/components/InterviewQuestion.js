@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../../components/ui/card";
+import { Button } from "../../../../../components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const InterviewQuestionUI = ({ questions, chapter }) => {

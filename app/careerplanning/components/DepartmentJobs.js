@@ -1,9 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import LoadingDialog from "../../components/LoadingDialog";
-import { AiRoleMoreInfo, JobRolls } from "../../../config/AllAiModels";
-import JobsRole from "./CategoryRole";
-import { Button } from "../../../components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,6 +7,14 @@ import {
   AlertDialogContent,
   AlertDialogFooter,
 } from "../../../components/ui/alert-dialog";
+import { Button } from "../../../components/ui/button";
+import { AiCareerFieldResult } from "../../../config/AiModels";
+import LoadingDialog from "../../components/LoadingDialog";
+import JobsRole from "./CategoryRole";
+
+// Define AI models for this component
+const JobRolls = AiCareerFieldResult;
+const AiRoleMoreInfo = AiCareerFieldResult;
 
 // SEO Meta Component
 const SEOHead = ({ department, jobRoles }) => {
@@ -180,9 +184,17 @@ export default function DepartmentJobRoles() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form submitted - starting handleSubmit");
+
+    // Clear old data to prevent stale state
+    setTree(false);
+    setSubmittedValue(null);
+
     setLoading(true);
     const inputValue =
       selectedBranch === "Other" ? customBranch : selectedBranch;
+
+    console.log("Selected department:", inputValue);
 
     if (!inputValue.trim()) {
       alert("Please select or enter a department");
@@ -191,30 +203,55 @@ export default function DepartmentJobRoles() {
     }
 
     const BASIC_PROMPT = `generate which type of job roll are available in branch ${inputValue},it include category,role in json formate`;
+    console.log("About to call AI service with prompt:", BASIC_PROMPT);
 
     try {
+      console.log("Calling JobRolls.sendMessage...");
       const result = await JobRolls.sendMessage(BASIC_PROMPT);
-      const responseText = await result.response.text();
-      const parsedResult = JSON.parse(responseText);
+      console.log("AI service response received:", result);
+
+      const responseText = result.response.text();  // Remove await - it's not async
+      console.log("Response text:", responseText);
+
+      // Clean the response text by removing markdown code blocks
+      let cleanedText = responseText.trim();
+      if (cleanedText.startsWith('```json')) {
+        cleanedText = cleanedText.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (cleanedText.startsWith('```')) {
+        cleanedText = cleanedText.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+      console.log("Cleaned text for parsing:", cleanedText);
+
+      const parsedResult = JSON.parse(cleanedText);
+      console.log("Parsed result:", parsedResult);
 
       if (typeof window !== "undefined") {
         localStorage.setItem("jobs", JSON.stringify(parsedResult));
         localStorage.setItem("branch", inputValue);
+        console.log("Data saved to localStorage");
+
+        // Dispatch custom event to notify CategoryRole component of data update
+        window.dispatchEvent(new CustomEvent('jobsUpdated', {
+          detail: { jobs: parsedResult, branch: inputValue }
+        }));
       }
 
       setSubmittedValue(parsedResult);
       setTree(true);
+      console.log("State updated, showing results");
 
       // Update URL for better SEO without page reload
       const newUrl = new URL(window.location);
       newUrl.searchParams.set("department", encodeURIComponent(inputValue));
       window.history.pushState({}, "", newUrl);
-      window.location.reload();
+      // Remove reload to prevent state loss
+      // window.location.reload();
     } catch (error) {
-      console.error("Error parsing JSON:", error);
+      console.error("Error in handleSubmit:", error);
       alert("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
+      console.log("handleSubmit completed");
     }
   };
 
@@ -225,7 +262,7 @@ export default function DepartmentJobRoles() {
 
     try {
       const result = await AiRoleMoreInfo.sendMessage(prompt);
-      const roleData = await result.response.text();
+      const roleData = result.response.text();  // Remove await - it's not async
       const json = JSON.parse(roleData);
 
       if (typeof window !== "undefined") {
@@ -378,7 +415,11 @@ export default function DepartmentJobRoles() {
             aria-label="Job roles results"
             className="w-full max-w-4xl mt-6"
           >
-            <JobsRole setConform={setConform} setRole={setRole} />
+            <JobsRole
+              key={`${selectedBranch === "Other" ? customBranch : selectedBranch}`}
+              setConform={setConform}
+              setRole={setRole}
+            />
           </section>
         )}
 
@@ -422,7 +463,7 @@ export default function DepartmentJobRoles() {
               <AlertDialogAction
                 onClick={() => {
                   window.location.href =
-                    "/careerplanning/page?page=RoleRoadMap";
+                    "/careerplanning?page=RoleRoadMap";
                 }}
                 disabled={status}
                 aria-label="Continue to career roadmap"

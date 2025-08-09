@@ -3,18 +3,18 @@ import React, { useState, useEffect, useRef } from "react";
 import { Mic, StopCircle, Camera, CameraOff, AlertCircle } from "lucide-react";
 
 import Que from "./components/Que";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "../../../../components/ui/button";
+import { Card, CardContent } from "../../../../components/ui/card";
+import { Alert, AlertDescription } from "../../../../components/ui/alert";
 import useSpeechToText from "react-hook-speech-to-text";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "../../../../components/ui/textarea";
 
 import FeedbackReport from "./components/FeedbackReport";
-import { AiSoftSkillReport } from "../../../../../config/AllAiModels";
-import WebCam from "@/app/components/WebCam";
-import LoadingDialog from "@/app/components/LoadingDialog";
+import { AiSoftSkillReport } from '../../../../config/AiModels';
+import WebCam from "../../../components/WebCam";
+import LoadingDialog from "../../../components/LoadingDialog";
 
 function InterviewPractice() {
   const [questions, setQuestions] = useState([]);

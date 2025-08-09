@@ -8,10 +8,10 @@ import {
   BarChart3,
   ArrowLeft,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card, CardContent } from "../../../components/ui/card";
+import { Progress } from "../../../components/ui/progress";
+import { Button } from "../../../components/ui/button";
+import { Alert, AlertDescription } from "../../../components/ui/alert";
 
 export default function InterviewPanel() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);

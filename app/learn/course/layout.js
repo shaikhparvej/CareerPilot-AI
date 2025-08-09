@@ -1,4 +1,4 @@
-import ChatBot from "@/app/components/ChatBot";
+import ChatBot from "../../components/ChatBot";
 
 export default function CourseLayout({ children }) {
   return (

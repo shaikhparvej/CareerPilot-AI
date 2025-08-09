@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../components/ui/button";
 import {
   AiMcqBasedAssisment,
   AiSkillFinder,
-} from "../../../../config/AllAiModels";
+} from '../../../config/AiModels';
 
 export default function TakeAssisment() {
   const [isSubmitting, setIsSubmitting] = useState(false);

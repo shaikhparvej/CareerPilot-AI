@@ -10,7 +10,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../components/ui/button";
 
 const SoftSkillsModern = () => {
   const [activeCategory, setActiveCategory] = useState("PersonalSkills");

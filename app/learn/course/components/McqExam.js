@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../../../components
 import { Button } from "../../../../components/ui/button";
 
 import CourseExam from "./CourseExam";
-import { AiGenerateCourseMcq } from "../../../../config/AllAiModels";
+import { AiGenerateCourseMcq } from '../../../../config/AiModels';
 import LoadingDialog from "../../../components/LoadingDialog";
 
 function McqExam({ topicName }) {

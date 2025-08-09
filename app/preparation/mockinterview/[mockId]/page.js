@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card";
 import {
   Play,
   Pause,
@@ -17,15 +17,15 @@ import {
   ListVideo,
   StopCircle,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../../components/ui/button";
 import useSpeechToText from "react-hook-speech-to-text";
-import { Textarea } from "@/components/ui/textarea";
-import LoadingDialog from "@/app/components/LoadingDialog";
-import { AiFeedbackReport } from "../../../../../config/AllAiModels";
+import { Textarea } from "../../../../components/ui/textarea";
+import LoadingDialog from "../../../components/LoadingDialog";
+import { AiFeedbackReport } from '../../../../config/AiModels';
 import { useParams } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect } from "react";
-import { db } from "@/lib/firebaseConfig";
+import { db } from "../../../../lib/firebaseConfig";
 import InterviewFeedbackUI from "../components/InterviewFeedbackUI";
 
 const MockInterview = ({ questions, setOk }) => {

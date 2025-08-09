@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Lightbulb, ShieldCheck, Brain, Users, Play } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Brain, Lightbulb, Play, ShieldCheck, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { AiSoftSkillQuestion } from "../../../../config/AllAiModels";
+import { useState } from "react";
+import { Alert, AlertDescription } from "../../../components/ui/alert";
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent, CardFooter } from "../../../components/ui/card";
+import { AiSoftSkillQuestion } from '../../../config/AiModels';
 
 const SoftSkillFeature = ({ icon: Icon, title, description }) => (
   <div className="flex items-center space-x-4 p-3 bg-blue-50 rounded-lg mb-3">

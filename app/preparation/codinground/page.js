@@ -1,28 +1,27 @@
 "use client";
-import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  ArrowRight,
+  Award,
   Book,
+  Brain,
+  CheckSquare,
+  Clock,
   Code,
   Compass,
-  Target,
-  CheckSquare,
-  Award,
-  Library,
-  ArrowRight,
   ExternalLink,
-  Clock,
-  Users,
   Laptop,
-  Brain,
+  Library,
   Star,
+  Target,
+  Users,
 } from "lucide-react";
-import { FaComputer } from "react-icons/fa6";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { FaComputer } from "react-icons/fa6";
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import { Dataround } from "../../data/CodingDetails";
 import CodingAssessment from "./components/CodeExam";
-import { AiCodingRoundQuestion } from "../../../../config/AllAiModels";
-import { Dataround } from "@/app/data/CodingDetails";
 
 export default function CodingRound() {
   const [activeSection, setActiveSection] = useState("overview");

@@ -1,12 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
-import Tesseract from "tesseract.js";
 import { getDocument, GlobalWorkerOptions } from "pdfjs-dist";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { AiResumeAnalyzer } from "../../../../config/AllAiModels";
+import { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
+import Tesseract from "tesseract.js";
+import { Button } from "../../../components/ui/button";
+import { Label } from "../../../components/ui/label";
+import { Textarea } from "../../../components/ui/textarea";
+import { AiResumeAnalyzer } from '../../../config/AiModels';
 
 export default function ResumeExtractor() {
   const [text, setText] = useState("");

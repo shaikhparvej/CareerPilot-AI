@@ -1,35 +1,31 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Book, Video, Code, ChevronRight } from "lucide-react";
+import { Book, ChevronRight, Code, Video } from "lucide-react";
+import { useEffect, useState } from "react";
+import useSpeechToText from "react-hook-speech-to-text";
 import YouTube from "react-youtube";
+import { Button } from "../../../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card";
+import {
+    AiChapterExam,
+    AiCheatSheet,
+    AiCodingRoundQuestion,
+    AiEngagingContent,
+    Aiexpand,
+    AiFixBug,
+    AiInter,
+    AiTraslator,
+} from '../../../../config/AiModels';
+import service from "../../../../config/service";
 import McqExam from "../components/McqExam";
-import { Button } from "@/components/ui/button";
 import ChapterExam from "./components/ChapterExam";
 import CheatSheet from "./components/CheatSheet";
-import PracticeQuestion from "./components/PracticeQuestion";
-import { GiSpeaker, GiSpeakerOff } from "react-icons/gi";
-import OddOneOut from "./components/OddOneOut";
-import InterviewQuestionUI from "./components/InterviewQuestion";
-import useSpeechToText from "react-hook-speech-to-text";
-import { MdMicOff } from "react-icons/md";
-import { MdMicNone } from "react-icons/md";
-import LetStart from "./components/LetStart";
-import { handleSpeak, handleStop } from "@/app/components/Speach";
 import Doubt from "./components/Doubt";
-import ShowDoubt from "./components/ShowDoubt";
 import FixBug from "./components/FixBug";
-import {
-  AiChapterExam,
-  AiCheatSheet,
-  AiCodingRoundQuestion,
-  AiEngagingContent,
-  Aiexpand,
-  AiFixBug,
-  AiInter,
-  AiTraslator,
-} from "../../../../../config/AllAiModels";
-import service from "../../../../../config/service";
+import InterviewQuestionUI from "./components/InterviewQuestion";
+import LetStart from "./components/LetStart";
+import OddOneOut from "./components/OddOneOut";
+import PracticeQuestion from "./components/PracticeQuestion";
+import ShowDoubt from "./components/ShowDoubt";
 
 const CoursePage = () => {
   const [name, setName] = useState("");

@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { X, HelpCircle } from "lucide-react";
+import { HelpCircle } from "lucide-react";
+import { useState } from "react";
+import { Button } from "../../../../../components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { AiDoubtSuggestion } from "../../../../../../config/AllAiModels";
+} from "../../../../../components/ui/dialog";
+import { Textarea } from "../../../../../components/ui/textarea";
+import { AiDoubtSuggestion } from '../../../../../config/AiModels';
 
 function DoubtModal({ isOpen, onClose, setSolve }) {
   const [question, setQuestion] = useState("");

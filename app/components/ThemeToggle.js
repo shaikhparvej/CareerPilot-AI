@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useContext, useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
+import { useContext, useState } from 'react';
 import { ThemeContext } from './ThemeContext';
 
 export function ThemeToggle({ showLabel = false }) {
@@ -15,8 +15,8 @@ export function ThemeToggle({ showLabel = false }) {
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         className={`p-2 rounded-full transition-colors flex items-center ${
-          isDarkMode 
-            ? 'bg-gray-800 hover:bg-gray-700 text-amber-500' 
+          isDarkMode
+            ? 'bg-gray-800 hover:bg-gray-700 text-amber-500'
             : 'bg-gray-100 hover:bg-gray-200 text-blue-600'
         }`}
         aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -26,16 +26,16 @@ export function ThemeToggle({ showLabel = false }) {
         ) : (
           <Moon size={20} className="text-blue-600" />
         )}
-        
+
         {showLabel && (
           <span className={`ml-2 text-sm font-medium ${
-            isDarkMode ? 'text-amber-500' : 'text-blue-600'
+            isDarkMode ? 'text-gray-300' : 'text-blue-600'
           }`}>
             {isDarkMode ? 'Light Mode' : 'Dark Mode'}
           </span>
         )}
       </button>
-      
+
       {showTooltip && !showLabel && (
         <div className={`absolute bottom-full mb-2 px-2 py-1 text-xs font-medium rounded ${
           isDarkMode
@@ -54,4 +54,4 @@ export function ThemeToggle({ showLabel = false }) {
   );
 }
 
-export default ThemeToggle; 
+export default ThemeToggle;

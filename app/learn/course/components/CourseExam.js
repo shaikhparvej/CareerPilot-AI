@@ -3,7 +3,7 @@ import { Award, CheckCircle, XCircle, Info, Clock } from "lucide-react";
 import { Button } from "../../../../components/ui/button";
 
 import PerformanceDashboard from "../start/components/Report";
-import { AiCourseMcqFeedbackReport } from "../../../../config/AllAiModels";
+import { AiCourseMcqFeedbackReport } from '../../../../config/AiModels';
 import LoadingDialog from "../../../components/LoadingDialog";
 
 const CourseExam = ({ exam, topicName, totalTime = 30 * 60 }) => {

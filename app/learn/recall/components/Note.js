@@ -1,10 +1,9 @@
-import React, { useState, useRef } from "react";
-import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import jsPDF from "jspdf";
 import "jspdf/dist/polyfills.es.js";
-import { AiDoubtSuggestion } from "../../../../../config/AllAiModels";
+import { useRef, useState } from "react";
+import { AlertDialog, AlertDialogContent } from "../../../../components/ui/alert-dialog";
+import { Button } from "../../../../components/ui/button";
+import { Textarea } from "../../../../components/ui/textarea";
 
 function Note({ Course, active2 }) {
   const [question, setQuestion] = useState("");

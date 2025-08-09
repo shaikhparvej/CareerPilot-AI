@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { ChevronDown, BookOpen, Code, Users, Brain } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { AiQuestionAnswer } from "../../../../../../config/AllAiModels";
+import { BookOpen, Brain, ChevronDown, Code, Users } from "lucide-react";
+import { useState } from "react";
+import { Button } from "../../../../../components/ui/button";
+import { Card, CardContent, CardHeader } from "../../../../../components/ui/card";
 
 function QueAns() {
   const [selectedCategory, setSelectedCategory] = useState("all");

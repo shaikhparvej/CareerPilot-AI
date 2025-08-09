@@ -4,16 +4,16 @@ import { useSearchParams } from "next/navigation";
 import ChatBot from "../components/ChatBot";
 
 const componentMap = {
-  Projects: dynamic(() => import("@/app/learn/components/Projects")),
+  Projects: dynamic(() => import("./components/Projects")),
   ToolsCompanyUse: dynamic(() =>
-    import("@/app/learn/components/ToolsCompanyUse")
+    import("./components/ToolsCompanyUse")
   ),
-  DayRemains: dynamic(() => import("@/app/learn/components/Days30Preparation")),
+  DayRemains: dynamic(() => import("./components/Days30Preparation")),
   ResumeExtractor: dynamic(() =>
-    import("@/app/learn/components/ResumeExtractor")
+    import("./components/ResumeExtractor")
   ),
-  CreatedCourses: dynamic(() => import("@/app/learn/components/CreateCourse")),
-  SoftSkill: dynamic(() => import("@/app/learn/components/SoftSkill")),
+  CreatedCourses: dynamic(() => import("./components/CreateCourse")),
+  SoftSkill: dynamic(() => import("./components/SoftSkill")),
 };
 
 const ParamsPage = () => {
@@ -21,7 +21,7 @@ const ParamsPage = () => {
   const page_name = searchParams.get("page");
   const Component =
     componentMap[page_name] ||
-    dynamic(() => import("@/app/components/Instruction"));
+    dynamic(() => import("../components/Instruction"));
   return (
     <>
       <Component />

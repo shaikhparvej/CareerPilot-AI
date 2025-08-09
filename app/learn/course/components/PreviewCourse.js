@@ -2,7 +2,7 @@ import { Card, CardHeader, CardContent } from "../../../../components/ui/card";
 import { Button } from "../../../../components/ui/button";
 import { BookOpen, Clock, Layers, GraduationCap } from "lucide-react";
 import { useState } from "react";
-import { AiChapterContent } from "../../../../config/AllAiModels";
+import { AiChapterContent } from '../../../../config/AiModels';
 import LoadingDialog from "../../../components/LoadingDialog";
 import service from "../../../../config/service";
 function PreviewCourse({ activeStep, handleBack, content }) {

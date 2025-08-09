@@ -13,7 +13,7 @@ import { Briefcase, Building2, FileText } from "lucide-react";
 import { GrUserExpert } from "react-icons/gr";
 
 import LoadingDialog from "../../../components/LoadingDialog";
-import { AiMockInterview } from "../../../../../config/AllAiModels";
+import { AiMockInterview } from '../../../../config/AiModels';
 import { db } from "../../../../lib/firebaseConfig";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid"; // For unique ID

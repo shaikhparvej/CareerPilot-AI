@@ -40,7 +40,7 @@ body {
     --chart-4: 326 100% 74%; /* Pink */
     --chart-5: 262 83% 58%;  /* Purple */
     --radius: 0.5rem;
-    
+
     /* Additional custom variables */
     --text-primary: 222 47% 11%;
     --text-secondary: 215 16% 47%;
@@ -53,7 +53,7 @@ body {
     --header-bg: 0 0% 100%;
     --body-bg: 210 40% 98%;
   }
-  
+
   [data-theme="dark"],
   .dark {
     /* Updated dark theme with golden accents */
@@ -81,7 +81,7 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    
+
     /* Additional custom variables */
     --text-primary: 0 0% 95%;
     --text-secondary: 0 0% 65%;
@@ -143,19 +143,19 @@ body {
 }
 
 /* Override any conflicting background colors */
-.dark-theme header, 
-.dark-theme main, 
+.dark-theme header,
+.dark-theme main,
 .dark-theme footer,
-.dark-theme nav, 
-.dark-theme aside, 
-.dark-theme section, 
+.dark-theme nav,
+.dark-theme aside,
+.dark-theme section,
 .dark-theme div,
-.dark header, 
-.dark main, 
+.dark header,
+.dark main,
 .dark footer,
-.dark nav, 
-.dark aside, 
-.dark section, 
+.dark nav,
+.dark aside,
+.dark section,
 .dark div {
   background-color: inherit;
   color: #f1f1f1 !important;
@@ -227,10 +227,10 @@ body {
 }
 
 /* Gold accent on key interactive elements */
-.dark-theme button.bg-blue-500, 
+.dark-theme button.bg-blue-500,
 .dark-theme button.bg-purple-500,
 .dark-theme button.bg-green-500,
-.dark button.bg-blue-500, 
+.dark button.bg-blue-500,
 .dark button.bg-purple-500,
 .dark button.bg-green-500,
 .dark-theme .btn-primary,
@@ -240,10 +240,10 @@ body {
   transition: all 0.3s ease;
 }
 
-.dark-theme button.bg-blue-500:hover, 
+.dark-theme button.bg-blue-500:hover,
 .dark-theme button.bg-purple-500:hover,
 .dark-theme button.bg-green-500:hover,
-.dark button.bg-blue-500:hover, 
+.dark button.bg-blue-500:hover,
 .dark button.bg-purple-500:hover,
 .dark button.bg-green-500:hover,
 .dark-theme .btn-primary:hover,

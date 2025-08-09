@@ -1,14 +1,14 @@
-import React, { use, useEffect, useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
-  Calendar,
   Book,
-  Clock,
+  Calendar,
+  CheckCircle,
   ChevronDown,
   ChevronUp,
-  CheckCircle,
+  Clock,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 
 const StudyPlan = ({ data }) => {
   const [expandedWeek, setExpandedWeek] = useState(0);

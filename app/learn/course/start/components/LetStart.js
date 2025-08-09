@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { handleSpeak, handleStop } from "@/app/components/Speach";
+import { useEffect, useRef, useState } from "react";
 import useSpeechToText from "react-hook-speech-to-text";
 import { MdHearing, MdHearingDisabled } from "react-icons/md";
-import { AiGeneratePoints } from "../../../../../../config/AllAiModels";
+import { AlertDialog, AlertDialogContent } from "../../../../../components/ui/alert-dialog";
+import { Button } from "../../../../../components/ui/button";
+import { AiGeneratePoints } from '../../../../../config/AiModels';
+import { handleSpeak, handleStop } from "../../../../components/Speach";
 
 function LetStart({ start, text, header, setStart }) {
   const [state, setState] = useState(0);

@@ -1,5 +1,5 @@
-import { DataCompany } from "@/app/data/Topcompany";
-import React, { useState } from "react";
+import { useState } from "react";
+import { DataCompany } from "../../data/Topcompany";
 
 const TopCompany = () => {
   const [selectedDepartment, setSelectedDepartment] = useState(

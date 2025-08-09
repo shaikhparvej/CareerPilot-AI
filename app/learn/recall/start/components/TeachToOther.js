@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import { Mic, MicOff, Square, Video, VideoOff } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import WebCam from "@/app/components/WebCam";
+import { Button } from "../../../../../components/ui/button";
+import { Alert, AlertDescription } from "../../../../../components/ui/alert";
+import WebCam from "../../../../components/WebCam";
 
 const TeachToOther = () => {
   const [activeQuestion, setActiveQuestion] = useState(0);

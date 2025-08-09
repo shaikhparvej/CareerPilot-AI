@@ -1,21 +1,21 @@
-import React, { useState } from "react";
 import {
+  AlertCircle,
+  Building,
+  CheckCircle,
+  ChevronRight,
   ClipboardList,
   Clock,
-  CheckCircle,
   PlayCircle,
   UserCircle,
-  Building,
-  AlertCircle,
-  ChevronRight,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Progress } from "@/components/ui/progress";
+import { useState } from "react";
+import { Alert, AlertDescription } from "../../../components/ui/alert";
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import { Progress } from "../../../components/ui/progress";
+import { StudentInterview } from '../../../config/AiTeacherStudent.js';
 import LoadingDialog from "../../components/LoadingDialog";
 import InterviewPanel from "./HumanInterview";
-import { StudentInterview } from "../../../../config/AiTeacherStudent";
 
 const StartInterview = () => {
   const [interviewerName, setInterviewerName] = useState("");

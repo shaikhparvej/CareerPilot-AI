@@ -1,51 +1,86 @@
-# 🧠 CareerPilot AI- An AI Powered Career Coach
+# CareerPilot AI - An AI Powered Career Coach
 
-## N.K. Orchid College of Engineering and Technology, Hipparagaha, Solapur
+A full-stack AI-powered career planning and job preparation platform built with Next.js 14, Tailwind CSS, and Google Gemini AI.
 
-## 🚨 Problem Statement
+## 🚀 Launch Your Career Journey
 
-> "A degree ≠ a job, but with the right skills and direction, it can be."
+**N.K. Orchid College of Engineering and Technology, Hipparagaha, Solapur**
 
-Each year, **20+ lakh B.Tech graduates** step into the job market — yet **only 20–30%** are industry-ready.  
-Outdated preparation methods, lack of personalized guidance, and limited exposure to real-time skill feedback have made job readiness a major  challenge.
+## Features
 
----
-
-## 💡 Solution Overview
-
-🎯 **Goal**: Help students discover their best career path and become job-ready with personalized, AI-driven support.
-
----
-
-### 🔁 Approach
-
-- **Analyze** – Career interest and skill assessment
-- **Recommend** – AI-suggested roles and roadmaps
-- **Prepare** – Skill-based modules, interview prep
-- **Optimize** – Real-time feedback with AI
-- **Engage** – Gamify learning with rewards & badges
-
----
-
-## ✨ Key Features
-
+- 🎯 AI-powered career guidance
+- 📊 Interactive job role exploration
+- 🎓 Learning and skill development
+- 💼 Interview preparation
+- 🏢 Company insights
+- 📈 Career roadmaps
 - ✅ Real-Time Resume & Feedback Analysis
 - ✅ Mock Interviews & Coding Rounds
 - ✅ Gamification with Badges & Rewards
 - ✅ Department-wise Job Roadmaps
-- ✅ AI-powered Resume Optimization
-- ✅ Soft Skills Tracker & Learning Modules
 - ✅ Multi-language Support
-- ✅ Career Planning, Development, & Interview Simulation
-- ✅ Industry-Specific Learning Paths
 
----
+## Tech Stack
 
-## 🧭 Text-Based Flowchart (Job Seeker Journey)
+- **Frontend**: Next.js 14, React 18, Tailwind CSS
+- **UI Components**: Shadcn UI, Radix UI
+- **AI Integration**: Google Gemini Flash 1.5 API
+- **Styling**: Tailwind CSS with dark/light theme support
+- **Icons**: Lucide React, Heroicons
+- **Deployment**: Vercel
 
-<div align="center">
+## Getting Started
 
-### 🔁 **User Journey Flowchart**
+### Prerequisites
+
+- Node.js 18.17.0 or higher
+- npm 9.0.0 or higher
+- Google Gemini API Key
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/your-username/careerpilot-ai.git
+cd careerpilot-ai
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Set up environment variables:
+
+```bash
+cp .env.example .env.local
+```
+
+4. Add your Google Gemini API key to `.env.local`:
+
+```bash
+GOOGLE_GEMINI_API_KEY=your_actual_api_key_here
+```
+
+5. Run the development server:
+
+```bash
+npm run dev
+```
+
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Environment Variables
+
+| Variable                | Description                           | Required |
+| ----------------------- | ------------------------------------- | -------- |
+| `GOOGLE_GEMINI_API_KEY` | Google Gemini API key for AI features | Yes      |
+
+## Deployment
+
+This project is optimized for deployment on Vercel. See the deployment guide below.
 
 <pre>
 
@@ -221,8 +256,8 @@ Visit: [http://localhost:3000](http://localhost:3000)
 | ------------------ | -------------------- | ---------------------------------------------- | -------------------------------------------------------------------- |
 | Wajid Daud Tamboli | Full Stack Developer | [GitHub](https://github.com/wajiddaudtamboli/) | [LinkedIn](https://www.linkedin.com/in/wajid-daud-tamboli-3217b031a) |
 | Shaikh Parvej      | Frontend Developer   | [GitHub](https://github.com/shaikhparvej)      | [LinkedIn]()                                                         |
-| Mohammad Hashir    | Research             | [GitHub]()                                     | [LinkedIn]()                                                         |
-| Bagwan Zaid        | Research             | [GitHub]()                                     | [LinkedIn]()                                                         |
+| xyz1               | Research             | [GitHub]()                                     | [LinkedIn]()                                                         |
+| xyz2               | Research             | [GitHub]()                                     | [LinkedIn]()                                                         |
 
 ## 💭 Thoughts of Team
 

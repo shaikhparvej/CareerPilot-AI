@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 import { useSearchParams } from "next/navigation";
-import { AiCourseContent } from "../../../../config/AllAiModels";
+import { AiCourseContent } from '../../../../config/AiModels';
 import LoadingDialog from "../../../components/LoadingDialog";
 
 function BasicData({ activeStep, handleBack, handleNext, setContent }) {

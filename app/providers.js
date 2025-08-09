@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ThemeProvider } from './components/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 
 // Script to avoid flash of unstyled content (FOUC)
 function ThemeInitializer() {
@@ -28,15 +29,15 @@ function ThemeInitializer() {
       document.body.classList.add('dark-theme');
       document.body.classList.add('dark');
     }
-    
+
     // Add class to enable transitions after initial load
     const body = document.body;
     body.classList.add('theme-transition-disabled');
-    
+
     setTimeout(() => {
       body.classList.remove('theme-transition-disabled');
     }, 300);
-    
+
     // Listen for system theme changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e) => {
@@ -57,7 +58,7 @@ function ThemeInitializer() {
         }
       }
     };
-    
+
     // Add listener for theme changes
     if (mediaQuery.addEventListener) {
       mediaQuery.addEventListener('change', handleChange);
@@ -74,9 +75,11 @@ function ThemeInitializer() {
 
 export function Providers({ children }) {
   return (
-    <ThemeProvider>
-      <ThemeInitializer />
-      {children}
-    </ThemeProvider>
+    <LanguageProvider>
+      <ThemeProvider>
+        <ThemeInitializer />
+        {children}
+      </ThemeProvider>
+    </LanguageProvider>
   );
-} 
+}

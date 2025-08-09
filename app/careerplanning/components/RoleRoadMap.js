@@ -1,12 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
+import { geminiModel } from '../../../config/AiModels';
 import LoadingDialog from "../../components/LoadingDialog";
-import StudentRoadMap from "./RoadMap";
-import {
-  AiGenerateRollRoadmap,
-  AiPreRole,
-} from "../../../config/AllAiModels";
 import Precourse from "./Precourse";
+import StudentRoadMap from "./RoadMap";
 
 export default function RoleRoadMap() {
   const [inputValue, setInputValue] = useState("");
@@ -44,7 +41,7 @@ export default function RoleRoadMap() {
       }
 
       // Generate roadmap via AI
-      const roadmapResult = await AiGenerateRollRoadmap.sendMessage(
+      const roadmapResult = await geminiModel.sendMessage(
         BASIC_PROMPT
       );
       const roadmapText = await roadmapResult.response.text();
@@ -52,7 +49,7 @@ export default function RoleRoadMap() {
       setSubmittedValue(roadmapJSON);
 
       const prePrompt = `give me list of things i want know about befor start courses in "${inputValue}".include .in json formate.`;
-      const preResult = await AiPreRole.sendMessage(prePrompt);
+      const preResult = await geminiModel.sendMessage(prePrompt);
       const preText = await preResult.response.text();
       const preJSON = JSON.parse(preText);
       setPre(preJSON);

@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { Button } from "../../../../../components/ui/button";
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "../../../../../components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../../components/ui/tabs";
 
 import {
-  AlertCircle,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
-  RotateCcw,
+    AlertCircle,
+    CheckCircle2,
+    ChevronLeft,
+    ChevronRight
 } from "lucide-react";
-import Matchthepair from "./Matchthepair";
 import FlishCard from "./FlishCard";
+import Matchthepair from "./Matchthepair";
 
 const EducationalActivities = ({ courseData, activeChapter }) => {
   const [currentOddOneOutIndex, setCurrentOddOneOutIndex] = useState(0);

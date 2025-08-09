@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Card, CardHeader } from "@/components/ui/card";
+import { Card, CardHeader } from "../../../../components/ui/card";
 import {
   BookOpen,
   Trophy,

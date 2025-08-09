@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import {
   Book,
   Code,
@@ -18,9 +18,9 @@ import {
 } from "lucide-react";
 import { FaComputer } from "react-icons/fa6";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../components/ui/button";
 import CodingAssessment from "./CodeExam";
-import { AiCodingRoundQuestion } from "../../../../config/AllAiModels";
+import { AiCodingRoundQuestion } from '../../../config/AiModels';
 
 export default function CodingRound() {
   const [activeSection, setActiveSection] = useState("overview");

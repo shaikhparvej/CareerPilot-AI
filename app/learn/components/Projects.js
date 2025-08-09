@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AiProjectIdea } from "../../../../config/AllAiModels";
-import ProjectIdeas from "./GenerateProjectPlan";
+import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
-import LoadingDialog from "@/app/components/LoadingDialog";
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import { AiProjectIdea } from '../../../config/AiModels';
+import LoadingDialog from "../../components/LoadingDialog";
+import ProjectIdeas from "./GenerateProjectPlan";
 const Projects = () => {
   const [check, setCheck] = useState(true);
   const [projects, setProjects] = useState("");

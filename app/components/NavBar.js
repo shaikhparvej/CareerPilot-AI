@@ -1,21 +1,24 @@
 "use client";
-import { Menu, Target, X, ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, Target, X } from "lucide-react";
 import Link from "next/link";
-import React, { useState, useEffect, useRef, useContext } from "react";
-import ThemeToggle from "./ThemeToggle";
-import { ThemeContext } from "./ThemeContext";
 import { usePathname } from "next/navigation";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { ThemeContext } from "./ThemeContext";
+import ThemeToggle from "./ThemeToggle";
 
 function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const dropdownRefs = useRef([]);
   const { isDarkMode } = useContext(ThemeContext);
+  const { t } = useLanguage();
   const pathname = usePathname();
 
   const menuItems = [
     {
-      name: "Planning",
+      name: t("navigation.careerPlanning"),
       submenu: [
         {
           name: "Department Roles",
@@ -27,7 +30,7 @@ function NavBar() {
       ],
     },
     {
-      name: "Learn",
+      name: t("navigation.learn"),
       submenu: [
         { name: "Courses", href: "/learn/course" },
         { name: "Projects", href: "/learn?page=Projects" },
@@ -38,7 +41,7 @@ function NavBar() {
       ],
     },
     {
-      name: "Preparation",
+      name: t("navigation.preparation"),
       submenu: [
         {
           name: "Aptitude Preparation",
@@ -53,7 +56,7 @@ function NavBar() {
       ],
     },
     {
-      name: "For Company",
+      name: t("navigation.company"),
       submenu: [
         {
           name: "Prepare for jobskill",
@@ -117,8 +120,8 @@ function NavBar() {
   };
 
   return (
-    <nav className={`relative z-50 ${isDarkMode 
-      ? "bg-gray-900/90 backdrop-blur-md border-b border-gray-700" 
+    <nav className={`relative z-50 ${isDarkMode
+      ? "bg-black/95 backdrop-blur-md border-b border-gray-800"
       : "bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm"}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -131,17 +134,14 @@ function NavBar() {
             className="flex items-center space-x-2 cursor-pointer"
           >
             <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-              isDarkMode 
-              ? "bg-gradient-to-r from-amber-400 to-amber-600" 
+              isDarkMode
+              ? "bg-gradient-to-r from-amber-400 to-amber-600"
               : "bg-gradient-to-r from-blue-500 to-indigo-600"
             }`}>
               <Target className="w-5 h-5 text-white" />
             </div>
             <span className={`text-2xl font-bold ${isDarkMode ? "text-white" : "text-gray-800"}`}>
-              PrepAce
-              <span className={`text-xs ml-2 ${isDarkMode ? "text-amber-400" : "text-blue-500"}`}>
-                {isDarkMode ? "DARK" : "LIGHT"}
-              </span>
+              {t("brand.name")}
             </span>
           </div>
 
@@ -163,12 +163,12 @@ function NavBar() {
               >
                 <button
                   className={`flex items-center space-x-1 transition-colors duration-200 py-2 ${
-                    isDarkMode 
-                      ? activeDropdown === index 
-                        ? "text-amber-400" 
-                        : "text-gray-300 hover:text-white" 
-                      : activeDropdown === index 
-                        ? "text-blue-600" 
+                    isDarkMode
+                      ? activeDropdown === index
+                        ? "text-white"
+                        : "text-gray-300 hover:text-white"
+                      : activeDropdown === index
+                        ? "text-blue-600"
                         : "text-gray-700 hover:text-blue-600"
                   }`}
                   onClick={() => handleDropdownToggle(index)}
@@ -186,8 +186,8 @@ function NavBar() {
                 {activeDropdown === index && (
                   <div
                     className={`absolute top-full left-0 mt-1 w-56 shadow-xl py-2 rounded-md animate-in fade-in slide-in-from-top-2 duration-200 ${
-                      isDarkMode 
-                      ? "bg-gray-800 border border-amber-700/30" 
+                      isDarkMode
+                      ? "bg-black border border-gray-700"
                       : "bg-white border border-slate-200"
                     }`}
                     onMouseLeave={() => setActiveDropdown(null)}
@@ -197,8 +197,8 @@ function NavBar() {
                         key={subItem.name}
                         href={subItem.href}
                         className={`block px-4 py-2 transition-colors duration-200 ${
-                          isDarkMode 
-                            ? "text-gray-300 hover:bg-gray-700 hover:text-amber-400" 
+                          isDarkMode
+                            ? "text-white hover:bg-gray-900 hover:text-gray-300"
                             : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
                         }`}
                         onClick={handleLinkClick}
@@ -210,33 +210,35 @@ function NavBar() {
                 )}
               </div>
             ))}
-            {/* Theme Toggle */}
-            <div className="flex items-center">
+            {/* Controls */}
+            <div className="flex items-center space-x-3">
+              <LanguageSwitcher />
               <ThemeToggle />
             </div>
             <Link
               href={"/careerplanning?page=DepartmentJobRoles"}
               className={`px-6 py-2 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg ${
                 isDarkMode
-                ? "bg-amber-500 hover:bg-amber-600 text-white"
+                ? "bg-gray-600 hover:bg-gray-700 text-white"
                 : "bg-blue-600 hover:bg-blue-700 text-white"
               }`}
             >
-              Get Started
+                            {t("navigation.getStarted")}
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
+            <LanguageSwitcher />
             <ThemeToggle />
             <button
               className={`p-2 rounded-lg transition-colors duration-200 ${
-                isDarkMode 
-                  ? "text-white hover:bg-gray-700" 
+                isDarkMode
+                  ? "text-white hover:bg-gray-700"
                   : "text-gray-700 hover:bg-slate-100"
               }`}
               onClick={handleMobileMenuToggle}
-              aria-label="Toggle mobile menu"
+              aria-label={t("navigation.menu")}
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -251,8 +253,8 @@ function NavBar() {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className={`md:hidden border-t animate-in slide-in-from-top duration-200 ${
-          isDarkMode 
-          ? "bg-gray-800/95 border-amber-700/30" 
+          isDarkMode
+          ? "bg-black border-gray-700"
           : "bg-white border-slate-200"
         }`}>
           <div className="px-4 py-4 space-y-3 max-h-96 overflow-y-auto">
@@ -265,8 +267,8 @@ function NavBar() {
               >
                 <button
                   className={`flex items-center justify-between w-full py-2 ${
-                    isDarkMode 
-                      ? "text-white hover:text-amber-400" 
+                    isDarkMode
+                      ? "text-white hover:text-gray-300"
                       : "text-gray-800 hover:text-blue-600"
                   }`}
                   onClick={() => handleDropdownToggle(index)}
@@ -287,8 +289,8 @@ function NavBar() {
                         key={subItem.name}
                         href={subItem.href}
                         className={`block py-2 ${
-                          isDarkMode 
-                            ? "text-gray-300 hover:text-amber-400" 
+                          isDarkMode
+                            ? "text-white hover:text-gray-300"
                             : "text-gray-600 hover:text-blue-600"
                         }`}
                         onClick={handleLinkClick}
@@ -304,12 +306,12 @@ function NavBar() {
               href={"/careerplanning?page=DepartmentJobRoles"}
               className={`block w-full text-center py-3 rounded-md transition-colors duration-200 ${
                 isDarkMode
-                ? "bg-amber-500 hover:bg-amber-600 text-white"
+                ? "bg-gray-600 hover:bg-gray-700 text-white"
                 : "bg-blue-600 hover:bg-blue-700 text-white"
               }`}
               onClick={handleLinkClick}
             >
-              Get Started
+                            Get Started
             </Link>
           </div>
         </div>

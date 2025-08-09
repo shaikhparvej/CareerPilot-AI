@@ -1,31 +1,74 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable environment variables
+  // Output configuration for deployment
+  output: 'standalone',
+
+  // Environment variables (server-side only)
   env: {
-    NEXT_PUBLIC_GEMINI_API_KEY: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
+    GOOGLE_GEMINI_API_KEY: process.env.GOOGLE_GEMINI_API_KEY,
   },
-  // Add image domains if needed
+
+  // Image optimization configuration
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+      {
+        protocol: 'https',
+        hostname: '**.githubusercontent.com',
+      }
     ],
+    // Optimize images for production
+    formats: ['image/webp', 'image/avif'],
   },
-  // Ensure CSS modules work correctly
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.css$/,
-      use: ["style-loader", "css-loader"],
-    });
-    
+
+  // Enable compression
+  compress: true,
+
+  // Disable x-powered-by header for security
+  poweredByHeader: false,
+
+  // Production optimizations
+  swcMinify: true,
+
+  // Webpack configuration
+  webpack: (config, { isServer }) => {
+    // Optimize bundle size
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
     return config;
   },
-  // Add proper path alias configuration
-  experimental: {
-    appDir: true
-  }
+
+  // Headers for security and performance
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

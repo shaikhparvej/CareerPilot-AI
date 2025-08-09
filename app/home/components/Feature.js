@@ -1,18 +1,18 @@
 "use client";
 
-import { useState, useContext } from "react";
 import {
+  Award,
+  Clock,
+  Compass,
+  MessageSquare,
+  Shield,
+  Star,
   Target,
   TrendingUp,
   Users,
-  Clock,
-  Shield,
-  Star,
-  MessageSquare,
   Zap,
-  Compass,
-  Award,
 } from "lucide-react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../../components/ThemeContext";
 
 export default function FeatureSection() {
@@ -22,49 +22,49 @@ export default function FeatureSection() {
   const features = {
     students: [
       {
-        icon: <Compass className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <Compass className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "Personalized Career Paths",
         description:
           "Discover tailored career journeys based on your unique skills, interests, and educational background.",
       },
       {
-        icon: <TrendingUp className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <TrendingUp className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "Industry-Aligned Skills",
         description:
           "Learn exactly what employers are looking for with our curated skill development resources.",
       },
       {
-        icon: <Users className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <Users className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "Study by Vedik technics",
         description:
           "Learn the skills you need to succeed with gurukul vedik technics.",
       },
       {
-        icon: <Users className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <Users className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "No Language Barrier",
         description:
           "Learn in your preferred language with our multilingual study.",
       },
       {
-        icon: <Users className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <Users className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "Help to Select Role",
         description:
           "Help to select right role based on your ikigai based assisment and Practical assessment.",
       },
       {
-        icon: <MessageSquare className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <MessageSquare className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "Interview Preparation",
         description:
           "Practice with AI-powered mock interviews tailored to your target roles and industries.",
       },
       {
-        icon: <Shield className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <Shield className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "Verified Opportunities",
         description:
           "Access job listings that have been pre-screened for quality and relevance to students.",
       },
       {
-        icon: <Star className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <Star className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "Portfolio Builder",
         description:
           "Create an impressive professional portfolio to showcase your projects and skills.",
@@ -72,25 +72,25 @@ export default function FeatureSection() {
     ],
     employers: [
       {
-        icon: <Target className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <Target className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "Talent Pipeline",
         description:
           "Connect with qualified students who are specifically developing skills for your industry.",
       },
       {
-        icon: <Clock className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <Clock className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "Time-Saving Recruiting",
         description:
           "Our matching algorithm identifies students who align with your company culture and needs.",
       },
       {
-        icon: <Award className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <Award className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "Skills Verification",
         description:
           "Review student progress and skill certifications to ensure qualification for roles.",
       },
       {
-        icon: <Zap className={`w-8 h-8 ${isDarkMode ? "text-amber-500" : "text-indigo-600"}`} />,
+        icon: <Zap className={`w-8 h-8 ${isDarkMode ? "text-white" : "text-indigo-600"}`} />,
         title: "Streamlined Onboarding",
         description:
           "Hire candidates who are already familiar with your industry requirements and expectations.",
@@ -118,11 +118,11 @@ export default function FeatureSection() {
               onClick={() => setActiveTab("students")}
               className={`px-6 py-2 rounded-md text-sm font-medium ${
                 activeTab === "students"
-                  ? isDarkMode 
-                    ? "bg-amber-500 text-gray-900" 
+                  ? isDarkMode
+                    ? "bg-gray-600 text-white"
                     : "bg-indigo-600 text-white"
-                  : isDarkMode 
-                    ? "text-gray-300 hover:text-amber-500" 
+                  : isDarkMode
+                    ? "text-gray-300 hover:text-white"
                   : "text-gray-700 hover:text-indigo-600"
               } transition-all duration-200`}
             >
@@ -132,11 +132,11 @@ export default function FeatureSection() {
               onClick={() => setActiveTab("employers")}
               className={`px-6 py-2 rounded-md text-sm font-medium ${
                 activeTab === "employers"
-                  ? isDarkMode 
-                    ? "bg-amber-500 text-gray-900" 
+                  ? isDarkMode
+                    ? "bg-gray-600 text-white"
                     : "bg-indigo-600 text-white"
-                  : isDarkMode 
-                    ? "text-gray-300 hover:text-amber-500" 
+                  : isDarkMode
+                    ? "text-gray-300 hover:text-white"
                   : "text-gray-700 hover:text-indigo-600"
               } transition-all duration-200`}
             >
@@ -150,14 +150,14 @@ export default function FeatureSection() {
           {features[activeTab].map((feature, index) => (
             <div
               key={index}
-              className={`${isDarkMode 
-                ? "bg-gray-800 border-gray-700 hover:shadow-amber-900/20" 
-                : "bg-white border-gray-200 hover:shadow-md"} 
+              className={`${isDarkMode
+                ? "bg-gray-800 border-gray-700 hover:shadow-amber-900/20"
+                : "bg-white border-gray-200 hover:shadow-md"}
                 p-6 rounded-lg border shadow-sm transition group`}
             >
-              <div className={`${isDarkMode 
-                ? "bg-gray-700 group-hover:bg-gray-600" 
-                : "bg-indigo-50 group-hover:bg-indigo-100"} 
+              <div className={`${isDarkMode
+                ? "bg-gray-700 group-hover:bg-gray-600"
+                : "bg-indigo-50 group-hover:bg-indigo-100"}
                 rounded-lg p-4 inline-block mb-5 transition-all`}>
                 {feature.icon}
               </div>
@@ -181,9 +181,9 @@ export default function FeatureSection() {
               ? "Join thousands of students who have successfully navigated their career journey with our platform."
               : "Connect with motivated students who are specifically training for careers in your industry."}
           </p>
-          <button className={`${isDarkMode 
-            ? "bg-amber-500 hover:bg-amber-600 text-gray-900" 
-            : "bg-indigo-600 hover:bg-indigo-700 text-white"} 
+          <button className={`${isDarkMode
+            ? "bg-gray-600 hover:bg-gray-700 text-white"
+            : "bg-indigo-600 hover:bg-indigo-700 text-white"}
             px-6 py-3 rounded-md transition font-medium`}>
             {activeTab === "students"
               ? "Create Free Account"
@@ -195,10 +195,10 @@ export default function FeatureSection() {
       {/* Animated Blob Background */}
       <div className="absolute inset-0 overflow-hidden -z-10 opacity-10">
         <div className={`absolute -top-40 -right-40 w-80 h-80 ${
-          isDarkMode ? "bg-amber-600" : "bg-indigo-300"
+          isDarkMode ? "bg-gray-800" : "bg-indigo-300"
         } rounded-full blur-3xl`}></div>
         <div className={`absolute top-40 -left-40 w-80 h-80 ${
-          isDarkMode ? "bg-amber-700" : "bg-blue-300"
+          isDarkMode ? "bg-gray-900" : "bg-blue-300"
         } rounded-full blur-3xl`}></div>
       </div>
     </section>

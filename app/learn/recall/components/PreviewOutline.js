@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { ChevronRight, Book, Code, Terminal, CheckCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { AiNotesSection } from "../../../../../config/AiModel";
+import { Book, CheckCircle, ChevronRight, Code, Terminal } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Button } from "../../../../components/ui/button";
 import {
-  AiFlashCard,
-  AiQueAns,
+  AiFlashCard, AiNotesSection, AiQueAns,
   AiQuizRecall,
-  AiTeachToOther,
-} from "../../../../../config/AllAiModels";
+  AiTeachToOther
+} from '../../../../config/AiModels';
 const SyallbusOutline = () => {
   const [activeChapter, setActiveChapter] = useState(null);
   const [loading, setLoading] = useState({
@@ -340,11 +338,11 @@ const SyallbusOutline = () => {
 
             {/* Call to Action */}
             <button
-              className="w-full group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-full 
-              hover:bg-blue-50 transition-all duration-300 ease-in-out 
-              flex items-center justify-center space-x-3 
-              before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500 
-              before:opacity-0 hover:before:opacity-20 before:rounded-full 
+              className="w-full group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-full
+              hover:bg-blue-50 transition-all duration-300 ease-in-out
+              flex items-center justify-center space-x-3
+              before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500
+              before:opacity-0 hover:before:opacity-20 before:rounded-full
               before:transition-all before:duration-300 before:ease-in-out
               shadow-xl hover:shadow-2xl"
               onClick={() => {
@@ -379,11 +377,11 @@ const SyallbusOutline = () => {
               )}
             </button>
             <button
-              className="w-full group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-full 
-              hover:bg-blue-50 transition-all duration-300 ease-in-out 
-              flex items-center justify-center space-x-3 
-              before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500 
-              before:opacity-0 hover:before:opacity-20 before:rounded-full 
+              className="w-full group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-full
+              hover:bg-blue-50 transition-all duration-300 ease-in-out
+              flex items-center justify-center space-x-3
+              before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500
+              before:opacity-0 hover:before:opacity-20 before:rounded-full
               before:transition-all before:duration-300 before:ease-in-out
               shadow-xl hover:shadow-2xl"
               onClick={() => {
@@ -420,11 +418,11 @@ const SyallbusOutline = () => {
               )}
             </button>
             <button
-              className="w-full group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-full 
-              hover:bg-blue-50 transition-all duration-300 ease-in-out 
-              flex items-center justify-center space-x-3 
-              before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500 
-              before:opacity-0 hover:before:opacity-20 before:rounded-full 
+              className="w-full group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-full
+              hover:bg-blue-50 transition-all duration-300 ease-in-out
+              flex items-center justify-center space-x-3
+              before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500
+              before:opacity-0 hover:before:opacity-20 before:rounded-full
               before:transition-all before:duration-300 before:ease-in-out
               shadow-xl hover:shadow-2xl"
               onClick={() => {
@@ -459,11 +457,11 @@ const SyallbusOutline = () => {
               )}
             </button>
             <button
-              className="w-full group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-full 
-              hover:bg-blue-50 transition-all duration-300 ease-in-out 
-              flex items-center justify-center space-x-3 
-              before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500 
-              before:opacity-0 hover:before:opacity-20 before:rounded-full 
+              className="w-full group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-full
+              hover:bg-blue-50 transition-all duration-300 ease-in-out
+              flex items-center justify-center space-x-3
+              before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500
+              before:opacity-0 hover:before:opacity-20 before:rounded-full
               before:transition-all before:duration-300 before:ease-in-out
               shadow-xl hover:shadow-2xl"
               onClick={() => {
@@ -495,11 +493,11 @@ const SyallbusOutline = () => {
               )}
             </button>
             <button
-              className="w-full group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-full 
-              hover:bg-blue-50 transition-all duration-300 ease-in-out 
-              flex items-center justify-center space-x-3 
-              before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500 
-              before:opacity-0 hover:before:opacity-20 before:rounded-full 
+              className="w-full group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-full
+              hover:bg-blue-50 transition-all duration-300 ease-in-out
+              flex items-center justify-center space-x-3
+              before:absolute before:inset-0 before:bg-gradient-to-r before:from-blue-300 before:to-blue-500
+              before:opacity-0 hover:before:opacity-20 before:rounded-full
               before:transition-all before:duration-300 before:ease-in-out
               shadow-xl hover:shadow-2xl"
               onClick={() => {

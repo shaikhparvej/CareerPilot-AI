@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Search, Laptop, Grid3X3, List } from "lucide-react";
+import { Grid3X3, Laptop, List, Search } from "lucide-react";
+import { useState } from "react";
+import { Button } from "../../../components/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from "../../../components/ui/card";
 
 function ShowToolsSoftware({ tools, value }) {
   const [viewMode, setViewMode] = useState("grid");

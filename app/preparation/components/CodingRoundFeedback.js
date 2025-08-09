@@ -6,7 +6,7 @@ import {
   Lightbulb,
   MessageSquare,
 } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "../../../components/ui/alert";
 
 function CodingRoundFeedback({ feedback }) {
   const [showIdealSolution, setShowIdealSolution] = useState(false);

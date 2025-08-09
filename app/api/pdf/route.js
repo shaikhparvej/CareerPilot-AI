@@ -9,7 +9,7 @@ export const fetchCache = 'force-no-store'; // Disable caching for this route
 
 export async function POST(request) {
   console.log("PDF API: Request received");
-  
+
   try {
     // Verify content type
     const contentType = request.headers.get('content-type');
@@ -68,8 +68,9 @@ export async function POST(request) {
       console.log("PDF API: Starting PDF parsing");
       const data = await Promise.race([
         pdf(buffer),
-        new Promise((_, reject) => 
+        new Promise((_, reject) =>
           setTimeout(() => reject(new Error("PDF processing timeout")), 25000)
+        )
       ]);
 
       console.log("PDF API: PDF parsed successfully. Pages:", data.numpages);
@@ -104,10 +105,10 @@ export async function POST(request) {
     } catch (error) {
       console.error("PDF API: PDF processing error:", error);
       return NextResponse.json(
-        { 
+        {
           success: false,
-          error: error.message.includes("timeout") 
-            ? "PDF processing timed out" 
+          error: error.message.includes("timeout")
+            ? "PDF processing timed out"
             : "Error processing PDF",
           details: process.env.NODE_ENV === 'development' ? error.message : undefined
         },
@@ -117,7 +118,7 @@ export async function POST(request) {
   } catch (error) {
     console.error("PDF API: Server error:", error);
     return NextResponse.json(
-      { 
+      {
         success: false,
         error: "Internal server error",
         details: process.env.NODE_ENV === 'development' ? error.message : undefined
