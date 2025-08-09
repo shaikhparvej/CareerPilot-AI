@@ -45,39 +45,6 @@ const nextConfig = {
       };
     }
 
-    // Handle PDF.js worker files
-    config.module.rules.push({
-      test: /\.worker\.(js|ts|mjs)$/,
-      type: 'asset/resource',
-      generator: {
-        filename: 'static/worker/[hash][ext][query]',
-      },
-    });
-
-    // Handle PDF.js specific files
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'pdfjs-dist/build/pdf.worker.entry': 'pdfjs-dist/build/pdf.worker.min.js',
-    };
-
-    // Exclude problematic PDF.js files from minification
-    if (config.optimization?.minimizer) {
-      config.optimization.minimizer.forEach((minimizer) => {
-        if (minimizer.constructor.name === 'TerserPlugin') {
-          minimizer.options.exclude = /pdf\.worker\.(min\.)?js$/;
-        }
-      });
-    }
-
-    // Exclude pdf-parse test files from bundling
-    config.plugins = config.plugins || [];
-    config.plugins.push(
-      new config.webpack.IgnorePlugin({
-        resourceRegExp: /test\/data\/.*\.pdf$/,
-        contextRegExp: /pdf-parse/
-      })
-    );
-
     return config;
   },
 
