@@ -24,10 +24,8 @@ export default function ResumeExtractor() {
   useEffect(() => {
     setIsClient(true);
     if (typeof window !== "undefined") {
-      GlobalWorkerOptions.workerSrc = new URL(
-        "pdfjs-dist/build/pdf.worker.min.mjs",
-        import.meta.url
-      ).toString();
+      // Use the pre-built worker file for production compatibility
+      GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.js";
     }
   }, []);
 
