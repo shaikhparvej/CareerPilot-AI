@@ -1,31 +1,27 @@
 "use client";
-import React, { useState, useRef } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card";
-import {
-  Play,
-  Pause,
-  RotateCcw,
-  Camera,
-  CameraOff,
-  Volume2,
-  VolumeX,
-  Mic,
-  MicOff,
-  Timer,
-  ChevronRight,
-  ChevronLeft,
-  ListVideo,
-  StopCircle,
-} from "lucide-react";
-import { Button } from "../../../../components/ui/button";
-import useSpeechToText from "react-hook-speech-to-text";
-import { Textarea } from "../../../../components/ui/textarea";
-import LoadingDialog from "../../../components/LoadingDialog";
-import { AiFeedbackReport } from '../../../../config/AiModels';
-import { useParams } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
-import { useEffect } from "react";
+import {
+    Camera,
+    CameraOff,
+    ChevronLeft,
+    ChevronRight,
+    ListVideo,
+    Mic,
+    RotateCcw,
+    StopCircle,
+    Timer,
+    Volume2,
+    VolumeX
+} from "lucide-react";
+import { useParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import useSpeechToText from "react-hook-speech-to-text";
+import { Button } from "../../../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card";
+import { Textarea } from "../../../../components/ui/textarea";
+import { AiFeedbackReport } from '../../../../config/AiModels';
 import { db } from "../../../../lib/firebaseConfig";
+import LoadingDialog from "../../../components/LoadingDialog";
 import InterviewFeedbackUI from "../components/InterviewFeedbackUI";
 
 const MockInterview = () => {

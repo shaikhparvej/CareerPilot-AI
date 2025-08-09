@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
-import pdf from "pdf-parse";
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.js";
 
 // Modern Route Segment Config
 export const dynamic = 'force-dynamic'; // Ensure dynamic handling
 export const maxDuration = 30; // Set max execution time (seconds)
 export const runtime = 'nodejs'; // Explicit Node.js runtime
 export const fetchCache = 'force-no-store'; // Disable caching for this route
+
+// Configure PDF.js for server-side rendering
+if (typeof window === 'undefined') {
+  // Server-side: disable worker
+  pdfjsLib.GlobalWorkerOptions.workerSrc = null;
+}
 
 export async function POST(request) {
   console.log("PDF API: Request received");
@@ -66,35 +72,53 @@ export async function POST(request) {
     // Process PDF with timeout protection
     try {
       console.log("PDF API: Starting PDF parsing");
-      const data = await Promise.race([
-        pdf(buffer),
+      
+      // Extract text using PDF.js
+      const pdfDocument = await Promise.race([
+        pdfjsLib.getDocument({
+          data: buffer,
+          verbosity: 0 // Reduce logging
+        }).promise,
         new Promise((_, reject) =>
           setTimeout(() => reject(new Error("PDF processing timeout")), 25000)
         )
       ]);
 
-      console.log("PDF API: PDF parsed successfully. Pages:", data.numpages);
+      console.log("PDF API: PDF loaded successfully. Pages:", pdfDocument.numPages);
+
+      let extractedText = "";
+      
+      // Extract text from all pages
+      for (let pageNum = 1; pageNum <= pdfDocument.numPages; pageNum++) {
+        const page = await pdfDocument.getPage(pageNum);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map(item => item.str).join(' ');
+        extractedText += pageText + '\n';
+      }
+
+      // Get document info
+      const info = await pdfDocument.getMetadata();
 
       // Sanitize metadata
       const metadata = {
-        pages: data.numpages,
+        pages: pdfDocument.numPages,
         info: {
-          title: data.info?.Title || null,
-          author: data.info?.Author || null,
-          creator: data.info?.Creator || null,
-          creationDate: data.info?.CreationDate?.toString() || null,
-          modDate: data.info?.ModDate?.toString() || null,
+          title: info.info?.Title || null,
+          author: info.info?.Author || null,
+          creator: info.info?.Creator || null,
+          creationDate: info.info?.CreationDate?.toString() || null,
+          modDate: info.info?.ModDate?.toString() || null,
         }
       };
 
       // Sanitize extracted text
-      const extractedText = data.text.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
+      const cleanText = extractedText.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
 
       return NextResponse.json({
         success: true,
-        text: extractedText,
+        text: cleanText,
         metadata: metadata,
-        textLength: extractedText.length,
+        textLength: cleanText.length,
       }, {
         headers: {
           'Access-Control-Allow-Origin': '*',

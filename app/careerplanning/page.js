@@ -1,7 +1,7 @@
 "use client";
-import ChatBot from "../components/ChatBot";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
+import ChatBot from "../components/ChatBot";
 
 const componentMap = {
   DepartmentJobRoles: dynamic(() =>

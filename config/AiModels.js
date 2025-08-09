@@ -11,7 +11,7 @@ class MockAiModel {
   constructor(name) {
     this.name = name;
   }
-  
+
   async sendMessage(prompt) {
     // Use the real gemini model for all AI requests
     return await geminiModel.sendMessage(prompt);
