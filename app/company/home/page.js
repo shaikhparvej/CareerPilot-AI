@@ -1,18 +1,20 @@
-"use client";
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 // This is the Companies homepage component for a hiring platform
 // File: app/companies/page.jsx
 
-import {
-  Award,
-  Briefcase,
-  Building,
-  ChevronRight,
-  Star,
-  Users
-} from "lucide-react";
+"use client";
+
 import { useState } from "react";
+import {
+  ChevronRight,
+  Users,
+  Briefcase,
+  Award,
+  CheckCircle,
+  Search,
+  Star,
+  Building,
+  GraduationCap,
+} from "lucide-react";
 
 export default function CompaniesHomePage() {
   const [email, setEmail] = useState("");

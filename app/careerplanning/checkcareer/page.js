@@ -1,24 +1,22 @@
 "use client";
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 import {
-  AlertCircle,
-  ArrowRight,
-  CheckCircle,
-  ChevronRight,
-  Clock,
+    AlertCircle,
+    ArrowRight,
+    CheckCircle,
+    ChevronRight,
+    Clock,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
 } from "../../../components/ui/card";
 import { Progress } from "../../../components/ui/progress";
 

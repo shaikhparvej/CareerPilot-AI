@@ -1,8 +1,9 @@
+import jsPDF from "jspdf";
+import "jspdf/dist/polyfills.es.js";
 import { useRef, useState } from "react";
 import { AlertDialog, AlertDialogContent } from "../../../../components/ui/alert-dialog";
 import { Button } from "../../../../components/ui/button";
 import { Textarea } from "../../../../components/ui/textarea";
-import { AiDoubtSuggestion } from "../../../../config/AiModels";
 
 function Note({ Course, active2 }) {
   const [question, setQuestion] = useState("");
@@ -35,17 +36,21 @@ function Note({ Course, active2 }) {
   const handleDownload = () => {
     const input = notesRef.current;
     if (input) {
-      // Create a simple text file download instead of PDF
-      const content = input.textContent || input.innerText || "No content available";
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'notes.txt';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      const pdf = new jsPDF({
+        orientation: "p",
+        unit: "pt",
+        format: "a4",
+      });
+      pdf.html(input, {
+        callback: (doc) => {
+          doc.save("notes.pdf");
+        },
+        x: 10,
+        y: 10,
+        html2canvas: {
+          scale: 0.5, // Adjusts the scale of the content in the PDF
+        },
+      });
     }
   };
 

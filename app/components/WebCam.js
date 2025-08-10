@@ -1,10 +1,8 @@
-"use client";
-import { WebcamIcon } from "lucide-react";
-import dynamic from "next/dynamic";
+import React from "react";
 import { useState } from "react";
-
-// Load react-webcam only on the client to avoid SSR build issues
-const ClientWebcam = dynamic(() => import("react-webcam"), { ssr: false });
+import Webcam from "react-webcam";
+import { Lightbulb, WebcamIcon } from "lucide-react";
+import { Button } from "../../components/ui/button";
 
 function WebCam() {
   const [webCamEnabled, setWebCamEnabled] = useState(true);
@@ -15,7 +13,7 @@ function WebCam() {
         {webCamEnabled ? (
           <>
             <div>
-              <ClientWebcam
+              <Webcam
                 onUserMedia={() => setWebCamEnabled(true)}
                 onUserMediaError={() => setWebCamEnabled(false)}
                 mirrored={true}

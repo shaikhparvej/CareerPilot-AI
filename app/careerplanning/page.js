@@ -1,23 +1,21 @@
 "use client";
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-import nextDynamic from "next/dynamic";
+import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import ChatBot from "../components/ChatBot";
 
 const componentMap = {
-  DepartmentJobRoles: nextDynamic(() =>
+  DepartmentJobRoles: dynamic(() =>
     import("./components/DepartmentJobs")
   ),
-  RoleRoadMap: nextDynamic(() =>
+  RoleRoadMap: dynamic(() =>
     import("./components/RoleRoadMap")
   ),
 
-  MoreInfoRole: nextDynamic(() =>
+  MoreInfoRole: dynamic(() =>
     import("./components/MoreInfoRole")
   ),
 
-  CourseRoadmap: nextDynamic(() =>
+  CourseRoadmap: dynamic(() =>
     import("./components/CourseRoadmap")
   ),
 };
@@ -26,8 +24,8 @@ const CareerPlanning = () => {
   const searchParams = useSearchParams();
   const page_name = searchParams.get("page");
   const Component =
-  componentMap[page_name] ||
-  nextDynamic(() => import("../components/Instruction"));
+    componentMap[page_name] ||
+    dynamic(() => import("../components/Instruction"));
   return (
     <>
       <Component />

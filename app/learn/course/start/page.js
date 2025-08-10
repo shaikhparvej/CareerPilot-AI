@@ -1,6 +1,4 @@
 "use client";
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 import { Book, ChevronRight, Code, Video } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSpeechToText from "react-hook-speech-to-text";
@@ -8,14 +6,14 @@ import YouTube from "react-youtube";
 import { Button } from "../../../../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../../../../components/ui/card";
 import {
-  AiChapterExam,
-  AiCheatSheet,
-  AiCodingRoundQuestion,
-  AiEngagingContent,
-  Aiexpand,
-  AiFixBug,
-  AiInter,
-  AiTraslator,
+    AiChapterExam,
+    AiCheatSheet,
+    AiCodingRoundQuestion,
+    AiEngagingContent,
+    Aiexpand,
+    AiFixBug,
+    AiInter,
+    AiTraslator,
 } from '../../../../config/AiModels';
 import service from "../../../../config/service";
 import McqExam from "../components/McqExam";
