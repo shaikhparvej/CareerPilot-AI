@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 "use client";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";

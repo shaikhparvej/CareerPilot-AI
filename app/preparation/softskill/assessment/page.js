@@ -1,20 +1,22 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import { Mic, StopCircle, Camera, CameraOff, AlertCircle } from "lucide-react";
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+import { AlertCircle, Mic, StopCircle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
-import Que from "./components/Que";
-import { Button } from "../../../../components/ui/button";
-import { Card, CardContent } from "../../../../components/ui/card";
-import { Alert, AlertDescription } from "../../../../components/ui/alert";
 import useSpeechToText from "react-hook-speech-to-text";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Alert, AlertDescription } from "../../../../components/ui/alert";
+import { Button } from "../../../../components/ui/button";
+import { Card, CardContent } from "../../../../components/ui/card";
 import { Textarea } from "../../../../components/ui/textarea";
+import Que from "./components/Que";
 
-import FeedbackReport from "./components/FeedbackReport";
 import { AiSoftSkillReport } from '../../../../config/AiModels';
-import WebCam from "../../../components/WebCam";
 import LoadingDialog from "../../../components/LoadingDialog";
+import WebCam from "../../../components/WebCam";
+import FeedbackReport from "./components/FeedbackReport";
 
 function InterviewPractice() {
   const [questions, setQuestions] = useState([]);
@@ -42,6 +44,10 @@ function InterviewPractice() {
 
   const checkPermissions = async () => {
     try {
+      if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+        setPermissionsGranted(false);
+        return false;
+      }
       await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
       setPermissionsGranted(true);
       return true;
@@ -54,7 +60,7 @@ function InterviewPractice() {
 
   useEffect(() => {
     checkPermissions();
-    const storedQuestions = localStorage.getItem("softSkillQuestions");
+    const storedQuestions = typeof window !== 'undefined' ? localStorage.getItem("softSkillQuestions") : null;
     if (storedQuestions) {
       setQuestions(JSON.parse(storedQuestions));
     } else {

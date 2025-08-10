@@ -1,19 +1,21 @@
 "use client";
-import dynamic from "next/dynamic";
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+import nextDynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import ChatBot from "../components/ChatBot";
 
 const componentMap = {
-  Projects: dynamic(() => import("./components/Projects")),
-  ToolsCompanyUse: dynamic(() =>
+  Projects: nextDynamic(() => import("./components/Projects")),
+  ToolsCompanyUse: nextDynamic(() =>
     import("./components/ToolsCompanyUse")
   ),
-  DayRemains: dynamic(() => import("./components/Days30Preparation")),
-  ResumeExtractor: dynamic(() =>
+  DayRemains: nextDynamic(() => import("./components/Days30Preparation")),
+  ResumeExtractor: nextDynamic(() =>
     import("./components/ResumeExtractor")
   ),
-  CreatedCourses: dynamic(() => import("./components/CreateCourse")),
-  SoftSkill: dynamic(() => import("./components/SoftSkill")),
+  CreatedCourses: nextDynamic(() => import("./components/CreateCourse")),
+  SoftSkill: nextDynamic(() => import("./components/SoftSkill")),
 };
 
 const ParamsPage = () => {
@@ -21,7 +23,7 @@ const ParamsPage = () => {
   const page_name = searchParams.get("page");
   const Component =
     componentMap[page_name] ||
-    dynamic(() => import("../components/Instruction"));
+  nextDynamic(() => import("../components/Instruction"));
   return (
     <>
       <Component />

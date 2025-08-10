@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 "use client";
 import { Book, ChevronRight, Code, Video } from "lucide-react";
 import { useEffect, useState } from "react";

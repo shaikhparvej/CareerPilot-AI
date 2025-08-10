@@ -1,19 +1,19 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
-import { Button } from "../../../components/ui/button";
 import {
-  Calendar,
-  Clock,
-  Video,
-  Mic,
-  MessageSquare,
-  BookOpen,
-  CheckCircle,
+    BookOpen,
+    Calendar,
+    CheckCircle,
+    Clock,
+    MessageSquare,
+    Mic,
+    Video,
 } from "lucide-react";
-import MockInterview from "./components/Startinterview";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import DetailForm from "./components/DetailForm";
-import Interview from "./components/Interview";
 
 const PreMockInterview = () => {
   const [selectedTab, setSelectedTab] = useState("prepare");

@@ -1,4 +1,6 @@
 "use client";
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "../../../components/ui/button";
@@ -16,11 +18,12 @@ const CreateCoursePage = () => {
   const [localStorageContent, setLocalStorageContent] = useState();
 
   useEffect(() => {
-    if (localStorageContent) {
-      setContent(JSON.parse(localStorageContent));
-    }
-    if (content) {
-      setLocalStorageContent(JSON.stringify(content));
+    if (typeof window === 'undefined') return;
+    const stored = localStorage.getItem("content");
+    if (stored) {
+      try {
+        setContent(JSON.parse(stored));
+      } catch {}
     }
   }, []);
 

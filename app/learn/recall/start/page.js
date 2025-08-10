@@ -1,5 +1,6 @@
-import React from "react";
-import NotesSection from "../components/NotesSection";
+"use client";
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 import CourseInterface from "../components/NotesSection";
 
 const page = () => {
