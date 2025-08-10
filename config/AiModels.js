@@ -8,6 +8,8 @@ class MockAiModel {
   }
 
   async sendMessage(prompt) {
+    // Touch prompt to avoid unused var warnings
+    void prompt;
     // Return a simple mock response that works during build
     return {
       response: {
@@ -44,6 +46,17 @@ export const AiFixBug = new MockAiModel("Bug Fix AI");
 export const AiTooldSoftware = new MockAiModel("Tool Software AI");
 export const AiResumeAnalyzer = new MockAiModel("Resume Analyzer AI");
 export const AiProjectIdea = new MockAiModel("Project Idea AI");
+// Additional models required by various components
+export const geminiModel = new MockAiModel("Gemini Mock Model");
+export const AiDaysRemains = new MockAiModel("30 Days Remains AI");
+export const AiProjectPlan = new MockAiModel("Project Plan AI");
+export const AiNotesSection = new MockAiModel("Notes Section AI");
+export const AiFlashCard = new MockAiModel("Flash Card AI");
+export const AiQuizRecall = new MockAiModel("Quiz Recall AI");
+export const AiQueAns = new MockAiModel("Question Answer AI");
+export const AiTeachToOther = new MockAiModel("Teach To Other AI");
+export const AiCareerFieldResult = new MockAiModel("Career Field Result AI");
 
 // Export default
-export default new MockAiModel("Default AI");
+const DefaultAi = new MockAiModel("Default AI");
+export default DefaultAi;

@@ -1,21 +1,21 @@
+"use client";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
-"use client";
-import dynamic from "next/dynamic";
+import nextDynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 
 const componentMap = {
-  CompanyAuthPortal: dynamic(() =>
+  CompanyAuthPortal: nextDynamic(() =>
     import("./components/CompanyAuthPortal")
   ),
-  HiringTalent: dynamic(() => import("./components/HiringTalent")),
-  TakeAssisment: dynamic(() =>
+  HiringTalent: nextDynamic(() => import("./components/HiringTalent")),
+  TakeAssisment: nextDynamic(() =>
     import("./components/TakeAssisment")
   ),
-  CompanyProblem: dynamic(() =>
+  CompanyProblem: nextDynamic(() =>
     import("./components/CompanyProblem")
   ),
-  PrepareForJob: dynamic(() =>
+  PrepareForJob: nextDynamic(() =>
     import("./components/PrepareForJob")
   ),
 };
@@ -25,7 +25,7 @@ const Student = () => {
   const page_name = searchParams.get("page");
   const Component =
     componentMap[page_name] ||
-    dynamic(() => import("../components/Instruction"));
+    nextDynamic(() => import("../components/Instruction"));
   return (
     <>
       <Component />
