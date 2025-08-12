@@ -16,6 +16,63 @@ const Assisment = ({
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
 
+  // JSON parsing helper function
+  const parseAIResponse = (text) => {
+    if (!text) return null;
+
+    try {
+      // First, try direct JSON parse
+      return JSON.parse(text);
+    } catch (error) {
+      console.log('Direct JSON parse failed, attempting to extract JSON from markdown...');
+
+      try {
+        // Remove common markdown formatting
+        let cleanedText = text.replace(/```json/g, '').replace(/```/g, '').trim();
+
+        // Try to find JSON boundaries with multiple patterns
+        const jsonPatterns = [
+          /\{[\s\S]*\}/,
+          /\[[\s\S]*\]/,
+          /\{[^}]*\}[\s\S]*$/m,
+          /\[[^\]]*\][\s\S]*$/m
+        ];
+
+        for (const pattern of jsonPatterns) {
+          const matches = cleanedText.match(pattern);
+          if (matches) {
+            try {
+              const parsed = JSON.parse(matches[0]);
+              console.log('Successfully parsed JSON from pattern match');
+              return parsed;
+            } catch (e) {
+              continue;
+            }
+          }
+        }
+
+        // If no pattern works, try to extract content between first { and last }
+        const firstBrace = cleanedText.indexOf('{');
+        const lastBrace = cleanedText.lastIndexOf('}');
+        if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+          try {
+            const jsonString = cleanedText.slice(firstBrace, lastBrace + 1);
+            return JSON.parse(jsonString);
+          } catch (e) {
+            console.log('Failed to parse extracted JSON');
+          }
+        }
+
+        // If all else fails, return fallback structure
+        console.log('All JSON parsing attempts failed, using fallback');
+        return null;
+      } catch (e) {
+        console.log('JSON extraction failed:', e);
+        return null;
+      }
+    }
+  };
+
   const handleOptionSelect = (questionIndex, option) => {
     setAnswers((prev) => ({
       ...prev,
@@ -25,20 +82,73 @@ const Assisment = ({
 
   const handleResponse = async () => {
     setLoading(true);
-    const prompt = `determine whether i will be have passion in ${field} or not, on the basic of questionary assessment that i have perform that is given.
-      include only recommendation, what next and conclusion.in json formate. response:${JSON.stringify(
-        results
-      )}`;
+    const assessmentTypes = {
+      1: 'passion',
+      2: 'profession',
+      3: 'vocation',
+      4: 'mission'
+    };
+
+    const assessmentType = assessmentTypes[assessment] || 'assessment';
+
+    const prompt = `Analyze the following ${assessmentType} assessment responses for ${field} career field. Based on the answers provided, determine the individual's level of ${assessmentType} and provide guidance. Include recommendation, what_next, and conclusion properties in JSON format.
+
+    Assessment responses: ${JSON.stringify(results)}
+
+    Format as JSON with properties: recommendation, what_next, conclusion.`;
+
     try {
       const result = await geminiModel.sendMessage(prompt);
       const text = await result.response.text();
-      const json = JSON.parse(text);
-      localStorage.setItem(`assessment_${assessment}`, JSON.stringify(json));
+      console.log('Raw assessment response:', text.substring(0, 200) + '...');
+
+      const parsedResult = parseAIResponse(text);
+
+      if (parsedResult) {
+        localStorage.setItem(`assessment_${assessment}`, JSON.stringify(parsedResult));
+        setAssessment((prev) => prev + 1);
+        setShow(false);
+        localStorage.setItem("assessment", assessment + 1);
+
+        // Trigger parent component to refresh assessment states
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('assessmentUpdated'));
+        }
+      } else {
+        // Fallback assessment result
+        console.log('Using fallback assessment result for assessment', assessment);
+        const fallbackResult = {
+          recommendation: `Based on your ${assessmentType} assessment responses for ${field}, you show ${results.filter(r => r.answer === 'Yes').length > results.length / 2 ? 'strong' : 'moderate'} alignment.`,
+          what_next: `Continue exploring ${field} through research, networking, and practical experience to validate your ${assessmentType} for this career path.`,
+          conclusion: `Your ${assessmentType} assessment indicates ${results.filter(r => r.answer === 'Yes').length > results.length / 2 ? 'positive' : 'mixed'} potential for ${field}. Consider additional exploration and guidance.`
+        };
+        localStorage.setItem(`assessment_${assessment}`, JSON.stringify(fallbackResult));
+        setAssessment((prev) => prev + 1);
+        setShow(false);
+        localStorage.setItem("assessment", assessment + 1);
+
+        // Trigger parent component to refresh assessment states
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('assessmentUpdated'));
+        }
+      }
+    } catch (error) {
+      console.error('Error in handleResponse:', error);
+      // Use fallback result on any error
+      const fallbackResult = {
+        recommendation: `Assessment completed for ${field} ${assessmentType}.`,
+        what_next: `Review your responses and consider seeking additional guidance.`,
+        conclusion: `${assessmentType.charAt(0).toUpperCase() + assessmentType.slice(1)} assessment completed. Consider professional career counseling for detailed analysis.`
+      };
+      localStorage.setItem(`assessment_${assessment}`, JSON.stringify(fallbackResult));
       setAssessment((prev) => prev + 1);
       setShow(false);
       localStorage.setItem("assessment", assessment + 1);
-    } catch (error) {
-      console.error(error);
+
+      // Trigger parent component to refresh assessment states
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('assessmentUpdated'));
+      }
     } finally {
       setLoading(false);
     }

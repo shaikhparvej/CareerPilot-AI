@@ -5,7 +5,9 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
+  AlertDialogTitle,
 } from "../../../components/ui/alert-dialog";
 import { Button } from "../../../components/ui/button";
 import { AiCareerFieldResult } from "../../../config/AiModels";
@@ -172,15 +174,57 @@ export default function DepartmentJobRoles() {
     if (typeof window !== "undefined") {
       const jobs = localStorage.getItem("jobs");
       const localrole = localStorage.getItem("role");
-      if (jobs) {
+      const storedBranch = localStorage.getItem("branch");
+
+      // Only load cached data if it matches current selection
+      if (jobs && storedBranch && (storedBranch === selectedBranch || storedBranch === customBranch)) {
         setSubmittedValue(JSON.parse(jobs));
         setTree(true);
+      } else {
+        // Clear stale data if branch doesn't match
+        localStorage.removeItem("jobs");
+        localStorage.removeItem("branch");
+        setTree(false);
+        setSubmittedValue(null);
       }
+
       if (localrole) {
         setLocalRole(localrole);
       }
     }
-  }, []);
+  }, [selectedBranch, customBranch]);  // Add dependencies to re-run when selection changes
+
+  const handleBranchChange = (e) => {
+    const newBranch = e.target.value;
+    setSelectedBranch(newBranch);
+
+    // Clear cached data when branch changes
+    if (typeof window !== "undefined") {
+      const storedBranch = localStorage.getItem("branch");
+      if (storedBranch && storedBranch !== newBranch) {
+        localStorage.removeItem("jobs");
+        localStorage.removeItem("branch");
+        setTree(false);
+        setSubmittedValue(null);
+      }
+    }
+  };
+
+  const handleCustomBranchChange = (e) => {
+    const newCustomBranch = e.target.value;
+    setCustomBranch(newCustomBranch);
+
+    // Clear cached data when custom branch changes
+    if (typeof window !== "undefined") {
+      const storedBranch = localStorage.getItem("branch");
+      if (storedBranch && storedBranch !== newCustomBranch) {
+        localStorage.removeItem("jobs");
+        localStorage.removeItem("branch");
+        setTree(false);
+        setSubmittedValue(null);
+      }
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -213,6 +257,11 @@ export default function DepartmentJobRoles() {
       const responseText = result.response.text();  // Remove await - it's not async
       console.log("Response text:", responseText);
 
+      // Validate response text
+      if (!responseText || typeof responseText !== 'string') {
+        throw new Error('Invalid response from AI service');
+      }
+
       // Clean the response text by removing markdown code blocks
       let cleanedText = responseText.trim();
       if (cleanedText.startsWith('```json')) {
@@ -222,7 +271,34 @@ export default function DepartmentJobRoles() {
       }
       console.log("Cleaned text for parsing:", cleanedText);
 
-      const parsedResult = JSON.parse(cleanedText);
+      // Validate JSON before parsing
+      if (!cleanedText || cleanedText.length === 0) {
+        throw new Error('Empty response from AI service');
+      }
+
+      let parsedResult;
+      try {
+        parsedResult = JSON.parse(cleanedText);
+      } catch (parseError) {
+        console.error("JSON parsing failed:", parseError);
+        console.log("Raw response that failed to parse:", cleanedText);
+
+        // Provide a fallback response if JSON parsing fails
+        parsedResult = {
+          [`${inputValue} Job Roles`]: [
+            {
+              Category: 'Technical Roles',
+              Roles: ['Engineer', 'Developer', 'Analyst', 'Specialist', 'Consultant']
+            },
+            {
+              Category: 'Management Roles',
+              Roles: ['Project Manager', 'Team Lead', 'Technical Manager', 'Director', 'VP Engineering']
+            }
+          ]
+        };
+        console.log("Using fallback job roles due to parsing error");
+      }
+
       console.log("Parsed result:", parsedResult);
 
       if (typeof window !== "undefined") {
@@ -248,33 +324,271 @@ export default function DepartmentJobRoles() {
       // window.location.reload();
     } catch (error) {
       console.error("Error in handleSubmit:", error);
-      alert("Something went wrong. Please try again.");
+
+      // Provide detailed error information
+      if (error.message.includes('500')) {
+        alert("Server error occurred. Please check your internet connection and try again.");
+      } else if (error.message.includes('Failed to fetch')) {
+        alert("Network error. Please check your internet connection and try again.");
+      } else {
+        alert(`Something went wrong: ${error.message}. Please try again.`);
+      }
     } finally {
       setLoading(false);
       console.log("handleSubmit completed");
     }
   };
 
+  const handleRoadMap = async () => {
+    setStatus(true);
+    const prompt = `Create a comprehensive career roadmap for "${role}". Include the following sections:
+    Learning Path (beginner to expert), Required Skills by Level, Timeline and Milestones, Educational Requirements, Certification Paths, Experience Levels, Project Ideas, Networking Opportunities, Salary Progression, Career Advancement Steps. Provide response in valid JSON format only.`;
+
+    try {
+      console.log("Generating career roadmap for:", role);
+      const result = await AiRoleMoreInfo.sendMessage(prompt);
+      const roadmapData = result.response.text();
+      console.log("Raw AI roadmap response:", roadmapData);
+
+      // Validate response
+      if (!roadmapData || typeof roadmapData !== 'string') {
+        throw new Error('Invalid response from AI service');
+      }
+
+      // Clean the response text by removing markdown code blocks and extra text
+      let cleanedText = roadmapData.trim();
+
+      // Remove markdown code blocks
+      if (cleanedText.startsWith('```json')) {
+        cleanedText = cleanedText.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (cleanedText.startsWith('```')) {
+        cleanedText = cleanedText.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+
+      // Remove any leading non-JSON text
+      const jsonStart = cleanedText.indexOf('{');
+      const jsonEnd = cleanedText.lastIndexOf('}');
+
+      if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+        cleanedText = cleanedText.substring(jsonStart, jsonEnd + 1);
+      }
+
+      console.log("Cleaned roadmap text for parsing:", cleanedText);
+
+      // Validate that we have something that looks like JSON
+      if (!cleanedText.startsWith('{') || !cleanedText.endsWith('}')) {
+        throw new Error('Response does not contain valid JSON');
+      }
+
+      let roadmapJson;
+      try {
+        roadmapJson = JSON.parse(cleanedText);
+      } catch (parseError) {
+        console.error("JSON parsing failed for roadmap:", parseError);
+        console.log("Failed roadmap text:", cleanedText);
+
+        // Provide a fallback roadmap structure
+        roadmapJson = {
+          "Role": role,
+          "Learning Path": {
+            "Beginner (0-1 years)": [
+              "Learn fundamental concepts and basics",
+              "Complete introductory courses and tutorials",
+              "Build simple projects to practice skills",
+              "Join online communities and forums"
+            ],
+            "Intermediate (1-3 years)": [
+              "Work on more complex projects",
+              "Learn advanced tools and techniques",
+              "Contribute to open-source projects",
+              "Seek mentorship and guidance"
+            ],
+            "Advanced (3-5 years)": [
+              "Lead projects and teams",
+              "Specialize in specific domains",
+              "Mentor junior colleagues",
+              "Stay updated with industry trends"
+            ],
+            "Expert (5+ years)": [
+              "Become thought leader in the field",
+              "Speak at conferences and events",
+              "Write technical articles and blogs",
+              "Drive innovation and research"
+            ]
+          },
+          "Required Skills by Level": {
+            "Entry Level": ["Basic technical skills", "Communication", "Problem-solving", "Time management"],
+            "Mid Level": ["Advanced technical expertise", "Leadership", "Project management", "Strategic thinking"],
+            "Senior Level": ["Domain expertise", "Team leadership", "Business acumen", "Innovation mindset"]
+          },
+          "Timeline and Milestones": [
+            "Month 1-6: Foundation building and basic skills",
+            "Month 6-18: Practical experience and intermediate skills",
+            "Year 2-3: Specialization and advanced capabilities",
+            "Year 3-5: Leadership and expert-level contributions",
+            "Year 5+: Industry recognition and thought leadership"
+          ],
+          "Educational Requirements": [
+            "Bachelor's degree in relevant field",
+            "Relevant certifications and courses",
+            "Continuous learning and upskilling",
+            "Advanced degree (optional but beneficial)"
+          ],
+          "Certification Paths": [
+            "Industry-recognized professional certifications",
+            "Technology-specific certifications",
+            "Leadership and management certifications",
+            "Continuous education programs"
+          ],
+          "Experience Levels": {
+            "Entry Level": "0-2 years experience",
+            "Mid Level": "2-5 years experience",
+            "Senior Level": "5-8 years experience",
+            "Lead Level": "8+ years experience"
+          },
+          "Project Ideas": [
+            "Personal projects to showcase skills",
+            "Open-source contributions",
+            "Industry-relevant case studies",
+            "Innovation and research projects"
+          ],
+          "Networking Opportunities": [
+            "Professional associations and societies",
+            "Industry conferences and meetups",
+            "Online communities and forums",
+            "Alumni networks and mentorship programs"
+          ],
+          "Salary Progression": {
+            "Entry Level": "₹3,00,000 - ₹6,00,000 per annum",
+            "Mid Level": "₹6,00,000 - ₹12,00,000 per annum",
+            "Senior Level": "₹12,00,000 - ₹25,00,000 per annum",
+            "Lead Level": "₹25,00,000+ per annum"
+          },
+          "Career Advancement Steps": [
+            "Build strong foundational skills",
+            "Gain practical experience through projects",
+            "Develop leadership and soft skills",
+            "Stay updated with industry trends",
+            "Build professional network",
+            "Seek growth opportunities and challenges"
+          ]
+        };
+        console.log("Using fallback roadmap due to parsing error");
+      }
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("roadmap", JSON.stringify(roadmapJson));
+        localStorage.setItem("roadmapRole", role);
+      }
+
+      console.log("Career roadmap processed successfully:", roadmapJson);
+      window.location.href = "/careerplanning?page=RoleRoadMap";
+    } catch (error) {
+      console.error("Error in handleRoadMap:", error);
+      alert(`Failed to generate career roadmap: ${error.message}. Please try again.`);
+    } finally {
+      setConform(false);
+      setStatus(false);
+    }
+  };
+
   const handleMoreInfo = async () => {
     setStatus(true);
     const prompt = `Describe the role of "${role}". Include detailed information on the following aspects:
-    Core Responsibilities, Skills and Qualifications, latest Tools and Technologies ,Work Environment, Career Path, Challenges and Rewards, Industry Relevance,companies hire,average salery(in rupees).in json formate.`;
+    Core Responsibilities, Skills and Qualifications, latest Tools and Technologies, Work Environment, Career Path, Challenges and Rewards, Industry Relevance, companies hire, average salary (in rupees). Provide response in valid JSON format only.`;
 
     try {
+      console.log("Fetching role information for:", role);
       const result = await AiRoleMoreInfo.sendMessage(prompt);
-      const roleData = result.response.text();  // Remove await - it's not async
-      const json = JSON.parse(roleData);
+      const roleData = result.response.text();
+      console.log("Raw AI response:", roleData);
+
+      // Validate response
+      if (!roleData || typeof roleData !== 'string') {
+        throw new Error('Invalid response from AI service');
+      }
+
+      // Clean the response text by removing markdown code blocks and extra text
+      let cleanedText = roleData.trim();
+
+      // Remove markdown code blocks
+      if (cleanedText.startsWith('```json')) {
+        cleanedText = cleanedText.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (cleanedText.startsWith('```')) {
+        cleanedText = cleanedText.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+
+      // Remove any leading non-JSON text (like "I'd be happy to help...")
+      const jsonStart = cleanedText.indexOf('{');
+      const jsonEnd = cleanedText.lastIndexOf('}');
+
+      if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+        cleanedText = cleanedText.substring(jsonStart, jsonEnd + 1);
+      }
+
+      console.log("Cleaned text for parsing:", cleanedText);
+
+      // Validate that we have something that looks like JSON
+      if (!cleanedText.startsWith('{') || !cleanedText.endsWith('}')) {
+        throw new Error('Response does not contain valid JSON');
+      }
+
+      let json;
+      try {
+        json = JSON.parse(cleanedText);
+      } catch (parseError) {
+        console.error("JSON parsing failed:", parseError);
+        console.log("Failed text:", cleanedText);
+
+        // Provide a fallback response structure
+        json = {
+          "Role": role,
+          "Core Responsibilities": [
+            "Primary duties and tasks for this role",
+            "Key responsibilities in daily work",
+            "Main objectives and goals"
+          ],
+          "Skills and Qualifications": [
+            "Required technical skills",
+            "Educational background needed",
+            "Professional certifications"
+          ],
+          "Tools and Technologies": [
+            "Industry-standard software and tools",
+            "Programming languages (if applicable)",
+            "Hardware and platforms used"
+          ],
+          "Work Environment": "Description of typical work setting and conditions",
+          "Career Path": [
+            "Entry-level positions",
+            "Mid-level advancement",
+            "Senior and leadership roles"
+          ],
+          "Challenges and Rewards": {
+            "Challenges": ["Common difficulties in this role"],
+            "Rewards": ["Benefits and satisfying aspects"]
+          },
+          "Industry Relevance": "Current demand and future outlook for this role",
+          "Companies": [
+            "Major employers in this field",
+            "Types of organizations that hire",
+            "Industry sectors"
+          ],
+          "Average Salary": "Salary range information (location dependent)"
+        };
+        console.log("Using fallback role information due to parsing error");
+      }
 
       if (typeof window !== "undefined") {
         localStorage.setItem("moreInfo", JSON.stringify(json));
         localStorage.setItem("role", role);
       }
 
-      console.log(json);
+      console.log("Role information processed successfully:", json);
       window.location.href = "/careerplanning?page=MoreInfoRole";
     } catch (error) {
-      console.error("Error parsing JSON:", error);
-      alert("Failed to fetch role information. Please try again.");
+      console.error("Error in handleMoreInfo:", error);
+      alert(`Failed to fetch role information: ${error.message}. Please try again.`);
     } finally {
       setConform(false);
       setStatus(false);
@@ -318,7 +632,7 @@ export default function DepartmentJobRoles() {
                 id="branchSelect"
                 value={selectedBranch}
                 title="Select your engineering department"
-                onChange={(e) => setSelectedBranch(e.target.value)}
+                onChange={handleBranchChange}
                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
                 aria-describedby="department-help"
                 required
@@ -326,8 +640,8 @@ export default function DepartmentJobRoles() {
                 <option value="" disabled>
                   I am from...
                 </option>
-                <option value="Computer engineering">
-                  Computer Engineering
+                <option value="Computer Science and Engineering">
+                  Computer Science and Engineering
                 </option>
                 <option value="Electrical engineering">
                   Electrical Engineering
@@ -365,7 +679,7 @@ export default function DepartmentJobRoles() {
                   id="customBranchInput"
                   name="customDepartment"
                   value={customBranch}
-                  onChange={(e) => setCustomBranch(e.target.value)}
+                  onChange={handleCustomBranchChange}
                   className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
                   placeholder="Enter your department here..."
                   aria-describedby="custom-dept-help"
@@ -423,17 +737,12 @@ export default function DepartmentJobRoles() {
           </section>
         )}
 
-        <AlertDialog open={conform} aria-describedby="role-dialog-description">
+        <AlertDialog open={conform}>
           <AlertDialogContent>
-            <div id="role-dialog-description">
-              <h2 className="text-lg font-semibold mb-2">
-                Explore Career Information
-              </h2>
-              <p>
-                Would you like to get detailed information about this role or
-                continue with the career roadmap?
-              </p>
-            </div>
+            <AlertDialogTitle>Explore Career Information</AlertDialogTitle>
+            <AlertDialogDescription>
+              Would you like to get detailed information about this role or continue with the career roadmap?
+            </AlertDialogDescription>
             <AlertDialogFooter>
               <AlertDialogCancel
                 onClick={() => setConform(false)}
@@ -461,10 +770,7 @@ export default function DepartmentJobRoles() {
                 </Button>
               )}
               <AlertDialogAction
-                onClick={() => {
-                  window.location.href =
-                    "/careerplanning?page=RoleRoadMap";
-                }}
+                onClick={handleRoadMap}
                 disabled={status}
                 aria-label="Continue to career roadmap"
               >

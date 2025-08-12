@@ -1,17 +1,16 @@
 "use client";
 import {
-    ArrowRight,
-    BookOpen,
-    Brain,
-    CheckCircle,
-    Globe,
-    Play,
-    ShieldCheck,
-    Star,
-    Target,
-    TrendingUp,
-    Users,
-    Zap
+  ArrowRight,
+  BookOpen,
+  Brain,
+  CheckCircle,
+  Play,
+  ShieldCheck,
+  Star,
+  Target,
+  TrendingUp,
+  Users,
+  Zap
 } from "lucide-react";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
@@ -30,24 +29,31 @@ export default function JobPrepHomepage() {
       rating: 5,
     },
     {
-      name: "Shaikh Parvej",
+      name: "Laxmi Javalkote",
       role: "Frontend Developer",
       content:
         "The AI-powered feedback system identified my weak points and helped me improve rapidly.",
       rating: 5,
     },
     {
-      name: "xyz",
-      role: "Research",
+      name: "Shaikh Parvej",
+      role: "Backend Developer",
       content:
         "From zero to offer in 3 months. The structured learning path made all the difference.",
       rating: 5,
     },
     {
-      name: "xyz",
-      role: "Research",
+      name: "Sakshi Madgundi",
+      role: "UI/UX Designer",
       content:
         "The mentorship and hands-on projects gave me confidence to crack tough interviews.",
+      rating: 5,
+    },
+    {
+      name: "Bagwan Zaid",
+      role: "Research",
+      content:
+        "Diving into real-world challenges during the program boosted my skills and made me feel ready for any high-pressure interview.",
       rating: 5,
     },
   ];
@@ -75,12 +81,6 @@ export default function JobPrepHomepage() {
       icon: Zap,
       title: "Speed Interview Prep",
       description: "Quick daily challenges to keep your skills sharp",
-    },
-    {
-      icon: Globe, // placeholder - update as needed
-      title: "Regional Language Support",
-      description:
-        "Delivers content and mentoring in local Indian languages using multilingual NLP models",
     },
     {
       icon: Brain, // placeholder - update as needed
@@ -401,132 +401,205 @@ export default function JobPrepHomepage() {
                 </button>
               </div>
               <div className="relative">
-                <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
-                  <div className="bg-black/40 rounded-2xl p-6 mb-4">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <div className={`${
+                  isDarkMode
+                    ? "bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-3xl p-8 border border-white/10"
+                    : "bg-gradient-to-br from-purple-50/80 to-pink-50/80 backdrop-blur-sm rounded-3xl p-8 border-2 border-purple-200/50 shadow-2xl"
+                }`}>
+                  <div className={`${
+                    isDarkMode ? "bg-black/40" : "bg-white/90 border border-gray-200"
+                  } rounded-2xl p-8 mb-6 shadow-lg`}>
+                    <div className="flex items-center space-x-3 mb-6">
+                      <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+                      <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                      <div className="w-4 h-4 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="text-white text-sm">
-                      <div className="mb-2">
-                        AI: "Tell me about a challenging project you worked on."
+                    <div className={`text-lg ${isDarkMode ? "text-white" : "text-gray-800"}`}>
+                      <div className="mb-4 font-medium">
+                        AI: &quot;Tell me about a challenging project you worked on.&quot;
                       </div>
-                      <div className="text-purple-300">
-                        You: "In my previous role, I led a team to redesign..."
+                      <div className={`${isDarkMode ? "text-purple-300" : "text-purple-600"} font-medium`}>
+                        You: &quot;In my previous role, I led a team to redesign...&quot;
                       </div>
-                      <div className="mt-4 bg-green-500/20 rounded-lg p-3">
-                        <div className="text-green-300 text-xs">
+                      <div className={`mt-6 ${
+                        isDarkMode ? "bg-green-500/20" : "bg-green-100"
+                      } rounded-lg p-4`}>
+                        <div className={`${
+                          isDarkMode ? "text-green-300" : "text-green-700"
+                        } text-sm font-medium`}>
                           ✓ Great structure! Consider adding specific metrics...
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-300">Confidence Score</span>
-                    <span className="text-purple-400 font-semibold">87%</span>
+                    <span className={`font-semibold ${
+                      isDarkMode ? "text-gray-300" : "text-gray-700"
+                    }`}>Confidence Score</span>
+                    <span className={`text-2xl font-black ${
+                      isDarkMode ? "text-purple-400" : "text-purple-600"
+                    }`}>87%</span>
                   </div>
-                  <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-                    <div className="bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full w-[87%]"></div>
+                  <div className={`w-full ${
+                    isDarkMode ? "bg-gray-700" : "bg-gray-200"
+                  } rounded-full h-3 mt-3`}>
+                    <div className="bg-gradient-to-r from-purple-400 to-pink-400 h-3 rounded-full w-[87%] shadow-lg"></div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Feature 2: Skill Assessment & Learning Paths */}
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div className="relative lg:order-1">
-                <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="bg-black/40 rounded-xl p-4">
-                      <div className="text-white font-semibold mb-1">
+                <div className={`${
+                  isDarkMode
+                    ? "bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-sm rounded-3xl p-8 border border-white/10"
+                    : "bg-gradient-to-br from-blue-50/80 to-purple-50/80 backdrop-blur-sm rounded-3xl p-8 border-2 border-blue-200/50 shadow-2xl"
+                }`}>
+                  <div className="grid grid-cols-2 gap-6 mb-8">
+                    <div className={`${
+                      isDarkMode ? "bg-black/40" : "bg-white/90 border border-gray-200"
+                    } rounded-xl p-5 shadow-lg`}>
+                      <div className={`font-bold mb-2 text-lg ${
+                        isDarkMode ? "text-white" : "text-gray-800"
+                      }`}>
                         JavaScript
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div className="bg-green-400 h-2 rounded-full w-[92%]"></div>
+                      <div className={`w-full ${
+                        isDarkMode ? "bg-gray-700" : "bg-gray-200"
+                      } rounded-full h-3`}>
+                        <div className="bg-green-500 h-3 rounded-full w-[92%] shadow-sm"></div>
                       </div>
-                      <div className="text-green-400 text-sm mt-1">Expert</div>
+                      <div className="text-green-500 text-sm mt-2 font-semibold">Expert</div>
                     </div>
-                    <div className="bg-black/40 rounded-xl p-4">
-                      <div className="text-white font-semibold mb-1">
+                    <div className={`${
+                      isDarkMode ? "bg-black/40" : "bg-white/90 border border-gray-200"
+                    } rounded-xl p-5 shadow-lg`}>
+                      <div className={`font-bold mb-2 text-lg ${
+                        isDarkMode ? "text-white" : "text-gray-800"
+                      }`}>
                         System Design
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div className="bg-yellow-400 h-2 rounded-full w-[68%]"></div>
+                      <div className={`w-full ${
+                        isDarkMode ? "bg-gray-700" : "bg-gray-200"
+                      } rounded-full h-3`}>
+                        <div className="bg-yellow-500 h-3 rounded-full w-[68%] shadow-sm"></div>
                       </div>
-                      <div className="text-yellow-400 text-sm mt-1">
+                      <div className="text-yellow-500 text-sm mt-2 font-semibold">
                         Intermediate
                       </div>
                     </div>
-                    <div className="bg-black/40 rounded-xl p-4">
-                      <div className="text-white font-semibold mb-1">React</div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div className="bg-blue-400 h-2 rounded-full w-[85%]"></div>
+                    <div className={`${
+                      isDarkMode ? "bg-black/40" : "bg-white/90 border border-gray-200"
+                    } rounded-xl p-5 shadow-lg`}>
+                      <div className={`font-bold mb-2 text-lg ${
+                        isDarkMode ? "text-white" : "text-gray-800"
+                      }`}>React</div>
+                      <div className={`w-full ${
+                        isDarkMode ? "bg-gray-700" : "bg-gray-200"
+                      } rounded-full h-3`}>
+                        <div className="bg-blue-500 h-3 rounded-full w-[85%] shadow-sm"></div>
                       </div>
-                      <div className="text-blue-400 text-sm mt-1">Advanced</div>
+                      <div className="text-blue-500 text-sm mt-2 font-semibold">Advanced</div>
                     </div>
-                    <div className="bg-black/40 rounded-xl p-4">
-                      <div className="text-white font-semibold mb-1">
+                    <div className={`${
+                      isDarkMode ? "bg-black/40" : "bg-white/90 border border-gray-200"
+                    } rounded-xl p-5 shadow-lg`}>
+                      <div className={`font-bold mb-2 text-lg ${
+                        isDarkMode ? "text-white" : "text-gray-800"
+                      }`}>
                         Algorithms
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div className="bg-red-400 h-2 rounded-full w-[45%]"></div>
+                      <div className={`w-full ${
+                        isDarkMode ? "bg-gray-700" : "bg-gray-200"
+                      } rounded-full h-3`}>
+                        <div className="bg-red-500 h-3 rounded-full w-[45%] shadow-sm"></div>
                       </div>
-                      <div className="text-red-400 text-sm mt-1">
+                      <div className="text-red-500 text-sm mt-2 font-semibold">
                         Needs Work
                       </div>
                     </div>
                   </div>
-                  <div className="bg-purple-500/20 rounded-xl p-4">
-                    <div className="text-white font-semibold mb-2">
+                  <div className={`${
+                    isDarkMode ? "bg-purple-500/20" : "bg-purple-100"
+                  } rounded-xl p-6 shadow-lg`}>
+                    <div className={`font-bold mb-3 text-lg ${
+                      isDarkMode ? "text-white" : "text-gray-800"
+                    }`}>
                       Recommended Focus
                     </div>
-                    <div className="text-purple-300 text-sm">
-                      Complete "Advanced Algorithms" track to boost interview
+                    <div className={`${
+                      isDarkMode ? "text-purple-300" : "text-purple-700"
+                    } font-medium`}>
+                      Complete &quot;Advanced Algorithms&quot; track to boost interview
                       readiness by 23%
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="space-y-6 lg:order-2">
-                <div className="inline-flex items-center space-x-2 bg-blue-500/20 backdrop-blur-sm rounded-full px-4 py-2 text-sm text-blue-300">
-                  <Target className="w-4 h-4" />
-                  <span>Personalized</span>
+              <div className="space-y-8 lg:order-2">
+                <div className={`inline-flex items-center space-x-3 backdrop-blur-sm rounded-full px-6 py-3 text-sm font-bold ${
+                  isDarkMode
+                    ? "bg-blue-500/20 text-blue-300"
+                    : "bg-blue-600/10 text-blue-700 border border-blue-200/50"
+                }`}>
+                  <Target className="w-5 h-5" />
+                  <span>Personalized Learning</span>
                 </div>
-                <h3 className="text-3xl md:text-4xl font-bold text-white">
-                  <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                <h3 className={`text-4xl md:text-5xl font-black leading-tight ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`} style={{ lineHeight: '1.1' }}>
+                  <span className={`bg-gradient-to-r ${
+                    isDarkMode
+                      ? "from-blue-400 to-purple-400"
+                      : "from-blue-600 via-indigo-600 to-purple-600"
+                  } bg-clip-text text-transparent`}>
                     Smart Learning
                   </span>{" "}
                   Paths
                 </h3>
-                <p className="text-lg text-gray-300 leading-relaxed">
+                <p className={`text-xl leading-relaxed font-medium ${
+                  isDarkMode ? "text-gray-300" : "text-gray-700"
+                }`} style={{ lineHeight: '1.8' }}>
                   Take our comprehensive skill assessment and get a personalized
                   learning roadmap. Our AI identifies your strengths and
                   weaknesses to create the most efficient study plan.
                 </p>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-400" />
-                    <span className="text-gray-300">
+                <div className="space-y-5">
+                  <div className="flex items-center space-x-4">
+                    <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0" />
+                    <span className={`text-lg font-medium ${
+                      isDarkMode ? "text-gray-300" : "text-gray-700"
+                    }`}>
                       Adaptive difficulty based on performance
                     </span>
                   </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-400" />
-                    <span className="text-gray-300">
+                  <div className="flex items-center space-x-4">
+                    <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0" />
+                    <span className={`text-lg font-medium ${
+                      isDarkMode ? "text-gray-300" : "text-gray-700"
+                    }`}>
                       Track progress across 50+ skill areas
                     </span>
                   </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-400" />
-                    <span className="text-gray-300">
+                  <div className="flex items-center space-x-4">
+                    <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0" />
+                    <span className={`text-lg font-medium ${
+                      isDarkMode ? "text-gray-300" : "text-gray-700"
+                    }`}>
                       Get study recommendations daily
                     </span>
                   </div>
                 </div>
-                <button className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-full hover:from-blue-600 hover:to-purple-600 transition-all transform hover:scale-105 flex items-center space-x-2">
+                <button className={`group font-bold text-lg px-10 py-5 rounded-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center space-x-3 shadow-xl ${
+                  isDarkMode
+                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 shadow-blue-500/25"
+                    : "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 shadow-blue-500/25"
+                } focus:outline-none focus:ring-4 focus:ring-blue-500/20`}
+                aria-label="Take skills assessment">
                   <span>Take Assessment</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </div>
@@ -629,55 +702,78 @@ export default function JobPrepHomepage() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-black/20">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Success
-            <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+      <section className={`py-24 px-4 sm:px-6 lg:px-8 ${
+        isDarkMode ? "bg-black/20" : "bg-gradient-to-b from-slate-50 to-blue-50"
+      }`}>
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className={`text-5xl md:text-6xl font-black mb-6 tracking-tight ${
+            isDarkMode ? "text-white" : "text-gray-900"
+          }`} style={{ lineHeight: '1.1' }}>
+            Success{" "}
+            <span className={`bg-gradient-to-r ${
+              isDarkMode
+                ? "from-purple-400 to-pink-400"
+                : "from-purple-600 via-pink-600 to-red-500"
+            } bg-clip-text text-transparent`}>
               Stories
             </span>
           </h2>
-          <p className="text-xl text-gray-300 mb-16">
-            Hear from professionals who transformed their careers with CareerPilot AI
+          <p className={`text-xl mb-20 font-medium max-w-3xl mx-auto ${
+            isDarkMode ? "text-gray-300" : "text-gray-700"
+          }`} style={{ lineHeight: '1.7' }}>
+            Hear from professionals who transformed their careers with CareerPilot AI and achieved their dream jobs
           </p>
 
           <div className="relative">
-            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-white/10">
-              <div className="flex justify-center mb-6">
+            <div className={`${
+              isDarkMode
+                ? "bg-white/10 backdrop-blur-sm border border-white/10"
+                : "bg-white/95 backdrop-blur-sm border-2 border-gray-200/50 shadow-2xl shadow-blue-500/10"
+            } rounded-3xl p-10 md:p-16`}>
+              <div className="flex justify-center mb-8">
                 {[...Array(testimonials[currentTestimonial].rating)].map(
                   (_, i) => (
                     <Star
                       key={i}
-                      className="w-6 h-6 text-yellow-400 fill-current"
+                      className={`w-8 h-8 ${
+                        isDarkMode ? "text-yellow-400" : "text-yellow-500"
+                      } fill-current`}
                     />
                   )
                 )}
               </div>
 
-              <blockquote className="text-2xl text-white mb-8 leading-relaxed">
-                "{testimonials[currentTestimonial].content}"
+              <blockquote className={`text-2xl md:text-3xl mb-10 leading-relaxed font-semibold ${
+                isDarkMode ? "text-white" : "text-gray-800"
+              }`} style={{ lineHeight: '1.6' }}>
+                &quot;{testimonials[currentTestimonial].content}&quot;
               </blockquote>
 
               <div>
-                <div className="text-lg font-semibold text-white">
+                <div className={`text-xl font-bold ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}>
                   {testimonials[currentTestimonial].name}
                 </div>
-                <div className="text-purple-400">
+                <div className={`text-lg font-medium ${
+                  isDarkMode ? "text-purple-400" : "text-purple-600"
+                }`}>
                   {testimonials[currentTestimonial].role}
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-center space-x-2 mt-8">
+            <div className="flex justify-center space-x-3 mt-10">
               {testimonials.map((_, index) => (
                 <button
                   key={index}
-                  className={`w-3 h-3 rounded-full transition-all ${
+                  className={`h-4 rounded-full transition-all duration-300 ${
                     index === currentTestimonial
-                      ? "bg-purple-400 w-8"
-                      : "bg-gray-600 hover:bg-gray-500"
+                      ? `w-12 ${isDarkMode ? "bg-purple-400" : "bg-purple-600"}`
+                      : `w-4 ${isDarkMode ? "bg-gray-600" : "bg-gray-300"} hover:${isDarkMode ? "bg-gray-500" : "bg-gray-400"}`
                   }`}
                   onClick={() => setCurrentTestimonial(index)}
+                  aria-label={`View testimonial ${index + 1}`}
                 />
               ))}
             </div>

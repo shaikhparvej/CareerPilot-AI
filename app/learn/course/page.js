@@ -1,6 +1,6 @@
 "use client";
 import { ArrowRight, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
@@ -61,12 +61,14 @@ const CreateCoursePage = () => {
 
       {activeStep == 1 && (
         <div>
-          <BasicData
-            activeStep={activeStep}
-            handleBack={handleBack}
-            handleNext={handleNext}
-            setContent={setContent}
-          />
+          <Suspense fallback={<div>Loading course data...</div>}>
+            <BasicData
+              activeStep={activeStep}
+              handleBack={handleBack}
+              handleNext={handleNext}
+              setContent={setContent}
+            />
+          </Suspense>
 
           <div className="container mx-auto px-4 py-8">
             <div className="max-w-xl mx-auto bg-white shadow-md rounded-lg p-6">

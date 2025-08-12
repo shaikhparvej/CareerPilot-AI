@@ -73,7 +73,8 @@ const ChatBot = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt: input
+          message: input,
+          type: 'conversation'
         }),
       });
 
@@ -146,7 +147,7 @@ const ChatBot = () => {
       {/* Chat toggle button */}
       <button
         onClick={toggleChat}
-        className={`fixed bottom-6 right-6 p-4 rounded-full shadow-lg z-50 transition-all duration-300 ${
+        className={`fixed bottom-6 right-6 p-4 rounded-full shadow-lg z-[60] transition-all duration-300 ${
           isDarkMode
             ? 'bg-amber-500 hover:bg-amber-600 text-gray-900'
             : 'bg-blue-600 hover:bg-blue-700 text-white'
@@ -158,7 +159,7 @@ const ChatBot = () => {
 
       {/* Chat window */}
       <div
-        className={`fixed bottom-24 right-6 w-96 h-[500px] rounded-lg shadow-xl overflow-hidden transition-all duration-300 transform ${
+        className={`fixed bottom-24 right-6 w-96 h-[500px] rounded-lg shadow-xl overflow-hidden transition-all duration-300 transform z-[60] ${
           isChatOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
         } ${
           isDarkMode

@@ -3,7 +3,7 @@ import { DataCompany } from "../../data/Topcompany";
 
 const TopCompany = () => {
   const [selectedDepartment, setSelectedDepartment] = useState(
-    "Computer Engineering"
+    "Computer Science and Engineering"
   );
 
   const company = DataCompany;

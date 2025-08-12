@@ -79,9 +79,9 @@ const mockJobs = [
 
 export async function GET(request) {
   try {
-    // Get query parameters
-    const url = new URL(request.url);
-    const query = url.searchParams.get("q") || "";
+    // Get query parameters from searchParams
+    const { searchParams } = new URL(request.url);
+    const query = searchParams.get("q") || "";
     
     // If there's a query, filter the mock jobs
     let results = mockJobs;

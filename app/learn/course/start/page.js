@@ -188,7 +188,7 @@ const CoursePage = () => {
 
   useEffect(() => {
     setCheat(false), setInterview(false), setView(false), setEnggaging(false);
-    if (!combinedChapterData) {
+    if (!combinedChapterData && typeof window !== 'undefined') {
       window.location.replace("/learn/course");
     }
   }, []);

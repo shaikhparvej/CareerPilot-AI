@@ -42,9 +42,12 @@ function InterviewPractice() {
 
   const checkPermissions = async () => {
     try {
-      await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-      setPermissionsGranted(true);
-      return true;
+      // Only run on client side
+      if (typeof window !== 'undefined' && navigator.mediaDevices) {
+        await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+        setPermissionsGranted(true);
+        return true;
+      }
     } catch (error) {
       toast.error("Please enable camera and microphone access");
       setPermissionsGranted(false);

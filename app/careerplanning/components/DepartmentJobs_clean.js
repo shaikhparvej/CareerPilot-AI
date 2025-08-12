@@ -293,8 +293,8 @@ export default function DepartmentJobRoles() {
                 <option value="" disabled>
                   I am from...
                 </option>
-                <option value="Computer engineering">
-                  Computer Engineering
+                <option value="Computer Science and Engineering">
+                  Computer Science and Engineering
                 </option>
                 <option value="Electrical engineering">
                   Electrical Engineering

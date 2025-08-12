@@ -3,8 +3,6 @@ import { ChevronDown, Menu, Target, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
-import { useLanguage } from "../context/LanguageContext";
-import LanguageSwitcher from "./LanguageSwitcher";
 import { ThemeContext } from "./ThemeContext";
 import ThemeToggle from "./ThemeToggle";
 
@@ -13,12 +11,11 @@ function NavBar() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const dropdownRefs = useRef([]);
   const { isDarkMode } = useContext(ThemeContext);
-  const { t } = useLanguage();
   const pathname = usePathname();
 
   const menuItems = [
     {
-      name: t("navigation.careerPlanning"),
+      name: "Career Planning",
       submenu: [
         {
           name: "Department Roles",
@@ -26,45 +23,32 @@ function NavBar() {
         },
         { name: "Role Selection", href: "/careerplanning/checkcareer" },
         { name: "Role Roadmap", href: "/careerplanning?page=RoleRoadMap" },
-        { name: "Course Roadmap", href: "/careerplanning?page=CourseRoadmap" },
       ],
     },
     {
-      name: t("navigation.learn"),
+      name: "Learn",
       submenu: [
-        { name: "Courses", href: "/learn/course" },
-        { name: "Projects", href: "/learn?page=Projects" },
+        { name: "Courses", href: "/learn?page=Courses" },
+        { name: "Roadmaps", href: "/learn?page=Roadmaps" },
         { name: "Recall", href: "/learn/recall" },
-        { name: "30 days Preparation", href: "/learn?page=DayRemains" },
-        { name: "Tool Company Use", href: "/learn?page=ToolsCompanyUse" },
-        { name: "Check my Resume", href: "/learn?page=ResumeExtractor" },
+        { name: "Test Ability", href: "/learn?page=TestAbility" },
+        { name: "Course Details", href: "/learn/course" },
       ],
     },
     {
-      name: t("navigation.preparation"),
+      name: "Preparation",
       submenu: [
-        {
-          name: "Aptitude Preparation",
-          href: "/preparation?page=AptitudeExam",
-        },
-        {
-          name: "Coding Preparation",
-          href: "/preparation?page=CodingRound",
-        },
-        { name: "Mock interview", href: "/preparation/mockinterview" },
-        { name: "Softskill", href: "/preparation/softskill" },
+        { name: "Mock Interview", href: "/preparation/mockinterview" },
+        { name: "Soft Skills", href: "/preparation/softskill" },
+        { name: "Coding Round", href: "/preparation/codinground" },
       ],
     },
     {
-      name: t("navigation.company"),
+      name: "Company",
       submenu: [
-        {
-          name: "Prepare for jobskill",
-          href: "/company?page=PrepareForJob",
-        },
-        { name: "Company Problem", href: "/company?page=CompanyProblem" },
-        { name: "Hire Talent", href: "/company?page=HiringTalent" },
-        { name: "Take Assisment", href: "/company?page=TakeAssisment" },
+        { name: "Home", href: "/company/home" },
+        { name: "Profile", href: "/company/profile" },
+        { name: "Talent Search", href: "/company/talentsearch" },
       ],
     },
   ];
@@ -141,7 +125,7 @@ function NavBar() {
               <Target className="w-5 h-5 text-white" />
             </div>
             <span className={`text-2xl font-bold ${isDarkMode ? "text-white" : "text-gray-800"}`}>
-              {t("brand.name")}
+              CareerPilot AI
             </span>
           </div>
 
@@ -212,24 +196,23 @@ function NavBar() {
             ))}
             {/* Controls */}
             <div className="flex items-center space-x-3">
-              <LanguageSwitcher />
               <ThemeToggle />
             </div>
             <Link
               href={"/careerplanning?page=DepartmentJobRoles"}
-              className={`px-6 py-2 rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg ${
+              className={`px-6 py-2 rounded-full font-bold transition-all duration-200 transform hover:scale-105 shadow-lg ${
                 isDarkMode
                 ? "bg-gray-600 hover:bg-gray-700 text-white"
-                : "bg-blue-600 hover:bg-blue-700 text-white"
+                : "bg-green-600 hover:bg-green-700 text-white"
               }`}
+              style={{ color: 'white' }}
             >
-                            {t("navigation.getStarted")}
+                            Get Started
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
-            <LanguageSwitcher />
             <ThemeToggle />
             <button
               className={`p-2 rounded-lg transition-colors duration-200 ${
@@ -238,7 +221,7 @@ function NavBar() {
                   : "text-gray-700 hover:bg-slate-100"
               }`}
               onClick={handleMobileMenuToggle}
-              aria-label={t("navigation.menu")}
+              aria-label="Menu"
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -304,11 +287,12 @@ function NavBar() {
             ))}
             <Link
               href={"/careerplanning?page=DepartmentJobRoles"}
-              className={`block w-full text-center py-3 rounded-md transition-colors duration-200 ${
+              className={`block w-full text-center py-3 rounded-md font-bold transition-colors duration-200 ${
                 isDarkMode
                 ? "bg-gray-600 hover:bg-gray-700 text-white"
-                : "bg-blue-600 hover:bg-blue-700 text-white"
+                : "bg-green-600 hover:bg-green-700 text-white"
               }`}
+              style={{ color: 'white' }}
               onClick={handleLinkClick}
             >
                             Get Started

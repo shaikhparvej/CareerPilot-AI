@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { ThemeProvider } from './components/ThemeContext';
-import { LanguageProvider } from './context/LanguageContext';
 
 // Script to avoid flash of unstyled content (FOUC)
 function ThemeInitializer() {
@@ -75,11 +74,9 @@ function ThemeInitializer() {
 
 export function Providers({ children }) {
   return (
-    <LanguageProvider>
-      <ThemeProvider>
-        <ThemeInitializer />
-        {children}
-      </ThemeProvider>
-    </LanguageProvider>
+    <ThemeProvider>
+      <ThemeInitializer />
+      {children}
+    </ThemeProvider>
   );
 }

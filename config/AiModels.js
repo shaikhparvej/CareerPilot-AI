@@ -19,6 +19,7 @@ class MockAiModel {
 }
 
 // Export missing AI models that components expect
+export const AiCareerFieldResult = new MockAiModel("Career Field Result AI");
 export const AiCourseMcqFeedbackReport = new MockAiModel("Course MCQ Feedback AI");
 export const AiGenerateCourseMcq = new MockAiModel("Course MCQ Generator AI");
 export const AiGeneratePoints = new MockAiModel("Points Generator AI");

@@ -1,6 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import ChatBot from "../components/ChatBot";
 
 const componentMap = {
@@ -16,7 +17,7 @@ const componentMap = {
   SoftSkill: dynamic(() => import("./components/SoftSkill")),
 };
 
-const ParamsPage = () => {
+const LearnContent = () => {
   const searchParams = useSearchParams();
   const page_name = searchParams.get("page");
   const Component =
@@ -27,6 +28,14 @@ const ParamsPage = () => {
       <Component />
       <ChatBot />
     </>
+  );
+};
+
+const ParamsPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LearnContent />
+    </Suspense>
   );
 };
 

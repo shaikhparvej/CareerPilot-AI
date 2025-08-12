@@ -5,7 +5,7 @@ async function testAIResponse() {
     console.log('Testing AI response format...');
 
     const response = await axios.post('http://localhost:3004/api/gemini', {
-      prompt: 'generate which type of job roll are available in branch Computer engineering,it include category,role in json formate'
+      prompt: 'generate which type of job roll are available in branch Computer Science and Engineering,it include category,role in json formate'
     }, {
       headers: {
         'Content-Type': 'application/json'

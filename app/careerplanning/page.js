@@ -1,6 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import ChatBot from "../components/ChatBot";
 
 const componentMap = {
@@ -20,7 +21,7 @@ const componentMap = {
   ),
 };
 
-const CareerPlanning = () => {
+const CareerPlanningContent = () => {
   const searchParams = useSearchParams();
   const page_name = searchParams.get("page");
   const Component =
@@ -31,6 +32,14 @@ const CareerPlanning = () => {
       <Component />
       <ChatBot />
     </>
+  );
+};
+
+const CareerPlanning = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CareerPlanningContent />
+    </Suspense>
   );
 };
 

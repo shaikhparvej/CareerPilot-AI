@@ -1,30 +1,28 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
-import { Button } from "../../../components/ui/button";
 import {
-  Calendar,
-  Clock,
-  Video,
-  Mic,
-  MessageSquare,
-  BookOpen,
-  CheckCircle,
+    BookOpen,
+    Calendar,
+    CheckCircle,
+    Clock,
+    MessageSquare,
+    Mic,
+    Video,
 } from "lucide-react";
-import MockInterview from "./components/Startinterview";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "../../../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
 import DetailForm from "./components/DetailForm";
-import Interview from "./components/Interview";
 
 const PreMockInterview = () => {
   const [selectedTab, setSelectedTab] = useState("prepare");
-  const [ok, setOk] = useState(false);
+  const [, setOk] = useState(false);
   const [cameraEnabled, setCameraEnabled] = useState(false);
   const [micEnabled, setMicEnabled] = useState(false);
   const [stream, setStream] = useState(null);
   const videoRef = useRef(null);
   const audioRef = useRef(null);
-  const [response, setResponse] = useState("");
-  const [questions, setQuestions] = useState();
+  const [, setResponse] = useState("");
+  const [, setQuestions] = useState();
 
   const tabs = [
     { id: "prepare", label: "Preparation", icon: BookOpen },
@@ -33,9 +31,10 @@ const PreMockInterview = () => {
   ];
 
   useEffect(() => {
-    const questions = localStorage.getItem("questions");
-    if (questions) {
-      setQuestions(JSON.parse(questions));
+    if (typeof window === 'undefined') return;
+    const q = window.localStorage.getItem("questions");
+    if (q) {
+      setQuestions(JSON.parse(q));
       setOk(true);
     }
   }, []);

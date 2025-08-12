@@ -516,7 +516,7 @@ const SoftSkillsModern = () => {
 
   const handleBuildProfile = () => {
     const branch = localStorage.getItem("branch");
-    if (branch === "Computer engineering") {
+    if (branch === "Computer Science and Engineering") {
       window.location.href = "/params/page?page=githubProfile";
     } else {
       window.location.href = "/params/page?page=linkedinProfile";
@@ -542,7 +542,7 @@ const SoftSkillsModern = () => {
           <button
             key={category}
             onClick={() => setActiveCategory(category)}
-            className={`px-5 py-2 rounded-full text-sm md:text-base font-semibold transition-all transform 
+            className={`px-5 py-2 rounded-full text-sm md:text-base font-semibold transition-all transform
               ${
                 activeCategory === category
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white"

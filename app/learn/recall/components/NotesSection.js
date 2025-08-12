@@ -51,8 +51,11 @@ const CourseInterface = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    // Only add event listeners on client side
+    if (typeof document !== 'undefined') {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
   }, []);
 
   return (

@@ -7,7 +7,7 @@ const AptitudeExamPage = ({ setQuestions, setExam, setExamStatus }) => {
   const [loading, setLoading] = useState(false);
   const handleExam = async () => {
     setLoading(true);
-    const branch = "computer engineering";
+    const branch = "Computer Science and Engineering";
     const prompt = `generate 6 mcq for aptitude exam for interview preparation from branch ${branch},questions of type quantitative,logical roasoning,verbal ability,domain specific,Data Interpretation and Sufficiency.include question,options,answer,explaination.in json formate.`;
     try {
       const result = await AiAptitudeExam.sendMessage(prompt);
