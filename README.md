@@ -29,6 +29,61 @@ A full-stack AI-powered career planning and job preparation platform built with 
 - **Icons**: Lucide React, Heroicons
 - **Deployment**: Vercel
 
+## 🔑 API Key Setup (Required for AI Features)
+
+To use the AI-powered course generation and other AI features, you need a Google Gemini API key:
+
+### 1. **Get your Gemini API key**:
+
+- Go to [Google AI Studio](https://aistudio.google.com/app/apikey)
+- Sign in with your Google account
+- Click "Create API Key"
+- Copy the generated key (starts with `AIzaSy...`)
+
+### 2. **Configure the API key**:
+
+- Open `.env.local` in your project root
+- Replace the placeholder with your real API key:
+
+```bash
+GOOGLE_GEMINI_API_KEY=AIzaSyYourActualKeyHere
+```
+
+### 3. **Restart the development server**:
+
+```bash
+npm run dev
+```
+
+### 4. **Test the AI integration**:
+
+- Visit http://localhost:3000/learn?page=Courses
+- You should see AI-generated course content
+- Click "Regenerate" to get new AI-generated courses
+
+**Important**: Without a valid API key, the app will show sample courses instead of dynamic AI-generated content.
+
+3. **Optional: Firebase Setup**:
+
+   - Firebase is optional and only needed for certain database features
+   - If you don't configure Firebase, the app will use mock database functionality
+   - To enable Firebase (optional):
+     ```bash
+     NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
+     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+     NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+     NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=123456789
+     NEXT_PUBLIC_FIREBASE_APP_ID=1:123456789:web:abcdef
+     ```
+
+4. **Important Security Notes**:
+   - Never commit your API key to version control
+   - Keep your `.env.local` file private
+   - The key is only used server-side for security
+
+> ⚠️ **Without a valid API key, the app will use fallback responses instead of real AI**
+
 ## Getting Started
 
 ### Prerequisites

@@ -15,13 +15,26 @@ console.log('Environment check:', {
   fromEnv: !!process.env.GOOGLE_GEMINI_API_KEY,
 });
 
-if (!config.apiKey) {
-  console.error('GOOGLE_GEMINI_API_KEY is not set in environment variables');
+// Check if we have a valid API key (not demo/temp/placeholder keys)
+const isValidApiKey =
+  config.apiKey &&
+  !config.apiKey.includes('demo') &&
+  !config.apiKey.includes('temp') &&
+  !config.apiKey.includes('AIzaSyDOAtf0gqqMJpu5nVaSEbutTOpK_GZN7mo') &&
+  !config.apiKey.includes('your_actual_gemini_api_key_here') &&
+  !config.apiKey.includes('placeholder') &&
+  config.apiKey.length > 30;
+
+if (!isValidApiKey) {
+  console.warn('⚠️  Using fallback mode: No valid Gemini API key detected');
+  console.log('💡 To use real AI: Set GOOGLE_GEMINI_API_KEY in .env.local');
 } else {
-  console.log('✅ GOOGLE_GEMINI_API_KEY is loaded successfully');
+  console.log('✅ Valid Gemini API key detected');
 }
 
-const genAI = new GoogleGenerativeAI(config.apiKey || '');
+const genAI = isValidApiKey
+  ? new GoogleGenerativeAI(config.apiKey || '')
+  : null;
 
 // Simple fallback generator to avoid 500s in development when API key isn't set
 function getFallbackResponse(prompt: string): string {
@@ -153,6 +166,62 @@ function getFallbackResponse(prompt: string): string {
         '6. Seek challenging opportunities and stretch assignments',
         '7. Consider specialization in high-demand areas',
         '8. Pursue continuous learning and skill development',
+      ],
+      'Free Resources': [
+        'YouTube educational channels and tutorial series',
+        'Free online courses from major universities (MIT OpenCourseWare, Stanford CS)',
+        'Official documentation and getting started guides',
+        'GitHub repositories with learning resources and projects',
+        'Professional community forums (Stack Overflow, Reddit)',
+        'Free webinars and virtual conferences',
+        'Open source projects for hands-on learning',
+        'Khan Academy and Coursera free courses',
+        'FreeCodeCamp comprehensive curriculum',
+        'Mozilla Developer Network (MDN) documentation',
+        'Google Developers and Microsoft Learn platforms',
+        'Codecademy free tier programming courses',
+        'W3Schools interactive tutorials and references',
+        'HackerEarth free learning modules',
+        'GeeksforGeeks programming tutorials and practice',
+      ],
+      'Recommended Books': [
+        `${roleName} fundamentals and best practices handbook`,
+        'Clean Code: A Handbook of Agile Software Craftsmanship by Robert Martin',
+        'Introduction to Algorithms by Cormen, Leiserson, Rivest, and Stein',
+        'Design Patterns: Elements of Reusable Object-Oriented Software',
+        'The Pragmatic Programmer by David Thomas and Andrew Hunt',
+        'Code Complete by Steve McConnell',
+        'Refactoring: Improving the Design of Existing Code by Martin Fowler',
+        "You Don't Know JS series by Kyle Simpson",
+        'Eloquent JavaScript by Marijn Haverbeke',
+        'Head First Design Patterns by Eric Freeman',
+        'The Mythical Man-Month by Frederick Brooks',
+        'Cracking the Coding Interview by Gayle McDowell',
+        'System Design Interview by Alex Xu',
+        'The Clean Coder by Robert Martin',
+        'Programming Pearls by Jon Bentley',
+      ],
+      'Practice Platforms': [
+        'LeetCode - Algorithm and data structure practice',
+        'HackerRank - Programming challenges and contests',
+        'CodeSignal - Technical assessments and practice',
+        'Codewars - Coding challenges with ranking system',
+        'AtCoder - Competitive programming platform',
+        'Codeforces - Programming contests and practice',
+        'TopCoder - Algorithm competitions and challenges',
+        'GitHub - Open source project contributions',
+        'GitLab - Code collaboration and CI/CD practice',
+        'Replit - Online IDE for quick coding practice',
+        'CodePen - Frontend development playground',
+        'JSFiddle - JavaScript testing and sharing',
+        'Kaggle - Data science competitions and datasets',
+        'Project Euler - Mathematical programming challenges',
+        'Exercism - Programming exercises with mentorship',
+        'CodinGame - Game-based programming challenges',
+        'DevChallenges - Real-world frontend/fullstack projects',
+        'Frontend Mentor - Frontend design challenges',
+        'Hackerearth - Programming contests and hackathons',
+        'Sphere Online Judge (SPOJ) - Algorithmic problems',
       ],
     });
   }
@@ -849,12 +918,12 @@ function getFallbackResponse(prompt: string): string {
 }
 
 export async function POST(request: NextRequest) {
-  let prompt = ''; // Declare prompt in the main scope
+  let prompt = '';
 
   try {
     console.log('Gemini API: Received request');
 
-    // Parse the request body first so we can return a meaningful fallback if needed
+    // Parse the request body
     let body;
     try {
       body = await request.json();
@@ -866,7 +935,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    prompt = body.prompt || body.message; // Set prompt here so it's available in catch block
+    prompt = body.prompt || body.message;
 
     if (!prompt) {
       console.log('Gemini API: Missing prompt in request');
@@ -876,72 +945,434 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // If API key is not configured, return a graceful fallback to keep dev UX smooth
-    if (!config.apiKey) {
-      console.log('Gemini API: Missing API key, returning fallback response');
-      return NextResponse.json({
-        success: true,
-        response: getFallbackResponse(prompt),
-      });
-    }
-
     console.log(
       'Gemini API: Processing prompt:',
       prompt.substring(0, 50) + '...'
     );
 
-    // Use the correct model name for the current API version
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
-    // Generate content with timeout
-    const result = (await Promise.race([
-      model.generateContent(prompt),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Request timeout')), 30000)
-      ),
-    ])) as any;
-    const response = await result.response;
-    const text = response.text();
-
-    console.log('Gemini API: Successfully generated response');
-
-    // Return the generated content
-    return NextResponse.json({
-      success: true,
-      response: text,
-    });
-  } catch (error) {
-    console.error('Error calling Gemini API:', error);
-
-    // Provide more detailed error information
-    const err = error as any;
-    const errorMessage = err?.message || 'Unknown error';
-    const statusCode = typeof err?.status === 'number' ? err.status : 500;
-
-    // If it's a service unavailable error (503) or rate limit, use fallback
-    if (
-      statusCode === 503 ||
-      errorMessage.includes('overloaded') ||
-      errorMessage.includes('rate limit') ||
-      errorMessage.includes('timeout')
-    ) {
-      console.log('Gemini API: Service issue, using fallback response');
+    // If we don't have a valid API key, use enhanced fallback immediately
+    if (!isValidApiKey || !genAI) {
+      console.log(
+        'Gemini API: Using enhanced fallback response (no valid API key)'
+      );
+      const fallbackResponse = getEnhancedFallbackResponse(prompt);
       return NextResponse.json({
         success: true,
-        response: getFallbackResponse(prompt),
-        fallback: true,
+        response: fallbackResponse,
+        mode: 'fallback',
+        message:
+          'Using enhanced AI simulation (set valid GOOGLE_GEMINI_API_KEY for real AI)',
       });
     }
 
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Failed to process request',
-        message: errorMessage,
-        details:
-          'Please check your API key and ensure it has access to the Gemini API',
-      },
-      { status: statusCode }
+    // Try to use real Gemini API
+    try {
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+      // Generate content with timeout
+      const result = (await Promise.race([
+        model.generateContent(prompt),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Request timeout')), 30000)
+        ),
+      ])) as any;
+
+      const response = await result.response;
+      const text = response.text();
+
+      console.log('Gemini API: Successfully generated response');
+
+      return NextResponse.json({
+        success: true,
+        response: text,
+        mode: 'ai',
+      });
+    } catch (apiError: any) {
+      console.log('Gemini API: Real API failed, using enhanced fallback');
+      console.error('API Error details:', apiError.message);
+
+      // Use enhanced fallback when real API fails
+      const fallbackResponse = getEnhancedFallbackResponse(prompt);
+      return NextResponse.json({
+        success: true,
+        response: fallbackResponse,
+        mode: 'fallback',
+        message:
+          'AI service temporarily unavailable, using enhanced simulation',
+      });
+    }
+  } catch (error) {
+    console.error('Error in Gemini API route:', error);
+
+    // Final fallback for any unexpected errors
+    const fallbackResponse = getEnhancedFallbackResponse(
+      prompt || 'general inquiry'
     );
+    return NextResponse.json({
+      success: true,
+      response: fallbackResponse,
+      mode: 'fallback',
+      message: 'Using enhanced simulation due to service error',
+    });
   }
+}
+
+// Enhanced fallback function for comprehensive roadmap generation
+function getEnhancedFallbackResponse(prompt: string): string {
+  const p = (prompt || '').toLowerCase();
+
+  // Enhanced career roadmap fallback with detailed structure
+  if (
+    p.includes('career roadmap') ||
+    (p.includes('roadmap') && p.includes('learning path'))
+  ) {
+    const roleMatch = /career roadmap for ["']?([^"'.]+)["']?/i.exec(
+      prompt || ''
+    );
+    const roleName = roleMatch
+      ? roleMatch[1].trim()
+      : extractRoleFromPrompt(prompt);
+
+    return JSON.stringify({
+      title: `Comprehensive Career Roadmap for ${roleName}`,
+      introduction: `Welcome to your personalized ${roleName} career roadmap. This comprehensive guide has been carefully crafted to help you navigate your professional journey with confidence, providing structured learning paths, practical milestones, and industry insights to accelerate your career growth.`,
+      timeframe:
+        '12-36 months for significant career advancement with dedicated effort',
+      goals: [
+        `Master core ${roleName} skills and industry best practices`,
+        'Build a compelling professional portfolio with real-world projects',
+        'Develop strong professional network and industry connections',
+        'Achieve competitive compensation and career advancement',
+        'Establish expertise in emerging technologies and trends',
+      ],
+      objectives: [
+        'Complete comprehensive foundational learning with hands-on practice',
+        'Build and showcase multiple real-world projects demonstrating expertise',
+        'Gain practical industry experience through internships or entry-level positions',
+        'Develop essential soft skills including communication and leadership',
+        'Stay current with industry trends and emerging technologies',
+      ],
+      phases: [
+        {
+          phase: 'Foundation Building',
+          duration: '3-6 months',
+          description:
+            'Establish solid foundation with core concepts, basic tools, and fundamental understanding of the field',
+          skills: [
+            `Core ${roleName} concepts and principles`,
+            'Industry-standard tools and technologies',
+            'Problem-solving methodologies',
+            'Basic project management',
+            'Professional communication',
+          ],
+          projects: [
+            `Introduction to ${roleName} - Basic implementation project`,
+            'Tool familiarization - Hands-on practice exercises',
+            'Guided tutorial projects following industry standards',
+            'Personal learning portfolio setup',
+            'First mini-project showcasing basic skills',
+          ],
+          resources: [
+            'Online courses from Coursera, edX, or Udemy',
+            'Official documentation and getting started guides',
+            'YouTube tutorials and educational channels',
+            'Professional community forums and discussion groups',
+            'Free online bootcamps and workshops',
+          ],
+          milestones: [
+            'Complete foundational courses with 80%+ scores',
+            'Build first working project from scratch',
+            'Join 2-3 professional online communities',
+            'Create LinkedIn profile highlighting new skills',
+            'Complete 5+ practice exercises or coding challenges',
+          ],
+        },
+        {
+          phase: 'Skill Development & Practical Application',
+          duration: '6-12 months',
+          description:
+            'Advance technical abilities, work on meaningful projects, and gain practical experience through real-world applications',
+          skills: [
+            `Advanced ${roleName} concepts and specializations`,
+            'Project architecture and design patterns',
+            'Team collaboration and version control',
+            'Testing and quality assurance practices',
+            'Performance optimization and best practices',
+          ],
+          projects: [
+            'Intermediate complexity project solving real problems',
+            'Collaborative team project using industry workflows',
+            'Open source contribution to existing projects',
+            'Personal project showcasing advanced skills',
+            'Internship or freelance project with real clients',
+          ],
+          resources: [
+            'Advanced specialized courses and certifications',
+            'Industry publications and technical blogs',
+            'Professional conferences and webinars',
+            'Mentorship programs and networking events',
+            'Technical books from industry experts',
+          ],
+          milestones: [
+            'Complete 2-3 substantial projects for portfolio',
+            'Contribute to open source projects',
+            'Attend industry conferences or meetups',
+            'Establish mentor relationship',
+            'Land internship or entry-level position',
+          ],
+        },
+        {
+          phase: 'Professional Growth & Specialization',
+          duration: '12+ months',
+          description:
+            'Develop expertise in specific domains, take on leadership responsibilities, and establish yourself as a professional in the field',
+          skills: [
+            `Expert-level ${roleName} domain knowledge`,
+            'Leadership and team management',
+            'Strategic thinking and business acumen',
+            'Innovation and emerging technology adoption',
+            'Mentoring and knowledge sharing',
+          ],
+          projects: [
+            'Complex enterprise-level projects',
+            'Innovation initiatives and research projects',
+            'Leading team projects and initiatives',
+            'Speaking at conferences or writing technical articles',
+            'Consulting or advisory roles for complex problems',
+          ],
+          resources: [
+            'Executive education and advanced certifications',
+            'Industry leadership programs',
+            'Research papers and cutting-edge publications',
+            'Professional coaching and career development',
+            'Exclusive industry networks and communities',
+          ],
+          milestones: [
+            'Achieve promotion to senior position',
+            'Lead successful major project or initiative',
+            'Become recognized expert in specialization area',
+            'Mentor junior colleagues effectively',
+            'Establish thought leadership through content creation',
+          ],
+        },
+      ],
+      skills_by_level: {
+        beginner: [
+          'Basic technical knowledge and tool familiarity',
+          'Fundamental programming or domain concepts',
+          'Effective communication and collaboration',
+          'Learning agility and adaptability',
+          'Time management and organization',
+        ],
+        intermediate: [
+          'Advanced technical skills and best practices',
+          'Project management and planning abilities',
+          'Team leadership and collaboration',
+          'Problem-solving and critical thinking',
+          'Industry awareness and trend recognition',
+        ],
+        advanced: [
+          'Expert-level domain knowledge and innovation',
+          'Strategic planning and business alignment',
+          'Team leadership and people development',
+          'Cross-functional collaboration and influence',
+          'Thought leadership and industry contribution',
+        ],
+      },
+      industry_trends: [
+        'Artificial Intelligence and Machine Learning integration',
+        'Cloud-native technologies and microservices architecture',
+        'Remote work and distributed team collaboration',
+        'Sustainability and green technology focus',
+        'Cybersecurity and privacy-first development',
+        'Low-code/no-code platforms and automation',
+        'DevOps and continuous integration/deployment practices',
+      ],
+      challenges: [
+        'Staying current with rapidly evolving technology landscape',
+        'Building practical experience while learning theoretical concepts',
+        'Finding quality mentorship and career guidance',
+        'Balancing depth vs breadth in skill development',
+        'Competing in a competitive job market',
+        'Managing imposter syndrome and building confidence',
+      ],
+      networking: [
+        'Professional associations and industry groups',
+        'Local meetups and user group communities',
+        'Industry conferences and workshop events',
+        'Online professional networks (LinkedIn, Twitter)',
+        'Alumni networks and educational connections',
+        'Open source communities and contribution opportunities',
+      ],
+      certifications: [
+        `Industry-recognized ${roleName} certifications`,
+        'Cloud platform certifications (AWS, Azure, GCP)',
+        'Project management certifications (PMP, Agile)',
+        'Vendor-specific technology certifications',
+        'Professional development and soft skills credentials',
+      ],
+      salary_progression: `Entry level: ₹4-8 LPA → Mid-level: ₹8-18 LPA → Senior: ₹18-35 LPA → Expert: ₹35+ LPA. Progression depends on skills, location, company size, and market demand.`,
+      interview_preparation: [
+        `Technical assessments specific to ${roleName}`,
+        'System design and architecture discussions',
+        'Behavioral questions and situational scenarios',
+        'Portfolio project presentations and code reviews',
+        'Industry knowledge and current trends awareness',
+        'Problem-solving and analytical thinking demonstrations',
+      ],
+      continuous_learning: [
+        'Regular skill updates through online courses and workshops',
+        'Following industry news and technology blogs',
+        'Participating in professional development programs',
+        'Attending conferences and staying connected with community',
+        'Reading technical books and research papers',
+        'Experimenting with new tools and emerging technologies',
+      ],
+    });
+  }
+
+  // Enhanced prerequisite information
+  if (
+    p.includes('prerequisite') ||
+    p.includes('preparation') ||
+    p.includes('before start')
+  ) {
+    const roleMatch = /prerequisite.*for ["']?([^"'.]+)["']?/i.exec(
+      prompt || ''
+    );
+    const roleName = roleMatch
+      ? roleMatch[1].trim()
+      : extractRoleFromPrompt(prompt);
+
+    return JSON.stringify({
+      title: `Comprehensive Prerequisites for ${roleName}`,
+      foundation_knowledge: [
+        `Basic understanding of ${roleName} field and its applications`,
+        'Fundamental computer science concepts and logical thinking',
+        'Problem-solving skills and analytical mindset',
+        'Basic mathematics and statistics (depending on field)',
+        'Communication skills and ability to learn independently',
+      ],
+      recommended_courses: [
+        {
+          course: `Introduction to ${roleName}`,
+          provider: 'Multiple platforms (Coursera, edX, Udemy)',
+          duration: '4-8 weeks',
+          difficulty: 'Beginner',
+          url: 'Search on major learning platforms',
+        },
+        {
+          course: 'Computer Science Fundamentals',
+          provider: 'CS50x Harvard or similar',
+          duration: '10-12 weeks',
+          difficulty: 'Beginner',
+          url: 'https://cs50.harvard.edu/x/',
+        },
+        {
+          course: 'Programming Basics',
+          provider: 'FreeCodeCamp, Codecademy',
+          duration: '6-10 weeks',
+          difficulty: 'Beginner',
+          url: 'Multiple free options available',
+        },
+        {
+          course: 'Professional Communication',
+          provider: 'Coursera Business Writing',
+          duration: '4 weeks',
+          difficulty: 'Beginner',
+          url: 'Professional development platforms',
+        },
+      ],
+      preparation_steps: [
+        'Assess your current knowledge and identify learning gaps',
+        'Set clear, measurable learning goals with timeline',
+        'Create dedicated learning environment and schedule',
+        'Join relevant online communities and professional networks',
+        'Start with basic concepts and gradually build complexity',
+        'Practice regularly with hands-on exercises and projects',
+        'Seek feedback from peers and mentors throughout journey',
+      ],
+      estimated_prep_time:
+        '8-16 weeks for comprehensive preparation, depending on prior experience and time commitment',
+      free_resources: [
+        'YouTube educational channels and tutorial series',
+        'Free online courses from major universities (MIT OpenCourseWare, Stanford CS)',
+        'Official documentation and getting started guides',
+        'GitHub repositories with learning resources and projects',
+        'Professional community forums (Stack Overflow, Reddit)',
+        'Free webinars and virtual conferences',
+        'Open source projects for hands-on learning',
+        'Khan Academy and Coursera free courses',
+        'FreeCodeCamp comprehensive curriculum',
+        'Mozilla Developer Network (MDN) documentation',
+        'Google Developers and Microsoft Learn platforms',
+        'Codecademy free tier programming courses',
+        'W3Schools interactive tutorials and references',
+        'HackerEarth free learning modules',
+        'GeeksforGeeks programming tutorials and practice',
+      ],
+      books: [
+        `${roleName} fundamentals and best practices handbook`,
+        'Clean Code: A Handbook of Agile Software Craftsmanship by Robert Martin',
+        'Introduction to Algorithms by Cormen, Leiserson, Rivest, and Stein',
+        'Design Patterns: Elements of Reusable Object-Oriented Software',
+        'The Pragmatic Programmer by David Thomas and Andrew Hunt',
+        'Code Complete by Steve McConnell',
+        'Refactoring: Improving the Design of Existing Code by Martin Fowler',
+        "You Don't Know JS series by Kyle Simpson",
+        'Eloquent JavaScript by Marijn Haverbeke',
+        'Head First Design Patterns by Eric Freeman',
+        'The Mythical Man-Month by Frederick Brooks',
+        'Cracking the Coding Interview by Gayle McDowell',
+        'System Design Interview by Alex Xu',
+        'The Clean Coder by Robert Martin',
+        'Programming Pearls by Jon Bentley',
+      ],
+      practice_platforms: [
+        'LeetCode - Algorithm and data structure practice',
+        'HackerRank - Programming challenges and contests',
+        'CodeSignal - Technical assessments and practice',
+        'Codewars - Coding challenges with ranking system',
+        'AtCoder - Competitive programming platform',
+        'Codeforces - Programming contests and practice',
+        'TopCoder - Algorithm competitions and challenges',
+        'GitHub - Open source project contributions',
+        'GitLab - Code collaboration and CI/CD practice',
+        'Replit - Online IDE for quick coding practice',
+        'CodePen - Frontend development playground',
+        'JSFiddle - JavaScript testing and sharing',
+        'Kaggle - Data science competitions and datasets',
+        'Project Euler - Mathematical programming challenges',
+        'Exercism - Programming exercises with mentorship',
+        'CodinGame - Game-based programming challenges',
+        'DevChallenges - Real-world frontend/fullstack projects',
+        'Frontend Mentor - Frontend design challenges',
+        'Hackerearth - Programming contests and hackathons',
+        'Sphere Online Judge (SPOJ) - Algorithmic problems',
+      ],
+    });
+  }
+
+  // Fallback to original function for other requests
+  return getFallbackResponse(prompt);
+}
+
+function extractRoleFromPrompt(prompt: string): string {
+  const p = prompt.toLowerCase();
+
+  // Common tech roles
+  if (p.includes('software engineer') || p.includes('developer'))
+    return 'Software Engineer';
+  if (p.includes('data scientist')) return 'Data Scientist';
+  if (p.includes('product manager')) return 'Product Manager';
+  if (p.includes('devops')) return 'DevOps Engineer';
+  if (p.includes('ui/ux') || p.includes('designer')) return 'UI/UX Designer';
+  if (p.includes('business analyst')) return 'Business Analyst';
+  if (p.includes('qa') || p.includes('tester')) return 'QA Engineer';
+  if (p.includes('cybersecurity')) return 'Cybersecurity Specialist';
+  if (p.includes('machine learning')) return 'Machine Learning Engineer';
+  if (p.includes('full stack')) return 'Full Stack Developer';
+
+  // Generic fallback
+  return 'Technology Professional';
 }

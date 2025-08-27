@@ -1,5 +1,6 @@
 import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import { AiQuizRecall } from "../../../../lib/aiService";
 
 import Image from "next/image";
 
@@ -32,7 +33,7 @@ const CourseSelectionForm = ({
     e.preventDefault();
     const prompt = `Generate a study material for ${topic} for interview preparation with summery of course, List of Chapters along with summery for each chapter, Topic list in each chapter. in JSON format.`;
     try {
-      const result = await AiRecallCourseOutline.sendMessage(prompt);
+  const result = await AiQuizRecall.sendMessage(prompt);
       const responseText = await result.response.text();
       console.log("Response Text: ", responseText);
       const json = JSON.parse(responseText);

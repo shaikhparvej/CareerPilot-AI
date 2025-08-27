@@ -82,9 +82,24 @@ function Note({ Course, active2 }) {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center p-4">
+        <div className="flex flex-col items-center justify-center p-4 gap-4">
           <p className="text-center text-gray-500">No Notes available</p>
-          <Button>Go Back</Button>
+          <Button
+            className="bg-gradient-to-r from-yellow-400 to-blue-500 text-white font-semibold rounded-lg px-6 py-3 shadow-md hover:from-yellow-500 hover:to-blue-600 transition"
+            onClick={() => {
+              window.location.href = '/careerplanning?page=DepartmentJobRoles';
+            }}
+          >
+            Start Preparing
+          </Button>
+          <Button
+            className="bg-gradient-to-r from-blue-500 to-yellow-400 text-white font-semibold rounded-lg px-6 py-3 shadow-md hover:from-blue-600 hover:to-yellow-500 transition"
+            onClick={() => {
+              window.location.href = '/home';
+            }}
+          >
+            Watch
+          </Button>
         </div>
       )}
       <div>

@@ -1,22 +1,22 @@
 "use client";
 
 import {
-  AlertCircle,
-  ArrowRight,
-  CheckCircle,
-  ChevronRight,
-  Clock,
+    AlertCircle,
+    ArrowRight,
+    CheckCircle,
+    ChevronRight,
+    Clock,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
 } from "../../../components/ui/card";
 import { Progress } from "../../../components/ui/progress";
 
@@ -709,9 +709,15 @@ const CareerAssessmentPage = () => {
                 {assessment === 5 && (
                   <div className="flex items-center justify-center p-4">
                     <div className="text-center">
-                      <AlertCircle className="h-16 w-16 text-amber-500 mx-auto mb-3" />
+                      {assessmentTypes.every(type => type.completed) ? (
+                        <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-3" />
+                      ) : (
+                        <AlertCircle className="h-16 w-16 text-amber-500 mx-auto mb-3" />
+                      )}
                       <p className="text-gray-700">
-                        Complete all assessments to see your final results
+                        {assessmentTypes.every(type => type.completed)
+                          ? "All assessments complete! You can now view your final results."
+                          : "Complete all assessments to see your final results"}
                       </p>
                     </div>
                   </div>

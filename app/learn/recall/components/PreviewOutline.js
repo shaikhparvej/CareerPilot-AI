@@ -50,14 +50,15 @@ const SyallbusOutline = () => {
       notes: true,
     }));
     const combinedResponses = [];
-    for (const [index, chapterContent] of courseData?.chapters.entries()) {
-      const total = index + 1;
-      const prompt = `Generate interview preparation notes material in detail content for each chapter, Make sure to includes all topic point in the content, make sure to give content in HTML format and style (Do not Add HTML, Head, Body, title tag),The chapters: ${JSON.stringify(
-        chapterContent
-      )}`;
-      if (index <= total) {
-        try {
-          const result = await AiNotesSection.sendMessage(prompt);
+    if (courseData?.chapters && Array.isArray(courseData.chapters)) {
+      for (const [index, chapterContent] of courseData.chapters.entries()) {
+        const total = index + 1;
+        const prompt = `Generate interview preparation notes material in detail content for each chapter, Make sure to includes all topic point in the content, make sure to give content in HTML format and style (Do not Add HTML, Head, Body, title tag),The chapters: ${JSON.stringify(
+          chapterContent
+        )}`;
+        if (index <= total) {
+          try {
+            const result = await AiNotesSection.sendMessage(prompt);
           const responseText = await result.response.text();
           console.log(responseText);
           combinedResponses.push(responseText);
@@ -92,12 +93,13 @@ const SyallbusOutline = () => {
       flashcard: true,
     }));
     const combinedResponses = [];
-    for (const [index, chapterContent] of courseData?.chapters.entries()) {
-      const total = index + 1;
-      const prompt = `generate the flashcard on course:${courseData.courseTitle},topic:${chapterContent.chapterTitle}.in json formate with front back content,maximum 5.`;
-      if (index <= total) {
-        try {
-          const result = await AiFlashCard.sendMessage(prompt);
+    if (courseData?.chapters && Array.isArray(courseData.chapters)) {
+      for (const [index, chapterContent] of courseData.chapters.entries()) {
+        const total = index + 1;
+        const prompt = `generate the flashcard on course:${courseData.courseTitle},topic:${chapterContent.chapterTitle}.in json formate with front back content,maximum 5.`;
+        if (index <= total) {
+          try {
+            const result = await AiFlashCard.sendMessage(prompt);
           const responseText = await result.response.text();
           const jsonformate = JSON.parse(responseText);
           console.log(jsonformate);
@@ -133,11 +135,12 @@ const SyallbusOutline = () => {
       quiz: true,
     }));
     const combinedResponses = [];
-    for (const [index, chapterContent] of courseData?.chapters.entries()) {
-      const total = index + 1;
-      const prompt = `generate Scenario-Based Approach,Problem-Solving Approach,filll-in-the blank style,Comparison Question,Interactive Code-Based Question(if applicable),Real-World Analogy based quiz on topic:${chapterContent.chapterTitle} of course:${courseData.courseTitle}.include question,option,coorect_answer,explanation.in json formate.`;
-      if (index <= total) {
-        try {
+    if (courseData?.chapters && Array.isArray(courseData.chapters)) {
+      for (const [index, chapterContent] of courseData.chapters.entries()) {
+        const total = index + 1;
+        const prompt = `generate Scenario-Based Approach,Problem-Solving Approach,filll-in-the blank style,Comparison Question,Interactive Code-Based Question(if applicable),Real-World Analogy based quiz on topic:${chapterContent.chapterTitle} of course:${courseData.courseTitle}.include question,option,coorect_answer,explanation.in json formate.`;
+        if (index <= total) {
+          try {
           const result = await AiQuizRecall.sendMessage(prompt);
           const responseText = await result.response.text();
           const jsonformate = JSON.parse(responseText);
@@ -534,6 +537,7 @@ const SyallbusOutline = () => {
             </button>
           </div>
         </div>
+
       </div>
     </>
   );

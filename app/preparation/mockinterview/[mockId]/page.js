@@ -93,6 +93,38 @@ const MockInterview = () => {
     useLegacyResults: false,
   });
 
+  // Add microphone permission state
+  const [micPermission, setMicPermission] = useState(false);
+  const [permissionError, setPermissionError] = useState("");
+
+  // Check microphone permission on component mount
+  useEffect(() => {
+    const checkMicPermission = async () => {
+      try {
+        if (typeof navigator !== 'undefined' && navigator.mediaDevices) {
+          // Request permission
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          // If successful, stop the stream and set permission to true
+          stream.getTracks().forEach(track => track.stop());
+          setMicPermission(true);
+          setPermissionError("");
+        }
+      } catch (error) {
+        console.error("Microphone permission error:", error);
+        setMicPermission(false);
+        if (error.name === 'NotAllowedError') {
+          setPermissionError("Microphone access denied. Please allow microphone access in your browser settings.");
+        } else if (error.name === 'NotFoundError') {
+          setPermissionError("No microphone found. Please connect a microphone and try again.");
+        } else {
+          setPermissionError("Unable to access microphone. Please check your browser settings.");
+        }
+      }
+    };
+
+    checkMicPermission();
+  }, []);
+
   useEffect(() => {
     if (results.length > 0) {
       const newAnswer = results.map((result) => result.transcript).join(" ");
@@ -455,6 +487,19 @@ const MockInterview = () => {
                 </div>
               </div>
 
+              {/* Permission Error Display */}
+              {permissionError && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                  <div className="flex items-center gap-2 text-red-700">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    <span className="font-medium">Microphone Access Required</span>
+                  </div>
+                  <p className="text-red-600 text-sm mt-1">{permissionError}</p>
+                </div>
+              )}
+
               {/* Recording Controls */}
               <div className="flex justify-center gap-6 mb-8">
                 <Button
@@ -465,8 +510,14 @@ const MockInterview = () => {
                   }`}
                   variant={isRecording ? "destructive" : "default"}
                   onClick={isRecording ? stopSpeechToText : startSpeechToText}
-                  disabled={!cameraOn}
-                  title={!cameraOn && "Enable Camera"}
+                  disabled={!cameraOn || !micPermission}
+                  title={
+                    !cameraOn
+                      ? "Enable Camera"
+                      : !micPermission
+                      ? "Microphone access required"
+                      : ""
+                  }
                 >
                   {isRecording ? (
                     <div className="flex items-center space-x-2">

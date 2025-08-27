@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { geminiModel } from '../../../config/AiModels';
 import LoadingDialog from "../../components/LoadingDialog";
 import Precourse from "./Precourse";
@@ -11,299 +11,458 @@ export default function RoleRoadMap() {
   const [loading, setLoading] = useState(false);
   const [tree, setTree] = useState(false);
   const [roadmap, setRoadmap] = useState("");
-  const [branch, setBranch] = useState(""); // Optional: remove if not needed
+  const [branch, setBranch] = useState("Computer Science and Engineering");
   const [level, setLevel] = useState("beginner");
   const [pre, setPre] = useState("");
+  const [experience, setExperience] = useState("0-1 years");
+  const [interests, setInterests] = useState([]);
+  const [careerGoals, setCareerGoals] = useState("");
 
-  useEffect(() => {
-    const roadmap = localStorage.getItem("roadmap");
-    const storedRole = localStorage.getItem("role");
-
-    if (roadmap) {
-      setRoadmap(roadmap);
-      setTree(true);
-    } else if (storedRole) {
-      // Auto-set the role from assessment and auto-generate roadmap
-      setInputValue(storedRole);
-      setSubmittedValue(storedRole);
-      // Auto-trigger roadmap generation
-      const autoGenerateRoadmap = async () => {
-        setLoading(true);
-
-        const localKey = `roadmap`;
-        const storedData = localStorage.getItem(localKey);
-        const BASIC_PROMPT = `Create a comprehensive career roadmap for ${storedRole}. Include: introduction, goals, objectives, stages, topics, subtopics, time required, real-world projects, challenges, resources, and skills required to master. Format as JSON with clear structure.`;
-
-        try {
-          if (storedData) {
-            const parsed = JSON.parse(storedData);
-            setSubmittedValue(parsed.roadmap);
-            setPre(parsed.precourse);
-            setTree(true);
-            setLoading(false);
-            return;
-          }
-
-          // Generate roadmap via AI
-          const roadmapResult = await geminiModel.sendMessage(BASIC_PROMPT);
-          const roadmapText = await roadmapResult.response.text();
-
-          // Parse JSON with fallback
-          let roadmapJSON;
-          try {
-            roadmapJSON = JSON.parse(roadmapText);
-          } catch (parseError) {
-            console.log('JSON parse failed, using fallback roadmap structure');
-            roadmapJSON = {
-              introduction: `Welcome to your ${storedRole} career roadmap. This comprehensive guide will help you navigate your journey in this exciting field.`,
-              goals: [`Master ${storedRole} fundamentals`, `Build practical experience`, `Develop professional network`],
-              objectives: [`Complete foundational learning`, `Build portfolio projects`, `Gain industry experience`],
-              stages: [
-                {
-                  stage: "Foundation",
-                  duration: "3-6 months",
-                  topics: [`${storedRole} Basics`, "Industry Overview", "Core Concepts"],
-                  skills: ["Basic theoretical knowledge", "Problem-solving mindset"]
-                },
-                {
-                  stage: "Intermediate",
-                  duration: "6-12 months",
-                  topics: ["Advanced Concepts", "Practical Applications", "Project Work"],
-                  skills: ["Technical proficiency", "Project management"]
-                },
-                {
-                  stage: "Advanced",
-                  duration: "12+ months",
-                  topics: ["Specialization", "Leadership", "Innovation"],
-                  skills: ["Expert-level knowledge", "Mentoring abilities"]
-                }
-              ],
-              resources: ["Online courses", "Industry publications", "Professional communities", "Certification programs"],
-              challenges: ["Keeping up with technology", "Building experience", "Finding mentorship"],
-              projects: [`Beginner ${storedRole} project`, `Intermediate portfolio piece`, `Advanced capstone project`]
-            };
-          }
-
-          setSubmittedValue(roadmapJSON);
-
-          const prePrompt = `Provide a list of prerequisite knowledge and skills needed before starting a career in ${storedRole}. Format as JSON with clear categories.`;
-          const preResult = await geminiModel.sendMessage(prePrompt);
-          const preText = await preResult.response.text();
-
-          let preJSON;
-          try {
-            preJSON = JSON.parse(preText);
-          } catch (parseError) {
-            console.log('Pre-course JSON parse failed, using fallback');
-            preJSON = {
-              prerequisites: [`Basic understanding of ${storedRole} field`, "Problem-solving skills", "Communication skills"],
-              recommended_background: ["Relevant education or training", "Basic computer literacy", "Industry awareness"],
-              preparation_tips: ["Start with fundamentals", "Practice regularly", "Join professional communities"]
-            };
-          }
-
-          setPre(preJSON);
-
-          // Save to localStorage
-          localStorage.setItem(
-            localKey,
-            JSON.stringify({
-              role: storedRole,
-              branch,
-              level,
-              roadmap: roadmapJSON,
-              precourse: preJSON,
-            })
-          );
-
-          setTree(true);
-        } catch (error) {
-          console.error("Error generating roadmap:", error);
-          // Fallback roadmap on error
-          const fallbackRoadmap = {
-            introduction: `Your ${storedRole} career roadmap is ready. This guide provides a structured path to success in your chosen field.`,
-            goals: [`Build ${storedRole} expertise`, "Gain practical experience", "Advance your career"],
-            stages: ["Foundation", "Development", "Mastery"],
-            resources: ["Educational materials", "Practice projects", "Professional network"],
-            timeframe: "12-24 months for significant progress"
-          };
-          setSubmittedValue(fallbackRoadmap);
-          setTree(true);
-        }
-
-        setLoading(false);
-      };
-
-      setTimeout(() => {
-        autoGenerateRoadmap();
-      }, 500);
-    }
-  }, [branch, level]);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const generateDynamicRoadmap = useCallback(async (role, isManual = false) => {
     setLoading(true);
 
-    const localKey = `roadmap`;
-    const BASIC_PROMPT = `generate Simple,Focused,Progressive, and Outcome-Oriented roadmap for ${inputValue} of branch ${branch},include introducation,goal,objective,stages,topic,subtopics,time required,real worldprojects,challenges,resources,skill required to master.in json formate.`;
-
     try {
-      // Clear existing roadmap data to force regeneration
-      localStorage.removeItem(localKey);
-      setTree(false);
+      // Enhanced prompt for better roadmap generation
+      const enhancedPrompt = `
+        Create a comprehensive, personalized career roadmap for a ${role} position.
 
-      // Generate roadmap via AI
-      const roadmapResult = await geminiModel.sendMessage(BASIC_PROMPT);
-      const roadmapText = await roadmapResult.response.text();
+        Context:
+        - Branch/Field: ${branch}
+        - Experience Level: ${level} (${experience})
+        - Career Goals: ${careerGoals || "Professional growth and skill development"}
+        - Special Interests: ${interests.length > 0 ? interests.join(", ") : "General career advancement"}
 
-      // Parse JSON with fallback
-      let roadmapJSON;
-      try {
-        roadmapJSON = JSON.parse(roadmapText);
-      } catch (parseError) {
-        console.log('JSON parse failed, using fallback roadmap structure');
-        roadmapJSON = {
-          introduction: `Welcome to your ${inputValue} career roadmap. This comprehensive guide will help you navigate your journey in this exciting field.`,
-          goals: [`Master ${inputValue} fundamentals`, `Build practical experience`, `Develop professional network`],
-          objectives: [`Complete foundational learning`, `Build portfolio projects`, `Gain industry experience`],
-          stages: [
+        Please provide a detailed JSON response with the following structure:
+        {
+          "title": "Career Roadmap for ${role}",
+          "introduction": "A personalized introduction for this career path",
+          "timeframe": "Overall timeline for career progression",
+          "goals": ["Primary career goals as an array"],
+          "objectives": ["Specific learning objectives"],
+          "phases": [
             {
-              stage: "Foundation",
-              duration: "3-6 months",
-              topics: [`${inputValue} Basics`, "Industry Overview", "Core Concepts"],
-              skills: ["Basic theoretical knowledge", "Problem-solving mindset"]
-            },
-            {
-              stage: "Intermediate",
-              duration: "6-12 months",
-              topics: ["Advanced Concepts", "Practical Applications", "Project Work"],
-              skills: ["Technical proficiency", "Project management"]
-            },
-            {
-              stage: "Advanced",
-              duration: "12+ months",
-              topics: ["Specialization", "Leadership", "Innovation"],
-              skills: ["Expert-level knowledge", "Mentoring abilities"]
+              "phase": "Phase name",
+              "duration": "Time period",
+              "description": "What to focus on in this phase",
+              "skills": ["Skills to develop"],
+              "projects": ["Recommended projects"],
+              "resources": ["Learning resources"],
+              "milestones": ["Key achievements to aim for"]
             }
           ],
-          resources: ["Online courses", "Industry publications", "Professional communities", "Certification programs"],
-          challenges: ["Keeping up with technology", "Building experience", "Finding mentorship"],
-          projects: [`Beginner ${inputValue} project`, `Intermediate portfolio piece`, `Advanced capstone project`]
-        };
+          "skills_by_level": {
+            "beginner": ["Entry level skills"],
+            "intermediate": ["Mid-level skills"],
+            "advanced": ["Senior level skills"]
+          },
+          "industry_trends": ["Current trends in the field"],
+          "challenges": ["Common challenges and how to overcome them"],
+          "networking": ["Professional networking opportunities"],
+          "certifications": ["Recommended certifications"],
+          "salary_progression": "Expected salary growth path",
+          "interview_preparation": ["Key interview topics"],
+          "continuous_learning": ["Ways to stay updated"]
+        }
+
+        Make this roadmap specific, actionable, and tailored to the provided context. Include real-world examples and current industry practices.
+      `;
+
+      const roadmapResult = await geminiModel.sendMessage(enhancedPrompt);
+      const roadmapText = await roadmapResult.response.text();
+
+      let roadmapJSON;
+      try {
+        roadmapJSON = JSON.parse(roadmapText.replace(/```json|```/g, '').trim());
+      } catch (parseError) {
+        console.log('JSON parse failed, creating enhanced fallback roadmap');
+        roadmapJSON = createEnhancedFallbackRoadmap(role);
       }
 
-      setSubmittedValue(roadmapJSON);
+      // Generate prerequisite course information
+      const prePrompt = `
+        Provide comprehensive prerequisite information for starting a career in ${role}.
+        Include foundation knowledge, recommended courses, and preparation steps.
+        Format as JSON with this structure:
+        {
+          "title": "Prerequisites for ${role}",
+          "foundation_knowledge": ["Basic concepts to understand"],
+          "recommended_courses": [
+            {
+              "course": "Course name",
+              "provider": "Platform/Provider",
+              "duration": "Time to complete",
+              "difficulty": "Beginner/Intermediate/Advanced",
+              "url": "Course URL if available"
+            }
+          ],
+          "preparation_steps": ["Steps to take before starting"],
+          "estimated_prep_time": "Time needed for preparation",
+          "free_resources": ["Free learning materials"],
+          "books": ["Recommended books"],
+          "practice_platforms": ["Where to practice skills"]
+        }
+      `;
 
-      const prePrompt = `give me list of things i want know about befor start courses in "${inputValue}".include .in json formate.`;
       const preResult = await geminiModel.sendMessage(prePrompt);
       const preText = await preResult.response.text();
 
       let preJSON;
       try {
-        preJSON = JSON.parse(preText);
+        preJSON = JSON.parse(preText.replace(/```json|```/g, '').trim());
       } catch (parseError) {
-        console.log('Pre-course JSON parse failed, using fallback');
-        preJSON = {
-          prerequisites: [`Basic understanding of ${inputValue} field`, "Problem-solving skills", "Communication skills"],
-          recommended_background: ["Relevant education or training", "Basic computer literacy", "Industry awareness"],
-          preparation_tips: ["Start with fundamentals", "Practice regularly", "Join professional communities"]
-        };
+        console.log('Pre-course JSON parse failed, using enhanced fallback');
+        preJSON = createPrecourseFallback(role);
       }
 
+      setSubmittedValue(roadmapJSON);
       setPre(preJSON);
 
-      // Save to localStorage
+      // Save to localStorage with enhanced data
+      const localKey = isManual ? `roadmap_manual_${Date.now()}` : 'roadmap';
       localStorage.setItem(
         localKey,
         JSON.stringify({
-          role: inputValue,
+          role,
           branch,
           level,
+          experience,
+          interests,
+          careerGoals,
           roadmap: roadmapJSON,
           precourse: preJSON,
+          timestamp: new Date().toISOString()
         })
       );
 
       setTree(true);
     } catch (error) {
       console.error("Error generating roadmap:", error);
-      // Fallback roadmap on error
-      const fallbackRoadmap = {
-        introduction: `Your ${inputValue} career roadmap is ready. This guide provides a structured path to success in your chosen field.`,
-        goals: [`Build ${inputValue} expertise`, "Gain practical experience", "Advance your career"],
-        stages: ["Foundation", "Development", "Mastery"],
-        resources: ["Educational materials", "Practice projects", "Professional network"],
-        timeframe: "12-24 months for significant progress"
-      };
+      const fallbackRoadmap = createEnhancedFallbackRoadmap(role);
       setSubmittedValue(fallbackRoadmap);
+      setPre(createPrecourseFallback(role));
       setTree(true);
     }
 
     setLoading(false);
+  }, [branch, level, experience, interests, careerGoals]);
+
+  useEffect(() => {
+    const roadmap = localStorage.getItem("roadmap");
+    const storedRole = localStorage.getItem("role");
+
+    if (roadmap) {
+      try {
+        const parsedRoadmap = JSON.parse(roadmap);
+        setRoadmap(parsedRoadmap.roadmap);
+        setPre(parsedRoadmap.precourse);
+        setSubmittedValue(parsedRoadmap.roadmap);
+        setTree(true);
+      } catch (error) {
+        console.error("Error parsing stored roadmap:", error);
+        localStorage.removeItem("roadmap");
+      }
+    } else if (storedRole) {
+      setInputValue(storedRole);
+      setSubmittedValue(storedRole);
+      generateDynamicRoadmap(storedRole);
+    }
+  }, [generateDynamicRoadmap]);
+
+  const createEnhancedFallbackRoadmap = (role) => ({
+    title: `Career Roadmap for ${role}`,
+    introduction: `Welcome to your comprehensive ${role} career roadmap. This personalized guide will help you navigate your journey with confidence and strategic planning.`,
+    timeframe: "12-36 months for significant career advancement",
+    goals: [
+      `Master ${role} fundamentals and best practices`,
+      "Build a strong professional portfolio",
+      "Develop industry connections and network",
+      "Achieve career growth and competitive compensation"
+    ],
+    objectives: [
+      "Complete foundational learning with hands-on practice",
+      "Build and showcase real-world projects",
+      "Gain industry experience and mentorship",
+      "Develop leadership and communication skills"
+    ],
+    phases: [
+      {
+        phase: "Foundation Building",
+        duration: "3-6 months",
+        description: "Establish core knowledge and basic skills",
+        skills: ["Core technical skills", "Problem-solving methodology", "Industry awareness"],
+        projects: [`Basic ${role} project`, "Tutorial-based exercises", "Simple portfolio pieces"],
+        resources: ["Online courses", "Documentation", "Community forums"],
+        milestones: ["Complete foundational courses", "Build first project", "Join professional communities"]
+      },
+      {
+        phase: "Skill Development",
+        duration: "6-12 months",
+        description: "Advance technical abilities and practical experience",
+        skills: ["Advanced technical concepts", "Project management", "Team collaboration"],
+        projects: ["Intermediate complexity projects", "Open source contributions", "Team collaborations"],
+        resources: ["Advanced courses", "Industry publications", "Mentorship programs"],
+        milestones: ["Complete intermediate projects", "Start networking", "Gain practical experience"]
+      },
+      {
+        phase: "Professional Growth",
+        duration: "12+ months",
+        description: "Specialize and take on leadership responsibilities",
+        skills: ["Domain expertise", "Leadership abilities", "Strategic thinking"],
+        projects: ["Complex real-world projects", "Innovation initiatives", "Mentoring others"],
+        resources: ["Industry conferences", "Professional certifications", "Thought leadership content"],
+        milestones: ["Achieve specialization", "Lead projects", "Mentor others"]
+      }
+    ],
+    skills_by_level: {
+      beginner: ["Basic technical knowledge", "Communication skills", "Learning agility"],
+      intermediate: ["Advanced technical skills", "Project management", "Team leadership"],
+      advanced: ["Expert-level knowledge", "Strategic planning", "Innovation leadership"]
+    },
+    industry_trends: ["Current technology trends", "Market demands", "Future opportunities"],
+    challenges: ["Staying current with technology", "Building experience", "Finding mentorship"],
+    networking: ["Professional associations", "Industry events", "Online communities"],
+    certifications: ["Industry-recognized certifications", "Skill-specific credentials"],
+    salary_progression: "Entry level to senior positions with 50-200% growth potential",
+    interview_preparation: ["Technical assessments", "Behavioral questions", "Portfolio presentation"],
+    continuous_learning: ["Regular skill updates", "Industry news", "Professional development"]
+  });
+
+  const createPrecourseFallback = (role) => ({
+    title: `Prerequisites for ${role}`,
+    foundation_knowledge: [
+      `Basic understanding of ${role} field and industry`,
+      "Problem-solving and analytical thinking",
+      "Communication and collaboration skills",
+      "Basic computer literacy and digital skills"
+    ],
+    recommended_courses: [
+      {
+        course: `Introduction to ${role}`,
+        provider: "Various online platforms",
+        duration: "4-8 weeks",
+        difficulty: "Beginner",
+        url: "Multiple options available"
+      },
+      {
+        course: "Fundamentals of Technology",
+        provider: "Online learning platforms",
+        duration: "2-4 weeks",
+        difficulty: "Beginner",
+        url: "Check Coursera, edX, or Udemy"
+      }
+    ],
+    preparation_steps: [
+      "Assess current knowledge and skills",
+      "Set clear learning goals and timeline",
+      "Create a dedicated learning environment",
+      "Join relevant online communities",
+      "Start with basic concepts and gradually advance"
+    ],
+    estimated_prep_time: "4-12 weeks depending on background",
+    free_resources: [
+      "YouTube educational channels",
+      "Free online courses and tutorials",
+      "Documentation and guides",
+      "Community forums and discussions"
+    ],
+    books: [
+      `Essential ${role} handbook`,
+      "Industry best practices guide",
+      "Career development resources"
+    ],
+    practice_platforms: [
+      "Online coding platforms",
+      "Project-based learning sites",
+      "Industry-specific tools and simulators"
+    ]
+  });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!inputValue.trim()) return;
+
+    setSubmittedValue(inputValue);
+    await generateDynamicRoadmap(inputValue, true);
   };
 
+  const handleInterestChange = (interest) => {
+    setInterests(prev =>
+      prev.includes(interest)
+        ? prev.filter(i => i !== interest)
+        : [...prev, interest]
+    );
+  };
+
+  const availableInterests = [
+    "Frontend Development", "Backend Development", "Mobile Apps",
+    "Data Science", "Machine Learning", "Cloud Computing",
+    "Cybersecurity", "DevOps", "UI/UX Design", "Project Management"
+  ];
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-blue-400">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-200 to-blue-400 p-4">
       {!tree ? (
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md mt-8"
+          className="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl mt-8"
         >
-          <h1 className="text-2xl font-semibold text-center text-gray-800 mb-6">
-            Find Your Best Roadmap
+          <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+            🚀 AI-Powered Career Roadmap Generator
           </h1>
+
+          {/* Role Input */}
           <div className="mb-6">
-            <div className="mb-2">
-              <label
-                htmlFor="userInput"
-                className="block text-gray-600 text-sm font-medium mb-2"
-              >
-                Just Give Me Your Role:
-              </label>
-              <input
-                type="text"
-                id="userInput"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-                placeholder="Enter your topic here..."
-                required
-              />
-            </div>
-            <select
-              onChange={(e) => setLevel(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-              value={level}
+            <label
+              htmlFor="userInput"
+              className="block text-gray-700 text-sm font-semibold mb-2"
             >
-              <option value="beginner">Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="advanced">Advanced</option>
+              What&apos;s your target role? ✨
+            </label>
+            <input
+              type="text"
+              id="userInput"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              className="w-full p-4 border-2 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+              placeholder="e.g., Data Scientist, Full Stack Developer, Product Manager..."
+              required
+            />
+          </div>
+
+          {/* Branch/Field Selection */}
+          <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-semibold mb-2">
+              Field/Branch 🎯
+            </label>
+            <select
+              onChange={(e) => setBranch(e.target.value)}
+              className="w-full p-4 border-2 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              value={branch}
+            >
+              <option value="Computer Science and Engineering">Computer Science & Engineering</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Business and Management">Business & Management</option>
+              <option value="Design and Creative">Design & Creative</option>
+              <option value="Marketing and Sales">Marketing & Sales</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Finance">Finance</option>
+              <option value="Other">Other</option>
             </select>
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {/* Experience Level */}
+            <div>
+              <label className="block text-gray-700 text-sm font-semibold mb-2">
+                Experience Level 📊
+              </label>
+              <select
+                onChange={(e) => setLevel(e.target.value)}
+                className="w-full p-4 border-2 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={level}
+              >
+                <option value="beginner">Beginner (0-1 years)</option>
+                <option value="intermediate">Intermediate (1-3 years)</option>
+                <option value="advanced">Advanced (3-5 years)</option>
+                <option value="expert">Expert (5+ years)</option>
+              </select>
+            </div>
+
+            {/* Experience Duration */}
+            <div>
+              <label className="block text-gray-700 text-sm font-semibold mb-2">
+                Current Experience ⏱️
+              </label>
+              <select
+                onChange={(e) => setExperience(e.target.value)}
+                className="w-full p-4 border-2 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                value={experience}
+              >
+                <option value="0-1 years">0-1 years</option>
+                <option value="1-3 years">1-3 years</option>
+                <option value="3-5 years">3-5 years</option>
+                <option value="5-10 years">5-10 years</option>
+                <option value="10+ years">10+ years</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Career Goals */}
+          <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-semibold mb-2">
+              Career Goals 🎯
+            </label>
+            <textarea
+              value={careerGoals}
+              onChange={(e) => setCareerGoals(e.target.value)}
+              className="w-full p-4 border-2 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="What do you want to achieve in your career? (e.g., become a team lead, start a company, specialize in AI...)"
+              rows="3"
+            />
+          </div>
+
+          {/* Interests */}
+          <div className="mb-8">
+            <label className="block text-gray-700 text-sm font-semibold mb-3">
+              Areas of Interest 💡 (Select multiple)
+            </label>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {availableInterests.map((interest) => (
+                <label key={interest} className="flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={interests.includes(interest)}
+                    onChange={() => handleInterestChange(interest)}
+                    className="mr-2 text-blue-500 focus:ring-blue-500"
+                  />
+                  <span className="text-sm text-gray-700">{interest}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
           <button
             type="submit"
-            className={`w-full py-3 rounded-lg text-white font-semibold transition duration-200 ${
+            className={`w-full py-4 rounded-lg text-white font-bold text-lg transition duration-200 ${
               loading
                 ? "bg-blue-400 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600"
+                : "bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transform hover:scale-105"
             }`}
-            disabled={loading}
+            disabled={loading || !inputValue.trim()}
           >
-            {loading ? "Generating..." : "Check Out"}
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Generating Your Personalized Roadmap...
+              </div>
+            ) : (
+              "🚀 Generate My AI Roadmap"
+            )}
           </button>
+
+          <p className="text-center text-gray-600 text-sm mt-4">
+            Powered by advanced AI to create personalized learning paths
+          </p>
         </form>
       ) : (
-        <div className="w-full max-w-4xl">
-          <div className="mb-4 text-center">
+        <div className="w-full max-w-6xl">
+          <div className="mb-6 text-center">
             <button
               onClick={() => {
                 setTree(false);
                 localStorage.removeItem('roadmap');
                 setSubmittedValue('');
                 setPre('');
+                setInputValue('');
+                setCareerGoals('');
+                setInterests([]);
               }}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition duration-200"
+              className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white px-8 py-3 rounded-lg font-bold transition duration-200 transform hover:scale-105 shadow-lg"
             >
-              Generate New Roadmap
+              ✨ Generate New Roadmap
             </button>
           </div>
           <Precourse pre={pre} inputValue={inputValue} roadmap={roadmap} />

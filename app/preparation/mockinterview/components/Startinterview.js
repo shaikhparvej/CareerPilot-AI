@@ -49,6 +49,38 @@ const MockInterview = ({ questions, setOk }) => {
     useLegacyResults: false,
   });
 
+  // Add microphone permission check
+  const [micPermission, setMicPermission] = useState(false);
+  const [permissionError, setPermissionError] = useState("");
+
+  // Check microphone permission on component mount
+  useEffect(() => {
+    const checkMicPermission = async () => {
+      try {
+        if (typeof navigator !== 'undefined' && navigator.mediaDevices) {
+          // Request permission
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          // If successful, stop the stream and set permission to true
+          stream.getTracks().forEach(track => track.stop());
+          setMicPermission(true);
+          setPermissionError("");
+        }
+      } catch (error) {
+        console.error("Microphone permission error:", error);
+        setMicPermission(false);
+        if (error.name === 'NotAllowedError') {
+          setPermissionError("Microphone access denied. Please allow microphone access in your browser settings.");
+        } else if (error.name === 'NotFoundError') {
+          setPermissionError("No microphone found. Please connect a microphone and try again.");
+        } else {
+          setPermissionError("Unable to access microphone. Please check your browser settings.");
+        }
+      }
+    };
+
+    checkMicPermission();
+  }, []);
+
   useEffect(() => {
     if (results.length > 0) {
       const newAnswer = results.map((r) => r.transcript).join(" ");
@@ -197,6 +229,25 @@ const MockInterview = ({ questions, setOk }) => {
         </CardHeader>
       </Card>
 
+      {/* Microphone Permission Error */}
+      {permissionError && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="flex items-center gap-3">
+            <Mic className="h-5 w-5 text-red-600" />
+            <div>
+              <h3 className="font-semibold text-red-800">Microphone Access Required</h3>
+              <p className="text-red-600 text-sm mt-1">{permissionError}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="mt-2 px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
+              >
+                Refresh & Try Again
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-4  p-2 border rounded-lg">
           <Card className="overflow-hidden">
@@ -293,7 +344,13 @@ const MockInterview = ({ questions, setOk }) => {
               </div>
 
               <div className="flex justify-center gap-6 mb-8">
-                <Button className={`p-4 rounded-full transition-all ${isRecording ? "bg-red-100 text-red-600 hover:bg-red-200" : "bg-blue-100 text-blue-600 hover:bg-blue-200"}`} variant={isRecording ? "destructive" : "default"} onClick={isRecording ? stopSpeechToText : startSpeechToText} disabled={!cameraOn} title={!cameraOn && "Enable Camera"}>
+                <Button
+                  className={`p-4 rounded-full transition-all ${isRecording ? "bg-red-100 text-red-600 hover:bg-red-200" : "bg-blue-100 text-blue-600 hover:bg-blue-200"}`}
+                  variant={isRecording ? "destructive" : "default"}
+                  onClick={isRecording ? stopSpeechToText : startSpeechToText}
+                  disabled={!cameraOn || !micPermission}
+                  title={!cameraOn ? "Enable Camera" : !micPermission ? "Microphone permission required" : ""}
+                >
                   {isRecording ? (
                     <div className="flex items-center space-x-2">
                       <StopCircle className="h-5 w-5" />
@@ -302,7 +359,7 @@ const MockInterview = ({ questions, setOk }) => {
                   ) : (
                     <div className="flex items-center space-x-2">
                       <Mic className="h-5 w-5" />
-                      <span>Start Recording</span>
+                      <span>{micPermission ? "Start Recording" : "Microphone Disabled"}</span>
                     </div>
                   )}
                 </Button>

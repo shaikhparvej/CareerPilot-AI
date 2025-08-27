@@ -14,6 +14,7 @@ const componentMap = {
     import("./components/ResumeExtractor")
   ),
   CreatedCourses: dynamic(() => import("./components/CreateCourse")),
+  Courses: dynamic(() => import("./components/CreateCourse")), // Add proper mapping for Courses
   SoftSkill: dynamic(() => import("./components/SoftSkill")),
 };
 

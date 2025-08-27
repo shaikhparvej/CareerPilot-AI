@@ -67,7 +67,13 @@ const PreMockInterview = () => {
       setCameraEnabled(true);
     } catch (error) {
       console.error("Error accessing camera:", error);
-      alert("Unable to access camera. Please check permissions.");
+      if (error.name === 'NotAllowedError') {
+        alert("Camera access denied. Please allow camera access in your browser settings and refresh the page.");
+      } else if (error.name === 'NotFoundError') {
+        alert("No camera found. Please connect a camera and try again.");
+      } else {
+        alert("Unable to access camera. Please check permissions and try again.");
+      }
     }
   };
 
@@ -126,7 +132,13 @@ const PreMockInterview = () => {
       draw();
     } catch (error) {
       console.error("Error accessing microphone:", error);
-      alert("Unable to access microphone. Please check permissions.");
+      if (error.name === 'NotAllowedError') {
+        alert("Microphone access denied. Please allow microphone access in your browser settings and refresh the page.");
+      } else if (error.name === 'NotFoundError') {
+        alert("No microphone found. Please connect a microphone and try again.");
+      } else {
+        alert("Unable to access microphone. Please check permissions and try again.");
+      }
     }
   };
 
