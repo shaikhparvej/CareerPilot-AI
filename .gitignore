@@ -83,3 +83,6 @@ INTEGRATION_COMPLETE.md
 temp/
 .cache/
 *.tmp
+
+# Nested repositories (avoid conflicts)
+CareerPilot-AI/
