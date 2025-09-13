@@ -1,0 +1,227 @@
+@import 'tailwindcss';
+
+/* Responsive Design Base */
+* {
+  box-sizing: border-box;
+}
+
+/* Ensure the entire document background changes with theme */
+html {
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  font-size: 16px;
+}
+
+/* Responsive font scaling */
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+html.dark {
+  background-color: #111827; /* gray-900 */
+  color: #f9fafb; /* gray-50 */
+}
+
+html:not(.dark) {
+  background-color: #ffffff; /* white */
+  color: #111827; /* gray-900 */
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: inherit;
+  color: inherit;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  overflow-x: hidden;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Mobile-first responsive containers */
+.container-responsive {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+@media screen and (min-width: 640px) {
+  .container-responsive {
+    padding: 1rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container-responsive {
+    padding: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .container-responsive {
+    padding: 2rem;
+  }
+}
+
+/* Touch-friendly buttons for mobile */
+@media screen and (max-width: 768px) {
+  button,
+  .btn,
+  input[type='button'],
+  input[type='submit'] {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Responsive text sizes */
+.text-responsive-xs {
+  font-size: 0.75rem;
+}
+
+.text-responsive-sm {
+  font-size: 0.875rem;
+}
+
+.text-responsive-base {
+  font-size: 1rem;
+}
+
+.text-responsive-lg {
+  font-size: 1.125rem;
+}
+
+.text-responsive-xl {
+  font-size: 1.25rem;
+}
+
+@media screen and (min-width: 768px) {
+  .text-responsive-xs {
+    font-size: 0.875rem;
+  }
+  .text-responsive-sm {
+    font-size: 1rem;
+  }
+  .text-responsive-base {
+    font-size: 1.125rem;
+  }
+  .text-responsive-lg {
+    font-size: 1.25rem;
+  }
+  .text-responsive-xl {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .text-responsive-xs {
+    font-size: 1rem;
+  }
+  .text-responsive-sm {
+    font-size: 1.125rem;
+  }
+  .text-responsive-base {
+    font-size: 1.25rem;
+  }
+  .text-responsive-lg {
+    font-size: 1.5rem;
+  }
+  .text-responsive-xl {
+    font-size: 1.875rem;
+  }
+}
+
+/* Responsive grid system */
+.grid-responsive {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media screen and (min-width: 640px) {
+  .grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .grid-responsive {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .grid-responsive {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Mobile navigation improvements */
+@media screen and (max-width: 768px) {
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 50;
+  }
+
+  .mobile-menu-content {
+    background-color: inherit;
+    height: 100%;
+    width: 80%;
+    max-width: 300px;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+}
+
+/* Tablet-specific optimizations */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .tablet-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tablet-text {
+    font-size: 1.1rem;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .high-dpi-optimized {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* Landscape mobile orientation */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .landscape-mobile {
+    padding: 0.5rem;
+  }
+
+  .landscape-mobile .content {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

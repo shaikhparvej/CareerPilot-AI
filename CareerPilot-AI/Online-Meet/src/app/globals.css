@@ -1,0 +1,23 @@
+@import 'tailwindcss';
+
+/* Ensure the entire document background changes with theme */
+html {
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+html.dark {
+  background-color: #111827; /* gray-900 */
+  color: #f9fafb; /* gray-50 */
+}
+
+html:not(.dark) {
+  background-color: #ffffff; /* white */
+  color: #111827; /* gray-900 */
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: inherit;
+  color: inherit;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
