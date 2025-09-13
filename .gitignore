@@ -84,5 +84,10 @@ temp/
 .cache/
 *.tmp
 
-# Nested repositories (avoid conflicts)
-CareerPilot-AI/
+# Note: Previously ignored nested repo folder. We now allow selected subfolders to be tracked.
+# If you want to keep ignoring everything under CareerPilot-AI by default, uncomment the next line
+# CareerPilot-AI/
+# But explicitly include these module directories:
+!CareerPilot-AI/CareerPilot-AI-main/
+!CareerPilot-AI/Online-Meet/
+!CareerPilot-AI/Softskills-Grammar/
