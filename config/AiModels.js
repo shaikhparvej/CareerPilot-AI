@@ -1,9 +1,11 @@
 // AI Models configuration for CareerPilot AI
 // Import the real AI service
-export * from '../lib/aiService.js';
+import { geminiModel } from '../lib/aiService';
+
+// Export everything from aiService
+export * from '../lib/aiService';
 
 // Export default
-import { geminiModel } from '../lib/aiService.js';
 export default geminiModel;
 
 // Mock AI Model class for missing exports

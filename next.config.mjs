@@ -1,11 +1,30 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Output configuration for deployment (optimized for Vercel)
-  output: 'standalone',
+  // Remove standalone output for Vercel (causes conflicts)
+  // output: 'standalone', // REMOVED - causes Vercel build issues
   
   // Experimental features for better performance
   experimental: {
-    serverComponentsExternalPackages: ['@google/generative-ai'],
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+    serverComponentsExternalPackages: ['@google/generative-ai', 'tesseract.js'],
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js'
+        }
+      }
+    }
+  },
+
+  // Proper TypeScript configuration
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+
+  // ESLint configuration
+  eslint: {
+    ignoreDuringBuilds: false,
   },
 
   // Environment variables (server-side only)
@@ -48,9 +67,15 @@ const nextConfig = {
   // Production optimizations
   swcMinify: true,
 
-  // Webpack configuration
+  // Webpack configuration - CRITICAL FIXES
   webpack: (config, { isServer }) => {
-    // Optimize bundle size
+    // Fix for ES modules in browser
+    config.resolve.extensionAlias = {
+      '.js': ['.js', '.ts', '.tsx'],
+      '.jsx': ['.jsx', '.tsx']
+    };
+
+    // Optimize bundle size and fix module resolution
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -58,13 +83,35 @@ const nextConfig = {
         net: false,
         tls: false,
         child_process: false,
+        dns: false,
+        os: false,
+        path: false,
+        stream: false,
+        util: false,
+        crypto: false,
       };
     }
 
-    // Ignore certain warnings
+    // Fix for dynamic imports and module resolution
+    config.module.rules.push({
+      test: /\.m?js$/,
+      resolve: {
+        fullySpecified: false,
+      },
+    });
+
+    // Handle ES modules properly
+    config.experiments = {
+      ...config.experiments,
+      topLevelAwait: true,
+    };
+
+    // Ignore warnings that cause build failures
     config.ignoreWarnings = [
       { module: /node_modules\/punycode/ },
       { file: /node_modules\/punycode/ },
+      /Critical dependency/,
+      /Failed to parse source map/,
     ];
 
     return config;

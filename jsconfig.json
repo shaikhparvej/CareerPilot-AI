@@ -2,12 +2,21 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"],
-      "@/components/*": ["./components/*", "./src/components/*"],
-      "@/config/*": ["./config/*", "./CareerPilot AI/config/*"],
+      "@/components/*": ["./components/*"],
+      "@/config/*": ["./config/*"],
       "@/app/*": ["./app/*"],
-      "@/lib/*": ["./lib/*", "./src/lib/*"]
+      "@/lib/*": ["./lib/*"]
     },
     "baseUrl": ".",
-    "jsx": "react-jsx"
-  }
+    "target": "ES2022",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false,
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "checkJs": false,
+    "resolveJsonModule": true
+  },
+  "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", ".next", "out"]
 } 
