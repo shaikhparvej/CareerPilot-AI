@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
-import { Mic, MicOff, Square, Video, VideoOff } from "lucide-react";
-import { Button } from "../../../../../components/ui/button";
+import { Mic, MicOff, Video, VideoOff } from "lucide-react";
+import { useRef, useState } from "react";
 import { Alert, AlertDescription } from "../../../../../components/ui/alert";
+import { Button } from "../../../../../components/ui/button";
 import WebCam from "../../../../components/WebCam";
 
 const TeachToOther = () => {
@@ -43,8 +43,30 @@ const TeachToOther = () => {
       const recognition = new window.webkitSpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
+      recognition.lang = 'en-US'; // Set language explicitly
+
+      // Increase timeout for speech recognition
+      let silenceTimeout = null;
+      const resetSilenceTimeout = () => {
+        if (silenceTimeout) clearTimeout(silenceTimeout);
+        silenceTimeout = setTimeout(() => {
+          // Restart recognition if no speech detected for 5 seconds
+          if (recognition) {
+            console.log("No speech detected - restarting recognition");
+            recognition.stop();
+            setTimeout(() => {
+              if (mediaRecorderRef.current === recognition) {
+                recognition.start();
+              }
+            }, 500);
+          }
+        }, 5000);
+      };
+
+      resetSilenceTimeout();
 
       recognition.onresult = (event) => {
+        resetSilenceTimeout(); // Reset timeout on result
         let finalTranscript = "";
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const transcript = event.results[i][0].transcript;
@@ -56,7 +78,13 @@ const TeachToOther = () => {
       };
 
       recognition.onerror = (event) => {
-        setError("Error occurred in recognition: " + event.error);
+        console.log("Speech recognition error:", event.error);
+        if (event.error === 'no-speech') {
+          // Handle no speech detected
+          resetSilenceTimeout();
+        } else {
+          setError("Error occurred in recognition: " + event.error);
+        }
       };
 
       mediaRecorderRef.current = recognition;

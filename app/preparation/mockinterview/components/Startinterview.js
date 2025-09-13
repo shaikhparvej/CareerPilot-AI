@@ -47,11 +47,17 @@ const MockInterview = ({ questions, setOk }) => {
   const { isRecording, results, startSpeechToText, stopSpeechToText, setResults } = useSpeechToText({
     continuous: true,
     useLegacyResults: false,
+    speechRecognitionProperties: {
+      interimResults: true,
+      lang: 'en-US'
+    },
+    timeout: 10000, // Increase timeout to 10 seconds
   });
 
   // Add microphone permission check
   const [micPermission, setMicPermission] = useState(false);
   const [permissionError, setPermissionError] = useState("");
+  const [noSpeechDetected, setNoSpeechDetected] = useState(false);
 
   // Check microphone permission on component mount
   useEffect(() => {
@@ -86,8 +92,37 @@ const MockInterview = ({ questions, setOk }) => {
       const newAnswer = results.map((r) => r.transcript).join(" ");
       setUserAnswer((prev) => prev + " " + newAnswer);
       setResults([]);
+      // Reset no speech detected flag when we receive results
+      setNoSpeechDetected(false);
     }
   }, [results, setResults]);
+
+  // Add a timer to detect when no speech is recognized
+  useEffect(() => {
+    let noSpeechTimer;
+
+    if (isItRecording && isRecording) {
+      // Start a timer to check if no speech is detected for 5 seconds
+      noSpeechTimer = setTimeout(() => {
+        // Only set this if we haven't received any results yet
+        if (userAnswer.trim() === "") {
+          setNoSpeechDetected(true);
+          console.log("No speech detected after timeout");
+          // Stop and restart speech recognition to try again
+          stopSpeechToText();
+          setTimeout(() => {
+            if (isItRecording) {
+              startSpeechToText();
+            }
+          }, 500);
+        }
+      }, 5000);
+    }
+
+    return () => {
+      clearTimeout(noSpeechTimer);
+    };
+  }, [isItRecording, isRecording, userAnswer, startSpeechToText, stopSpeechToText]);
 
   // timer removed
 
@@ -287,6 +322,34 @@ const MockInterview = ({ questions, setOk }) => {
           <div>
             <p className="font-bold">Your Answer:</p>
             <Textarea value={userAnswer} onChange={(e) => setUserAnswer(e.target.value)} disabled={!cameraOn} title={!cameraOn && "Enable Camera"} placeholder="Your answer will appear here as you speak or you can type it yourself..." className="w-full h-32 " />
+
+            {/* No Speech Detected Warning */}
+            {isRecording && noSpeechDetected && (
+              <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <Mic className="h-5 w-5 text-yellow-600" />
+                  <div>
+                    <h3 className="font-semibold text-yellow-800">No Speech Detected</h3>
+                    <p className="text-yellow-600 text-sm mt-1">
+                      We can&apos;t hear your voice. Please speak louder or check your microphone settings.
+                    </p>
+                    <button
+                      onClick={() => {
+                        stopSpeechToText();
+                        setTimeout(() => {
+                          startSpeechToText();
+                          setIsItRecording(true);
+                          setNoSpeechDetected(false);
+                        }, 500);
+                      }}
+                      className="mt-2 px-3 py-1 bg-yellow-600 text-white text-sm rounded hover:bg-yellow-700"
+                    >
+                      Restart Recording
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex justify-between mt-4 ">
@@ -347,7 +410,16 @@ const MockInterview = ({ questions, setOk }) => {
                 <Button
                   className={`p-4 rounded-full transition-all ${isRecording ? "bg-red-100 text-red-600 hover:bg-red-200" : "bg-blue-100 text-blue-600 hover:bg-blue-200"}`}
                   variant={isRecording ? "destructive" : "default"}
-                  onClick={isRecording ? stopSpeechToText : startSpeechToText}
+                  onClick={() => {
+                    if (isRecording) {
+                      stopSpeechToText();
+                      setIsItRecording(false);
+                    } else {
+                      startSpeechToText();
+                      setIsItRecording(true);
+                      setNoSpeechDetected(false);
+                    }
+                  }}
                   disabled={!cameraOn || !micPermission}
                   title={!cameraOn ? "Enable Camera" : !micPermission ? "Microphone permission required" : ""}
                 >

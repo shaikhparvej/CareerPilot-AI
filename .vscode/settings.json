@@ -49,5 +49,284 @@
     "*.jsx": "javascriptreact",
     "*.ts": "typescript",
     "*.tsx": "typescriptreact"
-  }
+  },
+
+  // VS Code Icon and UI Customization
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.productIconTheme": "material-product-icons",
+  
+  // Terminal Customization with Icons
+  "terminal.integrated.fontFamily": "JetBrains Mono, Cascadia Code, Consolas, 'Courier New', monospace",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.fontWeight": "normal",
+  "terminal.integrated.lineHeight": 1.2,
+  
+  // Terminal Colors for better visibility against purple background
+  "terminal.integrated.tabs.enabled": true,
+  "terminal.integrated.tabs.showActions": "always",
+  "terminal.integrated.tabs.showActiveIndicator": true,
+  
+  // Workbench Theme Customization for Purple Background
+  "workbench.colorTheme": "Shades of Purple",
+  "workbench.colorCustomizations": {
+    // Terminal Colors
+    "terminal.background": "#1e1e1e",
+    "terminal.foreground": "#ffffff",
+    "terminal.ansiBlack": "#000000",
+    "terminal.ansiRed": "#ff6b6b",
+    "terminal.ansiGreen": "#51cf66",
+    "terminal.ansiYellow": "#ffd43b",
+    "terminal.ansiBlue": "#339af0",
+    "terminal.ansiMagenta": "#f06292",
+    "terminal.ansiCyan": "#22d3ee",
+    "terminal.ansiWhite": "#ffffff",
+    "terminal.ansiBrightBlack": "#6c7086",
+    "terminal.ansiBrightRed": "#ff8a80",
+    "terminal.ansiBrightGreen": "#69f0ae",
+    "terminal.ansiBrightYellow": "#ffff8d",
+    "terminal.ansiBrightBlue": "#82b1ff",
+    "terminal.ansiBrightMagenta": "#ff80ab",
+    "terminal.ansiBrightCyan": "#84ffff",
+    "terminal.ansiBrightWhite": "#ffffff",
+    
+    // Main UI Colors
+    "editorWidget.background": "#2d2d2d",
+    "editorWidget.foreground": "#ffffff",
+    "list.highlightForeground": "#ffffff",
+    "list.activeSelectionBackground": "#6c5ce7",
+    "list.activeSelectionForeground": "#ffffff",
+    "statusBar.background": "#6c5ce7",
+    "statusBar.foreground": "#ffffff",
+    "activityBar.background": "#6c5ce7",
+    "activityBar.foreground": "#ffffff",
+    
+    // File Explorer - WHITE BACKGROUND with BLACK text
+    "sideBar.background": "#ffffff",
+    "sideBar.foreground": "#000000",
+    "sideBar.border": "#e0e0e0",
+    "tree.indentGuidesStroke": "#6c5ce7",
+    "tree.inactiveIndentGuidesStroke": "#cccccc",
+    
+    // File and Folder Names - Black text on white background
+    "list.inactiveSelectionBackground": "#f0f0f0",
+    "list.inactiveSelectionForeground": "#000000",
+    "list.hoverBackground": "#e8e8e8",
+    "list.hoverForeground": "#000000",
+    "list.focusBackground": "#6c5ce7",
+    "list.focusForeground": "#ffffff",
+    "list.dropBackground": "#6c5ce7",
+    
+    // Sidebar section headers
+    "sideBarSectionHeader.background": "#f5f5f5",
+    "sideBarSectionHeader.foreground": "#000000",
+    "sideBarSectionHeader.border": "#e0e0e0",
+    
+    // Sidebar title
+    "sideBarTitle.foreground": "#000000",
+    
+    // File Extensions and Modified Files - adjusted for white background
+    "gitDecoration.modifiedResourceForeground": "#cc8800",
+    "gitDecoration.deletedResourceForeground": "#cc0000",
+    "gitDecoration.untrackedResourceForeground": "#009900",
+    "gitDecoration.addedResourceForeground": "#009900",
+    "gitDecoration.conflictingResourceForeground": "#cc0000",
+    "gitDecoration.submoduleResourceForeground": "#0066cc",
+    
+    // Explorer File Labels - BLACK on WHITE! NO GRAY!
+    "explorer.foreground": "#000000",
+    "tree.tableColumnsBorder": "#e0e0e0",
+    "tree.tableOddRowsBackground": "#f8f8f8",
+    
+    // FORCE ALL FILE/FOLDER NAMES TO BE BLACK - NO GRAY!
+    "list.foreground": "#000000",
+    "list.deemphasizedForeground": "#000000",
+    "list.invalidItemForeground": "#000000",
+    "list.errorForeground": "#cc0000",
+    "list.warningForeground": "#cc8800",
+    
+    // Tree and list items - ALL BLACK
+    "tree.foreground": "#000000",
+    "listFilterWidget.background": "#ffffff",
+    "listFilterWidget.outline": "#6c5ce7",
+    "listFilterWidget.noMatchesOutline": "#cc0000",
+    
+    // File decorations - NO GRAY, USE DARK COLORS
+    "editorLightBulb.foreground": "#000000",
+    "editorLightBulbAutoFix.foreground": "#009900",
+    
+    // Breadcrumbs
+    "breadcrumb.foreground": "#ffffff",
+    "breadcrumb.background": "#2d2d2d",
+    "breadcrumb.focusForeground": "#6c5ce7",
+    "breadcrumb.activeSelectionForeground": "#ffffff",
+    
+    // Tabs
+    "tab.activeBackground": "#6c5ce7",
+    "tab.activeForeground": "#ffffff",
+    "tab.inactiveBackground": "#2d2d2d",
+    "tab.inactiveForeground": "#ffffff",
+    "tab.hoverBackground": "#4d4d4d",
+    "tab.hoverForeground": "#ffffff",
+    
+    // CHAT/AI PANEL - WHITE BACKGROUND
+    "panel.background": "#ffffff",
+    "panel.border": "#e0e0e0",
+    "panel.foreground": "#000000",
+    "panelTitle.activeBorder": "#6c5ce7",
+    "panelTitle.activeForeground": "#000000",
+    "panelTitle.inactiveForeground": "#666666",
+    "panelInput.border": "#e0e0e0",
+    "panelSection.border": "#e0e0e0",
+    "panelSection.dropBackground": "#f0f0f0",
+    "panelSectionHeader.background": "#f5f5f5",
+    "panelSectionHeader.foreground": "#000000",
+    "panelSectionHeader.border": "#e0e0e0",
+    
+    // Chat interface specific
+    "chat.slashCommandBackground": "#f0f0f0",
+    "chat.slashCommandForeground": "#000000",
+    "chat.avatarBackground": "#ffffff",
+    "chat.avatarForeground": "#000000",
+    
+    // Input areas in chat
+    "input.background": "#ffffff",
+    "input.foreground": "#000000",
+    "input.border": "#e0e0e0",
+    "input.placeholderForeground": "#666666",
+    "inputOption.activeBorder": "#6c5ce7",
+    "inputOption.activeForeground": "#000000",
+    "inputOption.activeBackground": "#f0f0f0",
+    
+    // Chat messages and text
+    "foreground": "#000000",
+    "descriptionForeground": "#666666",
+    "errorForeground": "#cc0000",
+    "textLink.foreground": "#0066cc",
+    "textLink.activeForeground": "#004499",
+    
+    // SOURCE CONTROL / GIT CHANGES PANEL - WHITE BACKGROUND
+    "scm.providerBorder": "#e0e0e0",
+    "scmRepository.background": "#ffffff",
+    "scmRepository.foreground": "#000000",
+    "scmRepository.border": "#e0e0e0",
+    
+    // Git file changes list
+    "gitDecoration.modifiedResourceForeground": "#cc8800",
+    "gitDecoration.deletedResourceForeground": "#cc0000", 
+    "gitDecoration.untrackedResourceForeground": "#009900",
+    "gitDecoration.addedResourceForeground": "#009900",
+    "gitDecoration.conflictingResourceForeground": "#cc0000",
+    "gitDecoration.submoduleResourceForeground": "#0066cc",
+    "gitDecoration.stageModifiedResourceForeground": "#cc8800",
+    "gitDecoration.stageDeletedResourceForeground": "#cc0000",
+    
+    // Source control input and commit message
+    "inputValidation.infoBackground": "#ffffff",
+    "inputValidation.infoBorder": "#0066cc",
+    "inputValidation.warningBackground": "#fff8e1",
+    "inputValidation.warningBorder": "#cc8800",
+    "inputValidation.errorBackground": "#ffebee",
+    "inputValidation.errorBorder": "#cc0000",
+    
+    // Diff editor for git changes
+    "diffEditor.insertedTextBackground": "#e8f5e8",
+    "diffEditor.removedTextBackground": "#ffebee",
+    "diffEditor.insertedLineBackground": "#f0fff0", 
+    "diffEditor.removedLineBackground": "#fff0f0",
+    "diffEditor.border": "#e0e0e0"
+  },
+  
+  // PANEL TABS WITH ICONS - Enhanced Visibility
+  "workbench.panel.defaultLocation": "bottom",
+  "workbench.panel.opensMaximized": "never",
+  "workbench.panelPosition": "bottom",
+  
+  // Enable icons in panel tabs
+  "workbench.editor.showIcons": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.productIconTheme": "material-product-icons",
+  
+  // Editor Font and Visibility Settings
+  "editor.fontFamily": "JetBrains Mono, Cascadia Code, Consolas, 'Courier New', monospace",
+  "editor.fontSize": 14,
+  "editor.fontWeight": "normal",
+  "editor.lineHeight": 1.5,
+  "editor.fontLigatures": true,
+  "workbench.sideBar.location": "left",
+  
+  // File Explorer Icons
+  "explorer.decorations.colors": true,
+  "explorer.decorations.badges": true,
+  "explorer.fileNesting.enabled": false,
+  "explorer.compactFolders": false,
+  
+  // File Extensions Visibility
+  "explorer.fileNesting.expand": false,
+  "files.simpleDialog.enable": true,
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.tree.indent": 20,
+  
+  // Labels and File Names - Force Visibility
+  "workbench.editor.tabSizing": "fit",
+  "workbench.editor.tabCloseButton": "right",
+  
+  // Breadcrumb Icons
+  "breadcrumbs.enabled": true,
+  "breadcrumbs.icons": true,
+  "breadcrumbs.symbolPath": "on",
+  
+  // Tab Icons
+  "workbench.editor.showIcons": true,
+  "workbench.editor.labelFormat": "medium",
+  
+  // Minimap
+  "editor.minimap.enabled": true,
+  "editor.minimap.showSlider": "always",
+  
+  // Integrated Terminal PowerShell Profile with Icons
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell",
+      "args": ["-NoProfile"]
+    },
+    "Command Prompt": {
+      "path": "cmd.exe",
+      "icon": "terminal-cmd",
+      "args": []
+    },
+    "Git Bash": {
+      "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+      "icon": "terminal-bash",
+      "args": ["--login"]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  
+  // Custom CSS for High Visibility
+  "vscode_custom_css.imports": [
+    "file:///d:/All Projects/CareerPilot AI/custom-vscode.css"
+  ],
+  "vscode_custom_css.policy": true,
+  
+  // Additional Visibility Settings
+  "editor.tokenColorCustomizations": {
+    "[Shades of Purple]": {
+      "textMateRules": [
+        {
+          "scope": "explorer.file",
+          "settings": {
+            "foreground": "#ffffff"
+          }
+        }
+      ]
+    }
+  },
+  
+  // Force file explorer visibility
+  "workbench.experimental.settingsProfiles.enabled": false,
+  "files.exclude": {},
+  "search.exclude": {},
+  "files.watcherExclude": {},
+  "workbench.editor.tabActionLocation": "right"
 }

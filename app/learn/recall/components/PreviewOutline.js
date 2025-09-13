@@ -6,7 +6,8 @@ import {
   AiQuizRecall,
   AiTeachToOther
 } from '../../../../config/AiModels';
-const SyallbusOutline = () => {
+
+const SyllabusOutline = () => {
   const [activeChapter, setActiveChapter] = useState(null);
   const [loading, setLoading] = useState({
     notes: false,
@@ -543,4 +544,4 @@ const SyallbusOutline = () => {
   );
 };
 
-export default SyallbusOutline;
+export default SyllabusOutline;

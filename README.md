@@ -6,6 +6,9 @@ A full-stack AI-powered career planning and job preparation platform built with 
 
 **N.K. Orchid College of Engineering and Technology, Hipparagaha, Solapur**
 
+## 🌐 Live Demo
+**[🔗 Visit CareerPilot AI Live](https://career-pilot-ai.vercel.app/)** *(Will be updated after deployment)*
+
 ## Features
 
 - 🎯 AI-powered career guidance
@@ -29,60 +32,132 @@ A full-stack AI-powered career planning and job preparation platform built with 
 - **Icons**: Lucide React, Heroicons
 - **Deployment**: Vercel
 
-## 🔑 API Key Setup (Required for AI Features)
+## 🔑 Complete API Keys & Environment Setup
 
-To use the AI-powered course generation and other AI features, you need a Google Gemini API key:
+### Required API Keys
 
-### 1. **Get your Gemini API key**:
+#### 1. **Google Gemini AI API Key** (Required for all AI features)
+- **Purpose**: Powers AI-based career guidance, mock interviews, coding assistance
+- **Get it from**: [Google AI Studio](https://aistudio.google.com/app/apikey)
+- **Steps**:
+  1. Go to [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+  2. Sign in with your Google account
+  3. Click "Create API Key"
+  4. Copy the generated key (starts with `AIzaSy...`)
+- **Environment Variable**: `GOOGLE_GEMINI_API_KEY=AIzaSyYourActualKeyHere`
+- **Cost**: Free tier available with generous limits
 
-- Go to [Google AI Studio](https://aistudio.google.com/app/apikey)
-- Sign in with your Google account
-- Click "Create API Key"
-- Copy the generated key (starts with `AIzaSy...`)
+#### 2. **YouTube Data API v3** (Optional - for educational content)
+- **Purpose**: Fetches educational videos and tutorials
+- **Get it from**: [Google Cloud Console](https://console.cloud.google.com/apis/library/youtube.googleapis.com)
+- **Steps**:
+  1. Go to Google Cloud Console
+  2. Create a new project or select existing
+  3. Enable YouTube Data API v3
+  4. Create credentials (API Key)
+- **Environment Variable**: `NEXT_PUBLIC_YOUTUBE_API_KEY=your_youtube_api_key`
+- **Cost**: Free tier available
 
-### 2. **Configure the API key**:
+#### 3. **RapidAPI Keys** (Optional - for additional data sources)
+- **Purpose**: Job market data, company information, salary insights
+- **Get it from**: [RapidAPI Hub](https://rapidapi.com/hub)
+- **Popular APIs to consider**:
+  - Jobs API
+  - Company Data API
+  - Salary API
+- **Environment Variable**: `NEXT_PUBLIC_RAPID_API_KEY=your_rapidapi_key`
+- **Cost**: Varies by API, many have free tiers
 
-- Open `.env.local` in your project root
-- Replace the placeholder with your real API key:
+#### 4. **Firebase Configuration** (Optional - for advanced features)
+- **Purpose**: User authentication, real-time database, file storage
+- **Get it from**: [Firebase Console](https://console.firebase.google.com/)
+- **Steps**:
+  1. Create a new Firebase project
+  2. Go to Project Settings > General
+  3. Add a web app to get configuration
+- **Environment Variables**:
+  ```bash
+  NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
+  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+  NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=123456789
+  NEXT_PUBLIC_FIREBASE_APP_ID=1:123456789:web:abcdef
+  ```
+- **Cost**: Generous free tier, pay-as-you-go
+
+#### 5. **Database Configuration** (Optional - for persistence)
+- **Purpose**: Store user data, progress, custom content
+- **Recommended**: [Neon PostgreSQL](https://neon.tech/) or [PlanetScale](https://planetscale.com/)
+- **Environment Variable**: `DATABASE_URL=postgresql://username:password@hostname/database`
+- **Cost**: Free tier available
+
+### Environment Setup Guide
+
+#### For Local Development (.env.local)
+Create a `.env.local` file in your project root:
 
 ```bash
-GOOGLE_GEMINI_API_KEY=AIzaSyYourActualKeyHere
+# Required: Google Gemini AI (Core AI features)
+GOOGLE_GEMINI_API_KEY=AIzaSyYourActualGeminiKeyHere
+
+# Optional: YouTube Data API (Educational content)
+NEXT_PUBLIC_YOUTUBE_API_KEY=your_youtube_api_key
+
+# Optional: RapidAPI (Job market data)
+NEXT_PUBLIC_RAPID_API_KEY=your_rapidapi_key
+
+# Optional: Firebase (Authentication & Database)
+NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=123456789
+NEXT_PUBLIC_FIREBASE_APP_ID=1:123456789:web:abcdef
+
+# Optional: Database (Data persistence)
+DATABASE_URL=postgresql://username:password@hostname/database
+
+# Optional: Custom API endpoints
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
 ```
 
-### 3. **Restart the development server**:
+#### For Production Deployment (Vercel/Netlify)
+Add these same variables in your hosting platform's environment variables section.
 
-```bash
-npm run dev
-```
+### 🔒 Security Best Practices
+- ✅ Never commit API keys to version control
+- ✅ Use `.env.local` for local development
+- ✅ Set environment variables in your hosting platform
+- ✅ Use `NEXT_PUBLIC_` prefix only for client-side variables
+- ✅ Keep server-side API keys without the `NEXT_PUBLIC_` prefix
+- ✅ Regularly rotate your API keys
+- ✅ Monitor API usage and set up billing alerts
 
-### 4. **Test the AI integration**:
+### 🧪 Testing Your Setup
 
-- Visit http://localhost:3000/learn?page=Courses
-- You should see AI-generated course content
-- Click "Regenerate" to get new AI-generated courses
+#### Test Gemini AI Integration:
+1. Start your dev server: `npm run dev`
+2. Visit: `http://localhost:3000/ai-code-practice`
+3. Try the AI coding assistant
+4. If working: ✅ API key is correctly configured
 
-**Important**: Without a valid API key, the app will show sample courses instead of dynamic AI-generated content.
+#### Test Other APIs:
+- **YouTube API**: Visit any learning module with video content
+- **Firebase**: Try user authentication features
+- **Database**: Check if user progress is being saved
 
-3. **Optional: Firebase Setup**:
+### 💡 Fallback Behavior
+The app is designed to work even without all API keys:
+- **Without Gemini API**: Shows pre-written content instead of AI-generated
+- **Without YouTube API**: Uses placeholder video content
+- **Without Firebase**: Uses local storage for basic functionality
+- **Without Database**: Uses in-memory storage (resets on refresh)
 
-   - Firebase is optional and only needed for certain database features
-   - If you don't configure Firebase, the app will use mock database functionality
-   - To enable Firebase (optional):
-     ```bash
-     NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
-     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-     NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-     NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=123456789
-     NEXT_PUBLIC_FIREBASE_APP_ID=1:123456789:web:abcdef
-     ```
-
-4. **Important Security Notes**:
-   - Never commit your API key to version control
-   - Keep your `.env.local` file private
-   - The key is only used server-side for security
-
-> ⚠️ **Without a valid API key, the app will use fallback responses instead of real AI**
+### 📞 Need Help?
+- Check the [API Documentation](#api-documentation) section below
+- Review the troubleshooting guide
+- Open an issue on GitHub for specific problems
 
 ## Getting Started
 

@@ -91,6 +91,11 @@ const MockInterview = () => {
   } = useSpeechToText({
     continuous: true,
     useLegacyResults: false,
+    speechRecognitionProperties: {
+      interimResults: true,
+      lang: 'en-US'
+    },
+    timeout: 10000, // Increase timeout to 10 seconds
   });
 
   // Add microphone permission state

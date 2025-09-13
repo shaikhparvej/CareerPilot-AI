@@ -1,29 +1,67 @@
 @echo off
-echo ============================================
-echo    Starting CareerPilot AI Complete Suite
-echo ============================================
+cls
+echo.
+echo ====echo.
+echo ================================================
+echo           ALL MODULES STARTING UP!
+echo ================================================
+echo.
+echo ✅ Spotify API Removed - Using Simple Music API
+echo ✅ No External Dependencies Required  
+echo ✅ All modules starting in separate windows
+echo.
+echo 🌐 Access URLs (wait 30-60 seconds for full startup):
+echo.
+echo 🎯 Main CareerPilot AI:     http://localhost:3001
+echo 🎥 Online-Meet Module:      http://localhost:3004
+echo 📝 Grammar Check Module:    http://localhost:9002
+echo.
+echo ================================================
+echo              FEATURES AVAILABLE
+echo ================================================
+echo.
+echo 🤖 AI Code Practice
+echo 🎤 Mock Interview System
+echo 💻 Online IDE
+echo ❓ Q&A System
+echo 📝 Grammar Check
+echo 🎵 Simple Music Player (No Spotify required)
+echo 🗣️ Speech Recognition
+echo 🎨 Theme Support
+echo 📊 Dashboard
+echo 🎯 Real Interview Prep
+echo.
+echo 🎉 CareerPilot AI is now fully operational!
+echo    Check the individual CMD windows for detailed logs.
+echo.
+pause===============================
+echo        CAREERPILOT AI - COMPLETE STARTUP  
+echo ================================================
 echo.
 
-echo Starting all modules...
+echo 🚀 Starting ALL CareerPilot AI modules with Simple Music API...
 echo.
 
-echo 1. Starting Main CareerPilot AI (Port 3000)...
-start "CareerPilot-Main" cmd /k "cd /d \"d:\All Projects\CareerPilot AI\" && npm run dev"
+REM Kill any existing processes
+echo Step 1: Cleaning up existing processes...
+taskkill /f /im node.exe > nul 2>&1
+taskkill /f /im npm.cmd > nul 2>&1
 
-timeout /t 3 /nobreak > nul
+echo Step 2: Starting Main CareerPilot AI...
+cd /d "d:\All Projects\CareerPilot AI\CareerPilot-AI\CareerPilot-AI-main"
+start "Main-CareerPilot-AI" cmd /k "echo 🎯 Main CareerPilot AI Starting... && npm run dev"
 
-echo 2. Starting MentorX AI Main (Port 3003)...
-start "MentorX-Main" cmd /k "cd /d \"d:\All Projects\CareerPilot AI\MentorX-AI\mentorafinal\" && npm run dev"
+timeout /t 5 /nobreak > nul
 
-timeout /t 3 /nobreak > nul
+echo Step 3: Starting Online-Meet Module...
+cd /d "d:\All Projects\CareerPilot AI\CareerPilot-AI\Online-Meet"
+start "Online-Meet-Module" cmd /k "echo 🎥 Online-Meet Starting... && npm run dev -- --port 3004"
 
-echo 3. Starting Grammar & QnA Module (Port 9002)...
-start "Grammar-QnA" cmd /k "cd /d \"d:\All Projects\CareerPilot AI\MentorX-AI\grammar-qna-module\" && npm run dev"
+timeout /t 5 /nobreak > nul
 
-timeout /t 3 /nobreak > nul
-
-echo 4. Starting Online IDE (Port 3004)...
-start "Online-IDE" cmd /k "cd /d \"d:\All Projects\CareerPilot AI\MentorX-AI\online-ide\" && npm run dev"
+echo Step 4: Starting Softskills-Grammar Module...
+cd /d "d:\All Projects\CareerPilot AI\CareerPilot-AI\Softskills-Grammar"
+start "Grammar-Module" cmd /k "echo 📝 Grammar Module Starting... && npm run dev -- --port 9002"
 
 echo.
 echo ============================================
@@ -33,8 +71,8 @@ echo ============================================
 echo.
 echo Access URLs:
 echo - Main Platform: http://localhost:3000
-echo - MentorX AI: http://localhost:3003
-echo - Grammar Module: http://localhost:9002
-echo - Online IDE: http://localhost:3004
+echo - Online-Meet Module: http://localhost:3004
+echo - Softskills-Grammar: http://localhost:9002
+echo - CareerPilot-AI-Main: http://localhost:3003
 echo.
 pause

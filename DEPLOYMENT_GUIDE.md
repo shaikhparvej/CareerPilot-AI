@@ -4,6 +4,15 @@
 
 Follow these step-by-step instructions to deploy your CareerPilot AI project to production.
 
+## System Overview
+
+CareerPilot AI consists of four integrated components:
+
+1. **Main CareerPilot AI** (Port 3000)
+2. **Online-Meet Module** (Port 3004)
+3. **Softskills-Grammar Module** (Port 9002)
+4. **CareerPilot-AI-Main Module** (Port 3003)
+
 ## Prerequisites
 
 Before starting, ensure you have:
@@ -12,38 +21,95 @@ Before starting, ensure you have:
 - ✅ GitHub account
 - ✅ Vercel account (free tier available)
 - ✅ Node.js 18.17+ installed locally
+- ✅ Spotify API credentials (for CareerPilot-AI-Main module)
+- ✅ RapidAPI Judge0 key (for Online-Meet module)
 
 ---
 
-## Step 1: Prepare Your Project
+## Step 1: Prepare All Project Components
 
 ### 1.1 Verify Environment Variables
 
-Create `.env.local` file with your actual API key:
+Create `.env.local` files for each component:
+
+**Main CareerPilot AI**:
 
 ```bash
-GOOGLE_GEMINI_API_KEY=your_actual_gemini_api_key_here
+GOOGLE_API_KEY=your_actual_gemini_api_key_here
 ```
 
-### 1.2 Test Local Build
+**Online-Meet Module**:
 
 ```bash
+NEXT_PUBLIC_RAPID_API_KEY=your_rapid_api_key
+NEXT_PUBLIC_RAPID_API_HOST=judge0-ce.p.rapidapi.com
+```
+
+**Softskills-Grammar Module**:
+
+```bash
+GOOGLE_API_KEY=your_actual_gemini_api_key_here
+```
+
+**CareerPilot-AI-Main Module**:
+
+```bash
+GOOGLE_API_KEY=your_actual_gemini_api_key_here
+SPOTIFY_CLIENT_ID=your_spotify_client_id
+SPOTIFY_CLIENT_SECRET=your_spotify_client_secret
+SPOTIFY_REDIRECT_URI=http://localhost:3003/api/auth/callback/spotify
+```
+
+### 1.2 Test Local Build for Each Component
+
+```bash
+# Main CareerPilot AI
+npm run build
+npm run start
+
+# Online-Meet Module
+cd CareerPilot-AI/Online-Meet
+npm run build
+npm run start
+
+# Softskills-Grammar Module
+cd CareerPilot-AI/Softskills-Grammar
+npm run build
+npm run start
+
+# CareerPilot-AI-Main Module
+cd CareerPilot-AI/CareerPilot-AI-main
 npm run build
 npm run start
 ```
 
-If the build succeeds, you're ready to deploy!
+If all builds succeed, you're ready to deploy!
 
 ---
 
-## Step 2: Push to GitHub
+## Step 2: Push All Components to GitHub
 
-### 2.1 Initialize Git Repository (if not already done)
+### 2.1 Initialize Git Repository for Each Component (if not already done)
+
+You can set up one repository with all components or separate repositories for each:
+
+**Option 1: Single Repository (recommended)**
 
 ```bash
 git init
 git add .
-git commit -m "Initial commit: CareerPilot AI project ready for deployment"
+git commit -m "Initial commit: Complete CareerPilot AI suite ready for deployment"
+```
+
+**Option 2: Separate Repositories**
+
+```bash
+# Main CareerPilot AI
+git init
+git add .
+git commit -m "Initial commit: Main CareerPilot AI ready for deployment"
+
+# And repeat for other components...
 ```
 
 ### 2.2 Create GitHub Repository
@@ -68,34 +134,61 @@ Replace `YOUR_USERNAME` with your actual GitHub username.
 
 ## Step 3: Deploy to Vercel
 
-### 3.1 Connect GitHub to Vercel
+### 3.1 Deploy Each Component
+
+You'll need to deploy each component as a separate Vercel project:
 
 1. Go to [Vercel](https://vercel.com)
 2. Sign in with your GitHub account
 3. Click "Import Project"
-4. Find your `careerpilot-ai` repository
-5. Click "Import"
+4. Find your repository
+5. For monorepo setups, select the appropriate directory for each component
+6. Configure each deployment with the appropriate settings
 
-### 3.2 Configure Project Settings
+### 3.2 Configure Project Settings for Each Component
 
-Vercel will automatically detect it's a Next.js project. Verify these settings:
+Vercel will automatically detect they're Next.js projects. Verify these settings for each:
+
+**Main CareerPilot AI**:
 
 - **Framework Preset**: Next.js
+- **Root Directory**: `./` (or appropriate path in monorepo)
 - **Build Command**: `npm run build`
 - **Output Directory**: `.next`
 - **Install Command**: `npm install`
 
-### 3.3 Add Environment Variables
+**Online-Meet Module**:
 
-1. In the Vercel dashboard, go to your project
+- **Framework Preset**: Next.js
+- **Root Directory**: `./CareerPilot-AI/Online-Meet` (or appropriate path)
+- **Build Command**: `npm run build`
+- **Output Directory**: `.next`
+- **Install Command**: `npm install`
+
+**Softskills-Grammar Module**:
+
+- **Framework Preset**: Next.js
+- **Root Directory**: `./CareerPilot-AI/Softskills-Grammar` (or appropriate path)
+- **Build Command**: `npm run build`
+- **Output Directory**: `.next`
+- **Install Command**: `npm install`
+
+**CareerPilot-AI-Main Module**:
+
+- **Framework Preset**: Next.js
+- **Root Directory**: `./CareerPilot-AI/CareerPilot-AI-main` (or appropriate path)
+- **Build Command**: `npm run build`
+- **Output Directory**: `.next`
+- **Install Command**: `npm install`
+
+### 3.3 Add Environment Variables for Each Deployment
+
+For each component in the Vercel dashboard:
+
+1. Go to your project
 2. Click on "Settings" tab
 3. Click on "Environment Variables"
-4. Add the following:
-   ```
-   Key: GOOGLE_GEMINI_API_KEY
-   Value: your_actual_gemini_api_key_here
-   Environment: Production, Preview, Development
-   ```
+4. Add the appropriate variables as listed in Step 1.1
 5. Click "Add"
 
 ### 3.4 Deploy
