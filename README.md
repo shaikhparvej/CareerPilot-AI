@@ -6,9 +6,6 @@ A full-stack AI-powered career planning and job preparation platform built with 
 
 **N.K. Orchid College of Engineering and Technology, Hipparagaha, Solapur**
 
-## 🌐 Live Demo
-**[🔗 Visit CareerPilot AI Live](https://career-pilot-ai.vercel.app/)** *(Will be updated after deployment)*
-
 ## Features
 
 - 🎯 AI-powered career guidance
