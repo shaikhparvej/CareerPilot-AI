@@ -25,24 +25,35 @@ const SyllabusOutline = () => {
     quiz: false,
   });
 
-  const [courseData, setCourseData] = useState(
-    JSON.parse(localStorage.getItem("RecallSyllabus"))
-  );
+  const [courseData, setCourseData] = useState(null);
 
   useEffect(() => {
-    const notes = localStorage.getItem("combinedChapterNotesRecall");
-    const flashcard = localStorage.getItem("combinedChapterFlashCard");
-    const quiz = localStorage.getItem("combinedChapterQuiz");
-    const qa = localStorage.getItem("combinedChapterQA");
-    const teachToOther = localStorage.getItem("teachToOther");
-    setState((prevState) => ({
-      ...prevState,
-      notes: !!notes,
-      flashcard: !!flashcard,
-      quiz: !!quiz,
-      qa: !!qa,
-      teachToOther: !!teachToOther,
-    }));
+    // Initialize courseData from localStorage only on client side
+    if (typeof window !== 'undefined') {
+      const syllabusData = localStorage.getItem("RecallSyllabus");
+      if (syllabusData) {
+        setCourseData(JSON.parse(syllabusData));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    // Initialize state from localStorage only on client side
+    if (typeof window !== 'undefined') {
+      const notes = localStorage.getItem("combinedChapterNotesRecall");
+      const flashcard = localStorage.getItem("combinedChapterFlashCard");
+      const quiz = localStorage.getItem("combinedChapterQuiz");
+      const qa = localStorage.getItem("combinedChapterQA");
+      const teachToOther = localStorage.getItem("teachToOther");
+      setState((prevState) => ({
+        ...prevState,
+        notes: !!notes,
+        flashcard: !!flashcard,
+        quiz: !!quiz,
+        qa: !!qa,
+        teachToOther: !!teachToOther,
+      }));
+    }
   }, []);
 
   const generateNotes = async () => {
@@ -229,6 +240,20 @@ const SyllabusOutline = () => {
     }
   };
 
+  // Show loading state when courseData is not available
+  if (!courseData) {
+    return (
+      <div className="relative min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-blue-400 flex flex-col justify-center items-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-700/30 blur-3xl"></div>
+        <div className="relative z-10 text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-white mx-auto mb-4"></div>
+          <h2 className="text-2xl font-bold text-white">Loading Course Content...</h2>
+          <p className="text-white/70 mt-2">Please wait while we prepare your learning materials</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="relative min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-blue-400 flex flex-col">
@@ -239,11 +264,11 @@ const SyllabusOutline = () => {
           {/* Course Overview */}
           <div className="md:col-span-2 bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 shadow-2xl">
             <h1 className="text-4xl font-extrabold mb-6 bg-clip-text text-white text-transparent bg-gradient-to-r from-blue-300 to-blue-100">
-              {courseData?.courseTitle}
+              {courseData?.courseTitle || "Course Title"}
             </h1>
 
             <p className="text-xl text-white mb-8 opacity-90">
-              {courseData?.courseSummary}
+              {courseData?.courseSummary || "Course summary will appear here..."}
             </p>
 
             {/* Chapters List */}

@@ -30,3 +30,10 @@ export const AiEngagingContent = new MockAiModel("Engaging Content AI");
 export const AiInter = new MockAiModel("Interactive AI");
 export const AiTraslator = new MockAiModel("Translator AI");
 export const AiFixBug = new MockAiModel("Bug Fix AI");
+
+// Export AI models used in PreviewOutline component
+export const AiFlashCard = new MockAiModel("Flash Card AI");
+export const AiNotesSection = new MockAiModel("Notes Section AI");
+export const AiQueAns = new MockAiModel("Question Answer AI");
+export const AiQuizRecall = new MockAiModel("Quiz Recall AI");
+export const AiTeachToOther = new MockAiModel("Teach to Other AI");
