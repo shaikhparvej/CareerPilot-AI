@@ -1,23 +1,24 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Remove standalone output for Vercel (causes conflicts)
-  // output: 'standalone', // REMOVED - causes Vercel build issues
-  
-  // Experimental features for better performance
+  // Experimental features for Next.js 15.5.3
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
-    serverComponentsExternalPackages: ['@google/generative-ai', 'tesseract.js'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js'
-        }
+  },
+
+  // Server external packages (moved from experimental)
+  serverExternalPackages: ['@google/generative-ai', 'tesseract.js'],
+
+  // Turbopack configuration (moved from experimental.turbo)
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js'
       }
     }
   },
 
-  // Proper TypeScript configuration
+  // TypeScript configuration
   typescript: {
     ignoreBuildErrors: false,
   },
@@ -63,9 +64,6 @@ const nextConfig = {
 
   // Disable x-powered-by header for security
   poweredByHeader: false,
-
-  // Production optimizations
-  swcMinify: true,
 
   // Webpack configuration - CRITICAL FIXES
   webpack: (config, { isServer }) => {

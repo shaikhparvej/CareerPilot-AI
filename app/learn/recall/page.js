@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import HeroSection from "./components/HeroSection";
 import CourseSelectionForm from "./components/Form";
-import SyallbusOutline from "./components/PreviewOutline";
+import SyallbusOutline from "./components/PreviewOutline.jsx";
 import NotesSection from "./components/NotesSection";
 
 const Recall = () => {
